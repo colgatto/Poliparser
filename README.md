@@ -283,7 +283,7 @@ console.log(output);
 ```
 
 **output**
-```json
+```js
 {
 	a_text: [
 		[ 'hi', '1' ],
