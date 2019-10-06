@@ -25,7 +25,6 @@ let Multiparser = require('multiparser');
 Make your output Object template
 
 ```js
-/**/
 let template = {
 	title:{
 		f: 'between',
@@ -42,7 +41,11 @@ let template = {
 	}]
 };
 ```
-Note that `template` is an `Object` with many parse keys. The data is parsed independently for each template key, **with the functions executed sequentially in the order of its array**. The output of each function will become the input for the next one. In the case of `link_ext`, it will execute the 'dom' block on the main input, the output will be passed to the 'regex' block, and then it will be assigned to the `link_ext` key of the returned `Object`.
+Note that `template` is an `Object` with many parse keys.
+
+The data is parsed independently for each template key, **with the functions executed sequentially in the order of its array**.
+
+The output of each function will become the input for the next one. In the case of `link_ext`, it will execute the `dom` block on the main input, the output will be passed to the `regex` block, and then it will be assigned to the `link_ext` key of the returned `Object`.
 
 Instantiate a Multiparser by passing it a template
 
@@ -66,7 +69,7 @@ console.log(output);
 ```
 
 *See [Examples](https://github.com/colgatto/Multiparser/tree/master/Examples) for all block type.*
----
+
 ---
 
 ## **Documentation**
@@ -83,8 +86,8 @@ Parse an html string and get data with a CSS selector like jQuery
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value | string | CSS selector string | required |
-| attr | string / Array |  | optional(`false`) |
+| value | `String` | CSS selector string | required |
+| attr | `String` / `Array` |  | optional(`false`) |
 
 **Example_dom.js**
 ```js
@@ -146,10 +149,10 @@ console.log(output);
 - **Output**: `[Object]`
 - **Recursive Parse Array**: `true`
 
-| Parameter | Type (Accepted value) | Description | Required |
+| Parameter | Type | Description | Required |
 | - | - | - | - |
 | value | `Regex` | regex to run | required |
-| only | `String` (`'full'`,`'matches'`,`'indexes'`) | if set return only selected element instead of Object | optional (default `false`) |
+| only | `String` | if set return only selected element instead of Object, Accept: `'full'`,`'matches'`,`'indexes'`. | optional (default `false`) |
 | group | `Integer` | get only selected group | optional (default `false`) |
 
 
@@ -194,9 +197,9 @@ console.log(output);
 Generate a json string from an object and parse a json string to an object
 
 | Parameter | Type | Description | Required |
-| - | - | - | - | - |
-| value | (`'stringify'`,`'parse'`) | set json mode | optional (default  `'stringify'` ) |
-| pretty | `Boolean` | set `true` for pretty stringify | optional (default  `false` ) |
+| - | - | - | - |
+| value  | `String`  | set json mode (`'stringify'`,`'parse'`)       | optional (default  `'stringify'` ) |
+| pretty | `Boolean` | set `true` for pretty stringify               | optional (default  `false` ) |
 | spaces | `Integer` | set indentation's length for pretty stringify | optional (default  `4` ) |
 
 ## f: `reverse`
