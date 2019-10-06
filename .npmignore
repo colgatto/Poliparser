@@ -60,4 +60,7 @@ typings/
 # next.js build output
 .next
 
+#Examples dir
+
+Examples
 test.js
