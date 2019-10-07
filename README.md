@@ -299,7 +299,7 @@ let p = new Poliparser({
 	}
 });
 
-m.setModule('my_parse_block', (block, data) => {
+p.runsetModule('my_parse_block', (block, data) => {
 	return data.map(x => x * block.value);
 });
 

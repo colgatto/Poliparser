@@ -1,6 +1,6 @@
 {
 	"name": "poliparser",
-	"version": "0.1.0",
+	"version": "0.1.2",
 	"description": "The only parser you need",
 	"main": "index.js",
 	"scripts": {
