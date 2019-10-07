@@ -61,5 +61,7 @@ typings/
 .next
 
 #Examples dir
-
 Examples
+
+#coveralls
+.coveralls.yml
