@@ -270,9 +270,7 @@ Reverse a string or an array
 
 ## Add parse block
 
-You can add your own parse block's with second parameter of constructor or by setModule method.
-
-Parse module must be a function thet get the block object in first parameters and the input data in second.
+You can add new parse module with second parameter of constructor or by setModule method.
 
 ```js
 let m = new Multiparser({
