@@ -2,7 +2,7 @@ let Poliparser = require('..');
 
 let data = '    ciao   ';
 
-let m = new Poliparser({
+let p = new Poliparser({
 	base: {
 		f: 'trim'
 	},
