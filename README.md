@@ -1,5 +1,5 @@
 # **Multiparser**
-[![Build Status](https://travis-ci.org/colgatto/Multiparser.svg?branch=master)](https://travis-ci.org/colgatto/Multiparser)
+[![Build Status](https://travis-ci.org/colgatto/Multiparser.svg?branch=master)](https://travis-ci.org/colgatto/Multiparser) [![Coverage Status](https://coveralls.io/repos/github/colgatto/Multiparser/badge.svg?branch=master)](https://coveralls.io/github/colgatto/Multiparser?branch=master)
 
 This module allows you to extract data from strings in a simple and fast way.
 
