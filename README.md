@@ -104,7 +104,7 @@ let data = `
 </html>
 `;
 
-let m = new Poliparser({
+let p = new Poliparser({
 	link: {
 		//get attribute href from all tag <a> with class "hiper"
 		f: 'dom',
@@ -119,7 +119,7 @@ let m = new Poliparser({
 	}
 });
 
-let output = m.run(data);
+let output = p.run(data);
 
 console.log(output);
 ```
@@ -162,7 +162,7 @@ let Poliparser = require('poliparser');
 
 let data = `Contact Admin 011-11122111 Headquarter Industry Inc. 011-22211222`;
 
-let m = new Poliparser({
+let p = new Poliparser({
 	name: {
 		f: 'regex',
 		value: /Headquarter ([a-zA-Z0-9 ]+\.) .*/,
@@ -175,7 +175,7 @@ let m = new Poliparser({
 	}
 });
 
-let output = m.run(data);
+let output = p.run(data);
 
 console.log(output);
 ```
@@ -228,14 +228,14 @@ let data = [
 	{ val: 'data3' }
 ];
 
-let m = new Poliparser({
+let p = new Poliparser({
 	val: {
 		f: 'custom',
 		value: (d) => d.map( x => x.val)
 	}
 });
 
-let output = m.run(data);
+let output = p.run(data);
 
 console.log(output.val);
 ```
@@ -273,7 +273,7 @@ Reverse a string or an array
 You can add new parse module with second parameter of constructor or by setModule method.
 
 ```js
-let m = new Poliparser({
+let p = new Poliparser({
 	val: {
 		f: 'my_parse_block',
 		value: 3
@@ -284,7 +284,7 @@ let m = new Poliparser({
 	}
 });
 
-let out = m.run([1,2,3]);
+let out = p.run([1,2,3]);
 
 console.log(out.val);
 ```
@@ -292,7 +292,7 @@ console.log(out.val);
 same as
 
 ```js
-let m = new Poliparser({
+let p = new Poliparser({
 	val: {
 		f: 'my_parse_block',
 		value: 3
@@ -303,7 +303,7 @@ m.setModule('my_parse_block', (block, data) => {
 	return data.map(x => x * block.value);
 });
 
-let out = m.run([1,2,3]);
+let out = p.run([1,2,3]);
 
 console.log(out.val);
 ```
