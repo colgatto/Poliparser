@@ -1,18 +1,15 @@
 # **Multiparser**
+[![Build Status](https://travis-ci.org/colgatto/Multiparser.svg?branch=master)](https://travis-ci.org/colgatto/Multiparser)
 
 This module allows you to extract data from strings in a simple and fast way.
 
-You can use the default parser or easily add your costum one.
-
----
+You can use the default parser or easily add your custom one.
 
 ## **Install**
 
 ```
 $ npm install multiparser 
 ```
-
----
 
 ## **Usage**
 
@@ -41,11 +38,12 @@ let template = {
 	}]
 };
 ```
+
 Note that `template` is an `Object` with many parse keys.
 
-The data is parsed independently for each template key, **with the functions executed sequentially in the order of its array**.
+The data is parsed independently for each template key, **with the parse block's executed sequentially in the order of its array**.
 
-The output of each function will become the input for the next one. In the case of `link_ext`, it will execute the `dom` block on the main input, the output will be passed to the `regex` block, and then it will be assigned to the `link_ext` key of the returned `Object`.
+The output of each block will become the input for the next one. In the case of `link_ext`, it will execute the `dom` block on the main input, the output will be passed to the `regex` block, and then it will be assigned to the `link_ext` key of the returned `Object`.
 
 Instantiate a Multiparser by passing it a template
 
@@ -68,21 +66,21 @@ let output = m.run(data);
 console.log(output);
 ```
 
-*See [Examples](https://github.com/colgatto/Multiparser/tree/master/Examples) for all block type.*
+*See [Examples](https://github.com/colgatto/Multiparser/tree/master/Examples) for all block types.*
 
 ---
 
 ## **Documentation**
 
-## Type of parse object
+## Type of parse block's
 
 ## f: `dom`
-
-Parse an html string and get data with a CSS selector like jQuery
 
 - **Input**: `String`
 - **Output**: `[DomObject]`
 - **Recursive Parse Array**: `true`
+
+Parse an html string and get data with a CSS selector like jQuery.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
@@ -135,7 +133,7 @@ console.log(output);
 	],
 	link_and_label: [
 		{ href: 'link1.html', 'data-label': null    },
-		{ href: 'link2.html', 'data-label': 'byby'  },
+		{ href: 'link2.html', 'data-label': 'byebye'  },
 		{ href: 'link3.html', 'data-label': 'adios' }
 	]
 }
@@ -148,6 +146,8 @@ console.log(output);
 - **Input**: `String`
 - **Output**: `[Object]`
 - **Recursive Parse Array**: `true`
+
+Exec RegEx on the input data.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
@@ -188,6 +188,8 @@ console.log(output);
 }
 ```
 
+---
+
 ## f: `json`
 
 - **Input**: ( `String`, `Object` )
@@ -200,15 +202,17 @@ Generate a json string from an object and parse a json string to an object
 | - | - | - | - |
 | value  | `String`  | set json mode (`'stringify'`,`'parse'`)       | optional (default  `'stringify'` ) |
 | pretty | `Boolean` | set `true` for pretty stringify               | optional (default  `false` ) |
-| spaces | `Integer` | set indentation's length for pretty stringify | optional (default  `4` ) |
+| space | `Integer` | set indentation's length for pretty stringify | optional (default  `4` ) |
+
+---
 
 ## f: `custom`
-
-Run a custom function and return data
 
 - **Input**: `Any`
 - **Output**: `Any`
 - **Recursive Parse Array**: `false`
+
+Run a custom function and return data
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
@@ -241,6 +245,9 @@ console.log(output.val);
 [ 'data1', 'data2', 'data3' ]
 ```
 
+---
+
+
 ## f: `reverse`
 
 - **Input**: ( `String`, `Array` )
@@ -249,6 +256,8 @@ console.log(output.val);
 
 Reverse a string or an array
 
+---
+
 ## f: `log`
 
 - **Input**: `Any`
@@ -256,6 +265,55 @@ Reverse a string or an array
 - **Recursive Parse Array**: `false`
 
 `console.log` the value and return it without changing it
+
+---
+
+## Add parse block
+
+You can add your own parse block's with second parameter of constructor or by setModule method.
+
+Parse module must be a function thet get the block object in first parameters and the input data in second.
+
+```js
+let m = new Multiparser({
+	val: {
+		f: 'my_parse_block',
+		value: 3
+	}
+},{
+	my_parse_block: (block, data) => {
+		return data.map(x => x * block.value);
+	}
+});
+
+let out = m.run([1,2,3]);
+
+console.log(out.val);
+```
+
+same as
+
+```js
+let m = new Multiparser({
+	val: {
+		f: 'my_parse_block',
+		value: 3
+	}
+});
+
+m.setModule('my_parse_block', (block, data) => {
+	return data.map(x => x * block.value);
+});
+
+let out = m.run([1,2,3]);
+
+console.log(out.val);
+```
+
+**output**
+```js
+[ 3, 6, 9 ]
+```
 
 ## More code
 
@@ -267,7 +325,7 @@ Reverse a string or an array
 	</head>
 	<body>
 		<div class="prendimi"><a href="link1.html" class="cliccami">hi1</a> wei1</div>
-		<div class="prendimi"><a href="link2.html" class="cliccami">by2</a> wei2</div>
+		<div class="prendimi"><a href="link2.html" class="cliccami">bye2</a> wei2</div>
 		<div class="prendimi"><a href="link2.html" class="cliccami">hello2</a> wei2</div>
 		<div class="prendimi"><a href="link3.html" class="cliccami">ciao3</a> wei3</div>
 		<div class="prendimi"><a href="link3.html" class="cliccami">ciao3</a> wei3</div>
@@ -288,7 +346,7 @@ let m = new Multiparser({
 		f: 'dom',
 		value: 'a.cliccami',
 	},{
-		//extract only innerHTML for every item founds
+		//extract only innerHTML for every item found
 		f: 'custom',
 		value: d => d.map(x => x.innerHTML)
 	},{
@@ -312,7 +370,7 @@ console.log(output);
 {
 	a_text: [
 		[ 'hi', '1' ],
-		[ 'by', '2' ],
+		[ 'bye', '2' ],
 		[ 'hello', '2' ],
 		[ 'ciao', '3' ]
 	]

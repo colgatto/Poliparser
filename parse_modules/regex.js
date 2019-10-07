@@ -21,7 +21,6 @@ const rec_regEx = (value, data, opt) => {
 					matches,
 					index: arr.index
 				};
-			//	console.log(opt);
 				exp.push(opt.only ? ret[opt.only] : ret);
 			}
 		}else{
@@ -41,7 +40,6 @@ const rec_regEx = (value, data, opt) => {
 				matches,
 				index: arr.index
 			};
-		//	console.log(opt);
 			exp = opt.only ? ret[opt.only] : ret;
 		}
 	}

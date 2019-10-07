@@ -12,7 +12,7 @@ let m = new Multiparser({
 		f: 'json',
 		value: 'stringify',
 		pretty: true,
-		spaces: 2
+		space: 2
 	}],
 });
 

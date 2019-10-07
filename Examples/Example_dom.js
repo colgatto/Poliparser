@@ -7,7 +7,7 @@ let data = `
 	</head>
 	<body>
 		<a href="link1.html" class="hiper">hello</a> world<br>
-		<a href="link2.html" class="hiper" data-label="byby">by</a> world<br>
+		<a href="link2.html" class="hiper" data-label="byebye">bye</a> world<br>
 		<a href="link3.html" class="not-hiper" data-label="adios">ciao3</a> world<br>
 	</body>
 </html>

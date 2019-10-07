@@ -5,14 +5,14 @@ const rec_DOM = (value, data, opt) => {
 	if(data.constructor == Array){
 		let domp = [];
 		for (let i = 0, l = data.length; i < l; i++)
-			domp[i] = rec_DOM(value, data[i]);
+			domp[i] = rec_DOM(value, data[i], opt);
 		return domp;
 	}else{
 		let domp = new JSDOM(data).window.document;
 		let first_out = Array.from(domp.querySelectorAll(value));
 		if(opt.attr){
-			if(opt.attr.constructor == Array){
-				out = first_out.map(o => {
+			if(opt.attr.constructor == Array){;
+				first_out = first_out.map(o => {
 					let block_out = {};
 					for (let i = 0, l = opt.attr.length; i < l; i++){
 						block_out[opt.attr[i]] = o.getAttribute(opt.attr[i]);

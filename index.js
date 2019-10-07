@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const default_parse_modules = {
 	dom: require("./parse_modules/dom.js"),
@@ -24,7 +24,7 @@ class Multiparser {
 		return out;
 	}
 
-	setmodule(name, new_module){
+	setModule(name, new_module){
 		this.parse_modules[name] = new_module;
 	}
 

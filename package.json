@@ -4,8 +4,9 @@
 	"description": "The only parser you need",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
+		"test": "mocha --reporter spec",
+		"cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
+	  },
 	"dependencies": {
 		"jsdom": "^15.1.1"
 	},
@@ -14,5 +15,11 @@
 		"url": "https://github.com/colgatto/Multiparser.git"
 	},
 	"author": "Colgatto",
-	"license": "RWTFPL"
+	"license": "RWTFPL",
+	"devDependencies": {
+		"chai": "^4.2.0",
+		"coveralls": "^3.0.6",
+		"istanbul": "^0.4.5",
+		"mocha": "^6.2.1"
+	}
 }
