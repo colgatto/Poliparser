@@ -1,5 +1,5 @@
 {
-	"name": "multiparser",
+	"name": "poliparser",
 	"version": "0.1.0",
 	"description": "The only parser you need",
 	"main": "index.js",
@@ -12,9 +12,9 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/colgatto/Multiparser.git"
+		"url": "https://github.com/colgatto/Poliparser.git"
 	},
-	"homepage": "https://github.com/colgatto/Multiparser",
+	"homepage": "https://github.com/colgatto/Poliparser",
 	"keywords": [
 		"parser",
 		"regex",

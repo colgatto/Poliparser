@@ -1,4 +1,4 @@
-let Multiparser = require('..');
+let Poliparser = require('..');
 
 let data = [
 	{ val: 'data1' },
@@ -6,13 +6,13 @@ let data = [
 	{ val: 'data3' }
 ];
 
-let m = new Multiparser({
+let p = new Poliparser({
 	val: {
 		f: 'custom',
 		value: (d) => d.map( x => x.val)
 	}
 });
 
-let output = m.run(data);
+let output = p.run(data);
 
 console.log(output.val);

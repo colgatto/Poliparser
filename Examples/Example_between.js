@@ -1,8 +1,8 @@
-let Multiparser = require('..');
+let Poliparser = require('..');
 
-let data = 'Hello my name is <p>Multiparser</p>';
+let data = 'Hello my name is <p>Poliparser</p>';
 
-let m = new Multiparser({
+let p = new Poliparser({
 	name: {
 		f: 'between',
 		from: '<p>',
@@ -10,6 +10,6 @@ let m = new Multiparser({
 	}
 });
 
-let output = m.run(data);
+let output = p.run(data);
 
 console.log(output.name);

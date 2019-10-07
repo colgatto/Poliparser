@@ -1,4 +1,4 @@
-let Multiparser = require('..');
+let Poliparser = require('..');
 
 let data = `
 <html>
@@ -13,7 +13,7 @@ let data = `
 </html>
 `;
 
-let m = new Multiparser({
+let p = new Poliparser({
 	link: {
 		//get attribute href from all tag <a> with class "hiper"
 		f: 'dom',
@@ -28,6 +28,6 @@ let m = new Multiparser({
 	}
 });
 
-let output = m.run(data);
+let output = p.run(data);
 
 console.log(output);

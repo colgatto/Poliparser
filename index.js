@@ -10,7 +10,7 @@ const default_parse_modules = {
 	between: require("./parse_modules/between.js")
 };
 
-class Multiparser {
+class Poliparser {
 
 	constructor(parser, custom_modules = {}) {
 		this.parser = parser;
@@ -56,4 +56,4 @@ class Multiparser {
 	}
 }
 
-module.exports = Multiparser;
+module.exports = Poliparser;

@@ -1,12 +1,12 @@
 'use strict';
 
 const expect = require('chai').expect;
-const Multiparser = require('..');
+const Poliparser = require('..');
 
 describe('test blocks type', function() {
     it('between', function() {
-		let data = 'Hello my name is <p>Multiparser</p>';
-		let m = new Multiparser({
+		let data = 'Hello my name is <p>Poliparser</p>';
+		let m = new Poliparser({
 			name: {
 				f: 'between',
 				from: '<p>',
@@ -14,7 +14,7 @@ describe('test blocks type', function() {
 			}
 		});
 		let output = m.run(data);
-		expect(output.name).to.equal('Multiparser');
+		expect(output.name).to.equal('Poliparser');
     });
 	it('custom', function() {
 		let data = [
@@ -22,7 +22,7 @@ describe('test blocks type', function() {
 			{ val: 'data2' },
 			{ val: 'data3' }
 		];
-		let m = new Multiparser({
+		let m = new Poliparser({
 			val: {
 				f: 'custom',
 				value: (d) => d.map( x => x.val)
@@ -38,7 +38,7 @@ describe('test blocks type', function() {
 			<a href="link3.html" class="not-hiper" data-label="adios">ciao3</a> world<br>
 		</body></html>`;
 		let arr_data = ['<a>dato1</a>','<a>dato2</a>','<a>dato3</a>'];
-		let m = new Multiparser({
+		let m = new Poliparser({
 			link: {
 				f: 'dom',
 				value: 'a.hiper',
@@ -50,7 +50,7 @@ describe('test blocks type', function() {
 				attr: ['href' , 'data-label']
 			}
 		});
-		let m_arr = new Multiparser({
+		let m_arr = new Poliparser({
 			val: [ {
 				f: 'dom',
 				value: 'a'
@@ -76,19 +76,19 @@ describe('test blocks type', function() {
 				we2: "23"
 			}
 		};
-		let m1 = new Multiparser({
+		let m1 = new Poliparser({
 			str: {
 				f: 'json',
 				value: 'stringify'
 			}
 		});
-		let m2 = new Multiparser({
+		let m2 = new Poliparser({
 			obj: {
 				f: 'json',
 				value: 'parse'
 			}
 		});
-		let m3 = new Multiparser({
+		let m3 = new Poliparser({
 			str: {
 				f: 'json',
 				value: 'stringify',
@@ -96,7 +96,7 @@ describe('test blocks type', function() {
 				space: 2
 			}
 		});
-		let m4 = new Multiparser({
+		let m4 = new Poliparser({
 			str: {
 				f: 'json',
 				value: 'stringify',
@@ -118,7 +118,7 @@ describe('test blocks type', function() {
 			'Headquarter 011-22211222'
 		];
 		let empty = '';
-		let m = new Multiparser({
+		let m = new Poliparser({
 			name: {
 				f: 'regex',
 				value: /Headquarter ([a-zA-Z0-9 ]+\.) .*/,
@@ -139,7 +139,7 @@ describe('test blocks type', function() {
 				only: 'index'
 			}
 		});
-		let arr_m = new Multiparser({
+		let arr_m = new Poliparser({
 			rec: {
 				f: 'regex',
 				value: /[a-zA-Z]+ ([0-9-]+)$/,
@@ -153,7 +153,7 @@ describe('test blocks type', function() {
 				group: 0
 			}
 		});
-		let emp = new Multiparser({
+		let emp = new Poliparser({
 			val_g: {
 				f: 'regex',
 				value: /(hi)?/g
@@ -187,10 +187,10 @@ describe('test blocks type', function() {
 		expect(JSON.stringify(arr_output.rec_g)).to.equal(JSON.stringify([ ['011-11122111'], ['011-22211222'] ]));
 	});
 	it('reverse', function() {
-		let Multiparser = require('..');
+		let Poliparser = require('..');
 		let data = 'questa è una stringa da reversare';
 		let data2 = [ 'questa è', 'una stringa da reversare' ];
-		let m = new Multiparser({
+		let m = new Poliparser({
 			val: {
 				f: 'reverse'
 			}
@@ -203,7 +203,7 @@ describe('test blocks type', function() {
 	it('trim', function() {
 		let data = '    ciao   ';
 		let arr_data = ['    ciao   ','ciao   ','    ciao'];
-		let m = new Multiparser({
+		let m = new Poliparser({
 			base: {
 				f: 'trim'
 			},
@@ -230,7 +230,7 @@ describe('test blocks type', function() {
 				start: false
 			},
 		});
-		let m_arr = new Multiparser({
+		let m_arr = new Poliparser({
 			rec:{
 				f: 'trim'
 			}
@@ -247,7 +247,7 @@ describe('test blocks type', function() {
 	});
 	it('log', function() {
 		let data = 'hi';
-		let m = new Multiparser({
+		let m = new Poliparser({
 			val: {
 				f: 'log'
 			}
@@ -257,7 +257,7 @@ describe('test blocks type', function() {
 	});
 	it('uniq', function() {
 		let data = [1,1,2,3,4,4,4,5,6,7,8,9,9,9,0,0];
-		let m = new Multiparser({
+		let m = new Poliparser({
 			val: {
 				f: 'uniq'
 			}
@@ -267,7 +267,7 @@ describe('test blocks type', function() {
 	});
 	it('undefined block', function() {
 		let data = 'hi';
-		let m = new Multiparser({
+		let m = new Poliparser({
 			val: 42
 		});
 		let output = m.run(data);
@@ -275,7 +275,7 @@ describe('test blocks type', function() {
 	});
 	it('add module', function() {
 		let data = 10;
-		let m = new Multiparser({
+		let m = new Poliparser({
 			val2: {
 				f: 'testing_parser',
 				value:  2

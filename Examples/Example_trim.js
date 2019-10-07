@@ -1,8 +1,8 @@
-let Multiparser = require('..');
+let Poliparser = require('..');
 
 let data = '    ciao   ';
 
-let m = new Multiparser({
+let m = new Poliparser({
 	base: {
 		f: 'trim'
 	},
@@ -20,6 +20,6 @@ let m = new Multiparser({
 	}
 });
 
-let output = m.run(data);
+let output = p.run(data);
 
 console.log(output);

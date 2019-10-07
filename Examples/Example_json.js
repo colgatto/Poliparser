@@ -1,8 +1,8 @@
-let Multiparser = require('..');
+let Poliparser = require('..');
 
 let data = '{"a":34,"b":"ciao","we":{"we2":"23"}}';
 
-let m = new Multiparser({
+let p = new Poliparser({
 	json: [{
 		f: 'json',
 		value: 'parse'
@@ -16,6 +16,6 @@ let m = new Multiparser({
 	}],
 });
 
-let output = m.run(data);
+let output = p.run(data);
 
 console.log(output.json);

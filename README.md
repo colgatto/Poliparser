@@ -1,5 +1,5 @@
-# **Multiparser**
-[![Build Status](https://travis-ci.org/colgatto/Multiparser.svg?branch=master)](https://travis-ci.org/colgatto/Multiparser) [![Coverage Status](https://coveralls.io/repos/github/colgatto/Multiparser/badge.svg?branch=master)](https://coveralls.io/github/colgatto/Multiparser?branch=master)
+# **Poliparser**
+[![Build Status](https://travis-ci.org/colgatto/Poliparser.svg?branch=master)](https://travis-ci.org/colgatto/Poliparser) [![Coverage Status](https://coveralls.io/repos/github/colgatto/Poliparser/badge.svg?branch=master)](https://coveralls.io/github/colgatto/Poliparser?branch=master)
 
 This module allows you to extract data from strings in a simple and fast way.
 
@@ -8,15 +8,15 @@ You can use the default parser or easily add your custom one.
 ## **Install**
 
 ```
-$ npm install multiparser 
+$ npm install poliparser 
 ```
 
 ## **Usage**
 
-Import Multiparser module
+Import Poliparser module
 
 ```js
-let Multiparser = require('multiparser');
+let Poliparser = require('poliparser');
 ```
 
 Make your output Object template
@@ -45,10 +45,10 @@ The data is parsed independently for each template key, **with the parse block's
 
 The output of each block will become the input for the next one. In the case of `link_ext`, it will execute the `dom` block on the main input, the output will be passed to the `regex` block, and then it will be assigned to the `link_ext` key of the returned `Object`.
 
-Instantiate a Multiparser by passing it a template
+Instantiate a Poliparser by passing it a template
 
 ```js
-let m = new Multiparser(template);
+let p = new Poliparser(template);
 ```
 
 Run
@@ -61,12 +61,12 @@ let data = `<title>hello</title>
 		<a href="link3.html">link3</a>
 	</div>`;
 
-let output = m.run(data);
+let output = p.run(data);
 
 console.log(output);
 ```
 
-*See [Examples](https://github.com/colgatto/Multiparser/tree/master/Examples) for all block types.*
+*See [Examples](https://github.com/colgatto/Poliparser/tree/master/Examples) for all block types.*
 
 ---
 
@@ -89,7 +89,7 @@ Parse an html string and get data with a CSS selector like jQuery.
 
 **Example_dom.js**
 ```js
-let Multiparser = require('multiparser');
+let Poliparser = require('poliparser');
 
 let data = `
 <html>
@@ -104,7 +104,7 @@ let data = `
 </html>
 `;
 
-let m = new Multiparser({
+let m = new Poliparser({
 	link: {
 		//get attribute href from all tag <a> with class "hiper"
 		f: 'dom',
@@ -158,11 +158,11 @@ Exec RegEx on the input data.
 
 **Example_regex.js**
 ```js
-let Multiparser = require('multiparser');
+let Poliparser = require('poliparser');
 
 let data = `Contact Admin 011-11122111 Headquarter Industry Inc. 011-22211222`;
 
-let m = new Multiparser({
+let m = new Poliparser({
 	name: {
 		f: 'regex',
 		value: /Headquarter ([a-zA-Z0-9 ]+\.) .*/,
@@ -220,7 +220,7 @@ Run a custom function and return data
 
 **Example_custom.js**
 ```js
-let Multiparser = require('multiparser');
+let Poliparser = require('poliparser');
 
 let data = [
 	{ val: 'data1' },
@@ -228,7 +228,7 @@ let data = [
 	{ val: 'data3' }
 ];
 
-let m = new Multiparser({
+let m = new Poliparser({
 	val: {
 		f: 'custom',
 		value: (d) => d.map( x => x.val)
@@ -273,7 +273,7 @@ Reverse a string or an array
 You can add new parse module with second parameter of constructor or by setModule method.
 
 ```js
-let m = new Multiparser({
+let m = new Poliparser({
 	val: {
 		f: 'my_parse_block',
 		value: 3
@@ -292,7 +292,7 @@ console.log(out.val);
 same as
 
 ```js
-let m = new Multiparser({
+let m = new Poliparser({
 	val: {
 		f: 'my_parse_block',
 		value: 3
@@ -334,11 +334,11 @@ console.log(out.val);
 **Example.js**
 ```js
 let fs = require('fs');
-let Multiparser = require('multiparser');
+let Poliparser = require('poliparser');
 
 let data = fs.readFileSync('data.html').toString();
 
-let m = new Multiparser({
+let m = new Poliparser({
 	a_text: [{
 		//get all <a> with class "cliccami"
 		f: 'dom',

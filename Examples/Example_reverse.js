@@ -1,4 +1,4 @@
-let Multiparser = require('..');
+let Poliparser = require('..');
 
 let data = 'questa è una stringa da reversare';
 let data2 = [
@@ -6,14 +6,14 @@ let data2 = [
 	'una stringa da reversare'
 ];
 
-let m = new Multiparser({
+let p = new Poliparser({
 	val: {
 		f: 'reverse'
 	}
 });
 
-let output = m.run(data);
-let output2 = m.run(data2);
+let output = p.run(data);
+let output2 = p.run(data2);
 
 console.log(output);
 console.log(output2);

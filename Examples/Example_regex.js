@@ -1,8 +1,8 @@
-let Multiparser = require('..');
+let Poliparser = require('..');
 
 let data = `Contact Admin 011-11122111 Headquarter Industry Inc. 011-22211222`;
 
-let m = new Multiparser({
+let p = new Poliparser({
 	name: {
 		f: 'regex',
 		value: /Headquarter ([a-zA-Z0-9 ]+\.) .*/,
@@ -15,6 +15,6 @@ let m = new Multiparser({
 	}
 });
 
-let output = m.run(data);
+let output = p.run(data);
 
 console.log(output);
