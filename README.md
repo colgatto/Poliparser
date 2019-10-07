@@ -158,7 +158,7 @@ console.log(output);
 
 **Example_regex.js**
 ```js
-let Multiparser = require('..');
+let Multiparser = require('multiparser');
 
 let data = `Contact Admin 011-11122111 Headquarter Industry Inc. 011-22211222`;
 
@@ -202,23 +202,6 @@ Generate a json string from an object and parse a json string to an object
 | pretty | `Boolean` | set `true` for pretty stringify               | optional (default  `false` ) |
 | spaces | `Integer` | set indentation's length for pretty stringify | optional (default  `4` ) |
 
-## f: `reverse`
-
-- **Input**: ( `String`, `Array` )
-- **Output**: ( `Array`, `String` )
-- **Recursive Parse Array**: `false`
-
-Reverse a string or an array
-
-## f: `log`
-
-
-- **Input**: `Any`
-- **Output**: `Any`
-- **Recursive Parse Array**: `false`
-
-`console.log` the value and return it without changing it
-
 ## f: `custom`
 
 Run a custom function and return data
@@ -228,9 +211,51 @@ Run a custom function and return data
 - **Recursive Parse Array**: `false`
 
 | Parameter | Type | Description | Required |
-| - | - | - | - | - |
-| value | `function` | TODO  | required |
+| - | - | - | - |
+| value | `function` | a function that has input data as first parameter and return output data | required |
 
+**Example_custom.js**
+```js
+let Multiparser = require('multiparser');
+
+let data = [
+	{ val: 'data1' },
+	{ val: 'data2' },
+	{ val: 'data3' }
+];
+
+let m = new Multiparser({
+	val: {
+		f: 'custom',
+		value: (d) => d.map( x => x.val)
+	}
+});
+
+let output = m.run(data);
+
+console.log(output.val);
+```
+
+**output**
+```js
+[ 'data1', 'data2', 'data3' ]
+```
+
+## f: `reverse`
+
+- **Input**: ( `String`, `Array` )
+- **Output**: ( `String`, `Array` )
+- **Recursive Parse Array**: `false`
+
+Reverse a string or an array
+
+## f: `log`
+
+- **Input**: `Any`
+- **Output**: `Any`
+- **Recursive Parse Array**: `false`
+
+`console.log` the value and return it without changing it
 
 ## More code
 
