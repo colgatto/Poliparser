@@ -258,6 +258,34 @@ Reverse a string or an array
 
 ---
 
+## f: `base64`
+
+- **Input**: `String`
+- **Output**: `String`
+- **Recursive Parse Array**: `false`
+
+encode or decode base64 string
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| value | `String` | `'encode'` or `'decode'` | required |
+
+---
+
+## f: `key`
+
+- **Input**: `Object`
+- **Output**: `Any`
+- **Recursive Parse Array**: `false`
+
+return a single key from an Object
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| value | `String` / `Array` | name of the key you want return, use `Array` if you want more keys | required |
+
+---
+
 ## f: `log`
 
 - **Input**: `Any`

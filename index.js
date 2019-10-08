@@ -1,13 +1,15 @@
 'use strict';
 
 const default_parse_modules = {
+	base64: require("./parse_modules/base64.js"),
+	between: require("./parse_modules/between.js"),
 	dom: require("./parse_modules/dom.js"),
-	regex: require("./parse_modules/regex.js"),
 	json: require("./parse_modules/json.js"),
-	uniq: require("./parse_modules/uniq.js"),
-	trim: require("./parse_modules/trim.js"),
+	key: require("./parse_modules/key.js"),
+	regex: require("./parse_modules/regex.js"),
 	reverse: require("./parse_modules/reverse.js"),
-	between: require("./parse_modules/between.js")
+	trim: require("./parse_modules/trim.js"),
+	uniq: require("./parse_modules/uniq.js"),
 };
 
 class Poliparser {

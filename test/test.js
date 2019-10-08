@@ -4,6 +4,29 @@ const expect = require('chai').expect;
 const Poliparser = require('..');
 
 describe('test blocks type', function() {
+    it('base64', function() {
+		
+		let data = 'Hello my name is Poliparser';
+		let data64 = 'SGVsbG8gbXkgbmFtZSBpcyBQb2xpcGFyc2Vy';
+		let p = new Poliparser({
+			val: {
+				f: 'base64',
+				value: 'encode'
+			}
+		});
+		let p64 = new Poliparser({
+			val: {
+				f: 'base64',
+				value: 'decode'
+			}
+		});
+
+		let output = p.run(data);
+		let output64 = p64.run(data64);
+
+		expect(output.val).to.equal(data64);
+		expect(output64.val).to.equal(data);
+    });
     it('between', function() {
 		let data = 'Hello my name is <p>Poliparser</p>';
 		let m = new Poliparser({
@@ -110,6 +133,25 @@ describe('test blocks type', function() {
 		expect(JSON.stringify(obj_json)).to.equal(val1.str);
 		expect(JSON.stringify(val2.obj)).to.equal(str_json);
 		expect(JSON.stringify(obj_json, null, 4)).to.equal(val4.str);
+	});
+	it('key', function() {
+		let data = {name: 'foo', phone: '011-111222333', surname: 'bar'};
+		let p = new Poliparser({
+			val: {
+				f: 'key',
+				value: 'phone'
+			}
+		});
+		let pp = new Poliparser({
+			val: {
+				f: 'key',
+				value: ['name', 'surname']
+			}
+		});
+		let output = p.run(data);
+		let output2 = pp.run(data);
+		expect(output.val).to.equal(data.phone);
+		expect(JSON.stringify(output2.val)).to.equal(JSON.stringify({name: 'foo', surname: 'bar'}));
 	});
 	it('regex', function() {
 		let data = `Contact Admin 011-11122111 Headquarter Industry Inc. 011-22211222`;
