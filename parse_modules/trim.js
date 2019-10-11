@@ -34,10 +34,10 @@ const rec_trim = (value, data, opt) => {
 	}
 }
 
-module.exports = (p, data) => {
+module.exports = (data, block) => {
 	var opt = {
-		start: typeof p.start == "undefined" ? true : p.start,
-		end: typeof p.end == "undefined" ? true : p.end
+		start: typeof block.start == "undefined" ? true : block.start,
+		end: typeof block.end == "undefined" ? true : block.end
 	};
-	return rec_trim(typeof p.value == "undefined" ? false : p.value, data, opt);
+	return rec_trim(typeof block.value == "undefined" ? false : block.value, data, opt);
 };

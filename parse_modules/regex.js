@@ -46,10 +46,10 @@ const rec_regEx = (value, data, opt) => {
 	return exp;
 };
 
-module.exports = (p, data) => {
+module.exports = (data, block) => {
 	var opt = {
-		only: typeof p.only == "undefined" ? false : p.only,
-		group: typeof p.group == "undefined" ? false : p.group
+		only: typeof block.only == "undefined" ? false : block.only,
+		group: typeof block.group == "undefined" ? false : block.group
 	};
-	return rec_regEx(p.value, data, opt);
+	return rec_regEx(block.value, data, opt);
 };

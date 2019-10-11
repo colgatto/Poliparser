@@ -66,240 +66,13 @@ let output = p.run(data);
 console.log(output);
 ```
 
-*See [Examples](https://github.com/colgatto/Poliparser/tree/master/Examples) for all block types.*
-
----
-
 ## **Documentation**
 
-## Type of parse block's
+*See [Examples](https://github.com/colgatto/Poliparser/tree/master/Examples) for all block types.*
 
-## f: `dom`
+### Add Module
 
-- **Input**: `String`
-- **Output**: `[DomObject]`
-- **Recursive Parse Array**: `true`
-
-Parse an html string and get data with a CSS selector like jQuery.
-
-| Parameter | Type | Description | Required |
-| - | - | - | - |
-| value | `String` | CSS selector string | required |
-| attr | `String` / `Array` |  | optional(`false`) |
-
-**Example_dom.js**
-```js
-let Poliparser = require('poliparser');
-
-let data = `
-<html>
-	<head>
-		<title>prova</title>
-	</head>
-	<body>
-		<a href="link1.html" class="hiper">hello</a> world<br>
-		<a href="link2.html" class="hiper" data-label="byebye">bye</a> world<br>
-		<a href="link3.html" class="hiper" data-label="adios">ciao</a> world<br>
-	</body>
-</html>
-`;
-
-let p = new Poliparser({
-	link: {
-		//get attribute href from all tag <a> with class "hiper"
-		f: 'dom',
-		value: 'a.hiper',
-		attr: 'href'
-	},
-	link_and_label: {
-		//get attribute href and data-label from all tag <a> with class "hiper"
-		f: 'dom',
-		value: 'a.hiper',
-		attr: ['href' , 'data-label']
-	}
-});
-
-let output = p.run(data);
-
-console.log(output);
-```
-
-**output**
-```js
-{
-	link: [
-		'link1.html',
-		'link2.html'
-	],
-	link_and_label: [
-		{ href: 'link1.html', 'data-label': null    },
-		{ href: 'link2.html', 'data-label': 'byebye'  },
-		{ href: 'link3.html', 'data-label': 'adios' }
-	]
-}
-```
-
----
-
-## f: `regex`
-
-- **Input**: `String`
-- **Output**: `[Object]`
-- **Recursive Parse Array**: `true`
-
-Exec RegEx on the input data.
-
-| Parameter | Type | Description | Required |
-| - | - | - | - |
-| value | `Regex` | regex to run | required |
-| only | `String` | if set return only selected element instead of Object, Accept: `'full'`,`'matches'`,`'indexes'`. | optional (default `false`) |
-| group | `Integer` | get only selected group | optional (default `false`) |
-
-
-**Example_regex.js**
-```js
-let Poliparser = require('poliparser');
-
-let data = `Contact Admin 011-11122111 Headquarter Industry Inc. 011-22211222`;
-
-let p = new Poliparser({
-	name: {
-		f: 'regex',
-		value: /Headquarter ([a-zA-Z0-9 ]+\.) .*/,
-		only: 'matches'
-	},
-	phone: {
-		f: 'regex',
-		value: /[0-9]{3}-[0-9]{8}/g,
-		only: 'full'
-	}
-});
-
-let output = p.run(data);
-
-console.log(output);
-```
-
-**output**
-```js
-{
-	name: [ 'Industry Inc.' ],
-	phone: [ '011-11122111', '011-22211222' ]
-}
-```
-
----
-
-## f: `json`
-
-- **Input**: ( `String`, `Object` )
-- **Output**: ( `Object`, `String` )
-- **Recursive Parse Array**: `true`
-
-Generate a json string from an object and parse a json string to an object
-
-| Parameter | Type | Description | Required |
-| - | - | - | - |
-| value  | `String`  | set json mode (`'stringify'`,`'parse'`)       | optional (default  `'stringify'` ) |
-| pretty | `Boolean` | set `true` for pretty stringify               | optional (default  `false` ) |
-| space | `Integer` | set indentation's length for pretty stringify | optional (default  `4` ) |
-
----
-
-## f: `custom`
-
-- **Input**: `Any`
-- **Output**: `Any`
-- **Recursive Parse Array**: `false`
-
-Run a custom function and return data
-
-| Parameter | Type | Description | Required |
-| - | - | - | - |
-| value | `function` | a function that has input data as first parameter and return output data | required |
-
-**Example_custom.js**
-```js
-let Poliparser = require('poliparser');
-
-let data = [
-	{ val: 'data1' },
-	{ val: 'data2' },
-	{ val: 'data3' }
-];
-
-let p = new Poliparser({
-	val: {
-		f: 'custom',
-		value: (d) => d.map( x => x.val)
-	}
-});
-
-let output = p.run(data);
-
-console.log(output.val);
-```
-
-**output**
-```js
-[ 'data1', 'data2', 'data3' ]
-```
-
----
-
-
-## f: `reverse`
-
-- **Input**: ( `String`, `Array` )
-- **Output**: ( `String`, `Array` )
-- **Recursive Parse Array**: `false`
-
-Reverse a string or an array
-
----
-
-## f: `base64`
-
-- **Input**: `String`
-- **Output**: `String`
-- **Recursive Parse Array**: `false`
-
-encode or decode base64 string
-
-| Parameter | Type | Description | Required |
-| - | - | - | - |
-| value | `String` | `'encode'` or `'decode'` | required |
-
----
-
-## f: `key`
-
-- **Input**: `Object`
-- **Output**: `Any`
-- **Recursive Parse Array**: `false`
-
-return a single key from an Object
-
-| Parameter | Type | Description | Required |
-| - | - | - | - |
-| value | `String` / `Array` | name of the key you want return, use `Array` if you want more keys | required |
-
----
-
-## f: `log`
-
-- **Input**: `Any`
-- **Output**: `Any`
-- **Recursive Parse Array**: `false`
-
-`console.log` the value and return it without changing it
-
----
-
-## Add parse block
-
-You can add new parse module with second parameter of constructor or by setModule method.
-
+You can add a new parser module with the second parameter of the constructor or with the setModule method.
 ```js
 let p = new Poliparser({
 	val: {
@@ -307,7 +80,7 @@ let p = new Poliparser({
 		value: 3
 	}
 },{
-	my_parse_block: (block, data) => {
+	my_parse_block: (data, block) => {
 		return data.map(x => x * block.value);
 	}
 });
@@ -327,7 +100,7 @@ let p = new Poliparser({
 	}
 });
 
-p.runsetModule('my_parse_block', (block, data) => {
+p.setModule('my_parse_block', (data, block) => {
 	return data.map(x => x * block.value);
 });
 
@@ -339,4 +112,46 @@ console.log(out.val);
 **output**
 ```js
 [ 3, 6, 9 ]
+```
+
+### Add Library
+
+You can add a new library with the setLibrary method.
+
+```js
+let p = new Poliparser({
+	val_mul: {
+		f: 'myLib_mul',
+		value: 3
+	},
+	val_sum: {
+		f: 'myLib_sum',
+		value: 2
+	},
+});
+
+p.setLibrary('myLib', {
+
+	mul: (data, block) => {
+		return data * block.value;
+	},
+
+	sum: (data, block) => {
+		return data + block.value;
+	}
+
+});
+
+let out = p.run(10);
+
+console.log(out);
+```
+
+**output**
+
+```js
+{
+	val_mul: 30,
+	val_sum: 12
+}
 ```

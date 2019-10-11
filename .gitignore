@@ -62,3 +62,6 @@ typings/
 
 #coveralls
 .coveralls.yml
+
+#debug
+debug.js

@@ -60,7 +60,7 @@ describe('test blocks type', function() {
 			<a href="link2.html" class="hiper" data-label="byebye">bye</a> world<br>
 			<a href="link3.html" class="not-hiper" data-label="adios">ciao3</a> world<br>
 		</body></html>`;
-		let arr_data = ['<a>dato1</a>','<a>dato2</a>','<a>dato3</a>'];
+		let arr_data = ['<a>dato1</a>','<a>dato<br>2</a>','<a>dato3</a>'];
 		let m = new Poliparser({
 			link: {
 				f: 'dom',
@@ -79,13 +79,13 @@ describe('test blocks type', function() {
 				value: 'a'
 			},{
 				f:'custom',
-				value: (data) => data.map( x => x[0].innerHTML )
+				value: (data) => data.map( x => x[0].text )
 			}]
 		})
 		let output = m.run(data);
 		let arr_output = m_arr.run(arr_data);
 		expect(JSON.stringify(output.link_and_label)).to.equal(JSON.stringify([
-			{ href: 'link1.html', 'data-label': null },
+			{ href: 'link1.html' },
 			{ href: 'link2.html', 'data-label': 'byebye' },
 			{ href: 'link3.html', 'data-label': 'adios' }
 		]));
@@ -297,15 +297,131 @@ describe('test blocks type', function() {
 		let output = m.run(data);
 		expect(output.val).to.equal('hi');
 	});
-	it('uniq', function() {
+	it('array_uniq', function() {
 		let data = [1,1,2,3,4,4,4,5,6,7,8,9,9,9,0,0];
 		let m = new Poliparser({
 			val: {
-				f: 'uniq'
+				f: 'array_uniq'
 			}
 		});
 		let output = m.run(data);
 		expect(JSON.stringify(output.val)).to.equal(JSON.stringify([1,2,3,4,5,6,7,8,9,0]));
+	});
+	it('array_mix', function() {
+		let data = [1,0,1,2,9,8,7,4,5,6,3,3,3,9,9,0];
+		let m = new Poliparser({
+			min: { f: 'array_min' },
+			max: { f: 'array_max' },
+			indexMax: { f: 'array_indexMax' },
+			indexMin: { f: 'array_indexMin' },
+			count: { f: 'array_count' },
+			sum: { f: 'array_sum' },
+			map: {
+				f: 'array_map',
+				value: x => 'MM' + x
+			},
+			filter: {
+				f: 'array_filter',
+				value: x => x > 7
+			},
+			reduce: {
+				f: 'array_reduce',
+				start: 10,
+				value: (x, tot) => x + tot
+			},
+			join: {
+				f: 'array_join',
+				value: '-'
+			},
+			empty_join: {
+				f: 'array_join'
+			},
+			indexOf: {
+				f: 'array_indexOf',
+				value: 9
+			},
+			lastIndexOf: {
+				f: 'array_lastIndexOf',
+				value: 9
+			},
+			indexOf_s: {
+				f: 'array_indexOf',
+				value: 9,
+				position: 5
+			},
+			lastIndexOf_s: {
+				f: 'array_lastIndexOf',
+				value: 9,
+				position: 10
+			},
+			pop: {
+				f: 'array_pop'
+			},
+			shift: {
+				f: 'array_shift'
+			},
+			slice: {
+				f: 'array_slice'
+			},
+			slice_def: {
+				f: 'array_slice',
+				start: 2,
+				end: 5
+			}
+		});
+
+		let output = m.run(data);
+		let null_output = m.run([]);
+		expect(JSON.stringify(null_output)).to.equal(JSON.stringify({
+			min: null, max: null, indexMax: null, indexMin: null, count: 0, sum: 0, map: [], filter: [], reduce: 10, join: '', empty_join: '',
+			indexOf: -1, lastIndexOf: -1, indexOf_s: -1, lastIndexOf_s: -1, pop: [], shift: [], slice: [], slice_def: []
+		}));
+		expect(JSON.stringify(output)).to.equal(JSON.stringify({
+			min: 0, max: 9, indexMax: 4, indexMin: 1, count: 16, sum: 70,
+			map: data.map( x => 'MM' + x), filter: data.filter(x => x > 7),  reduce: data.reduce( (x,t) => x + t, 10),
+			join: data.join('-'), empty_join: data.join(''), indexOf: 4, lastIndexOf: 14, indexOf_s: 13, lastIndexOf_s: 4,
+			pop: [1,0,1,2,9,8,7,4,5,6,3,3,3,9,9], shift: [0,1,2,9,8,7,4,5,6,3,3,3,9,9,0],
+			slice: data, slice_def: [1,2,9]
+		}));
+	});
+	it('array_min_max', function() {
+		let data = [ 1, 1, [ 2, 2, [ 3, 3, [ 4 ] ], 2, 2, [ 3, 3 ] ], 1, 1, 1, [ 2, 2 ], 1 ];
+		let data_1 = [ 1, 1, 2, 2, [ 3, 3, [ 4 ] ], 2, 2, [ 3, 3 ], 1, 1, 1, 2, 2, 1 ];
+		let data_2 = [ 1, 1, 2, 2, 3, 3, [ 4 ], 2, 2, 3, 3, 1, 1, 1, 2, 2, 1 ];
+		let data_i1 = [ 1, 1, [ 2, 2, [ 3, 3, 4 ], 2, 2, 3, 3 ], 1, 1, 1, 2, 2, 1 ];
+		let data_i2 = [ 1, 1, [ 2, 2, 3, 3, 4, 2, 2, 3, 3 ], 1, 1, 1, 2, 2, 1 ];
+		let data_clean = [ 1, 1, 2, 2, 3, 3, 4, 2, 2, 3, 3, 1, 1, 1, 2, 2, 1 ];
+
+		let p = new Poliparser({
+			base: {
+				f: 'array_flat'
+			},
+			deep_1: {
+				f: 'array_flat',
+				deep: 1
+			},
+			deep_2: {
+				f: 'array_flat',
+				deep: 2
+			},
+			inverseDeep_1: {
+				f: 'array_flat',
+				deep: -1
+			},
+			inverseDeep_2: {
+				f: 'array_flat',
+				deep: -2
+			}
+		});
+
+		let output = p.run(data);
+		let output_data_empy = p.run([]);
+		expect(JSON.stringify(output.base)).to.equal(JSON.stringify(data_clean));
+		expect(JSON.stringify(output.deep_1)).to.equal(JSON.stringify(data_1));
+		expect(JSON.stringify(output.deep_2)).to.equal(JSON.stringify(data_2));
+		expect(JSON.stringify(output.inverseDeep_1)).to.equal(JSON.stringify(data_i1));
+		expect(JSON.stringify(output.inverseDeep_2)).to.equal(JSON.stringify(data_i2));
+		expect(JSON.stringify(output_data_empy.inverseDeep_2)).to.equal(JSON.stringify([]));
 	});
 	it('undefined block', function() {
 		let data = 'hi';
@@ -327,11 +443,35 @@ describe('test blocks type', function() {
 				value: 4 
 			}
 		});
-		m.setModule('testing_parser',(p, data) => {
-			return data * p.value;
+		m.setModule('testing_parser', (data, block) => {
+			return data * block.value;
 		})
 		let output = m.run(data);
 		expect(output.val2).to.equal(20);
 		expect(output.val4).to.equal(40);
+	});
+	it('add library', function() {
+		let data = 10;
+		let m = new Poliparser({
+			val1: {
+				f: 'testingLib_mod1',
+				value:  3
+			},
+			val2: {
+				f: 'testingLib_mod2',
+				value: 4 
+			}
+		});
+		m.setLibrary('testingLib', {
+			mod1: (data, block) => {
+			return data * block.value;
+			},
+			mod2: (data, block) => {
+				return data + 'XX';
+			}
+		});
+		let output = m.run(data);
+		expect(output.val1).to.equal(30);
+		expect(output.val2).to.equal("10XX");
 	});
 });

@@ -1,4 +1,4 @@
-module.exports = (p, data) => {
+module.exports = (data, block) => {
 	if(data.constructor == Array){
 		data.reverse();
 		return data;
