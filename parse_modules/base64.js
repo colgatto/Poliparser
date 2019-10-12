@@ -1,9 +1,11 @@
-/** docgen
- base64
- * 	fai la base64 delle cose
- *	parameters:
-		value [String] descrizione della cosa 
- * 
+/** @docgen
+@name base64
+@desc fai la base64 delle cose
+@input String
+@output String
+@param value [String] {R} descrizione della cosa 
+@param FUFA [aNY ony] <qualcosa o qualcos'altro > descrizione della cosa 
+@return   [Stri  ng] descrizione del ritorno
 **/
 module.exports = (data, block) => {
 	switch(block.value){

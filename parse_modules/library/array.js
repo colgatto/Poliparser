@@ -59,6 +59,13 @@ const invFlat = (val, deep) => {
 };
 
 module.exports = {
+	/** @docgen
+	@name min
+	@lib array
+	@desc prende il minimo
+	@input Array
+	@output Number
+	**/
 	min: (data, block) => {
 		let l = data.length;
 		if (l == 0)
@@ -160,7 +167,7 @@ module.exports = {
 	lastIndexOf: (data, block) => {
 		return typeof block.position == 'undefined' ? data.lastIndexOf(block.value) : data.lastIndexOf(block.value, block.position);
 	},
-
+	
 	slice: (data, block) => {
 		let opt = {
 			start: typeof block.start == 'undefined' ? 0 : block.start,

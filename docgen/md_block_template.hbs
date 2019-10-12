@@ -1,0 +1,15 @@
+### `{{#if isLib }}{{lib}}_{{/if}}{{name}}`
+
+- **Input**: `{{input}}`
+- **Output**: `{{output}}`
+{{!-- - **Recursive Parse Array**: `true` --}}
+
+{{desc}}
+
+{{#if hasParams}}
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+{{#each params}}
+| {{name}} | `{{type}}` | {{desc}} |{{#if required }} required {{else}} optional (default {{default}}) {{/if}}|
+{{/each}}
+{{/if}}

@@ -25,14 +25,15 @@ const rec_DOM = (value, data, opt) => {
 		return first_out;
 	}
 }
-/** docgen
- dom
- * 	fai il dom
- * 	con roba tipo css selector
- *	parameters:
-		value [String] {R} descrizione della cosa
-		attr [String] <false> descrizione della cosa 
- *
+
+/** @docgen
+@name dom
+@desc fai il dom delle cose
+@input String
+@output Array / Object
+@param value [String] {R} CSS/Jquery selector
+@param attr [String] <undefined> attributo da prendere
+@return [Str ing] descrizione del ritorno
 **/
 module.exports = (data, block) => {
 	let opt = {
