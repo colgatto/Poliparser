@@ -1,3 +1,9 @@
+/** @docgen
+@name reverse
+@desc Reverse a string or an array
+@input ( `String`, `Array` )
+@output ( `String`, `Array` )
+**/
 module.exports = (data, block) => {
 	if(data.constructor == Array){
 		data.reverse();

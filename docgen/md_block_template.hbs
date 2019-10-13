@@ -1,7 +1,7 @@
-### `{{#if isLib }}{{lib}}_{{/if}}{{name}}`
+### `{{#if isLib }}{{strEncoder lib}}_{{/if}}{{strEncoder name}}`
 
-- **Input**: `{{input}}`
-- **Output**: `{{output}}`
+- **Input**: {{strEncoder input}}
+- **Output**: {{strEncoder output}}
 {{!-- - **Recursive Parse Array**: `true` --}}
 
 {{desc}}
@@ -10,6 +10,6 @@
 | Parameter | Type | Description | Required |
 | - | - | - | - |
 {{#each params}}
-| {{name}} | `{{type}}` | {{desc}} |{{#if required }} required {{else}} optional (default {{default}}) {{/if}}|
+| {{strEncoder name}} | {{strEncoder type}} | {{strEncoder desc}} |{{#if required }} required {{else}} optional (default {{strEncoder default}}) {{/if}}|
 {{/each}}
 {{/if}}

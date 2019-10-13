@@ -1,8 +1,10 @@
 'use strict';
 
 const default_parse_library = {
+	obj:  require(__dirname + "/parse_modules/library/obj.js"),
 	str:  require(__dirname + "/parse_modules/library/str.js"),
 	array:  require(__dirname + "/parse_modules/library/array.js"),
+	crypto:  require(__dirname + "/parse_modules/library/crypto.js"),
 };
 
 const default_parse_modules = {
@@ -46,10 +48,6 @@ class Poliparser {
 
 	setModule(name, new_module){
 		this.parse_modules[name] = new_module;
-	}
-
-	modList(){
-		return  Object.keys(this.parse_modules);
 	}
 
 	setLibrary(name, new_library){

@@ -4,6 +4,7 @@
 	"description": "The only parser you need",
 	"main": "index.js",
 	"scripts": {
+		"docgen": "node docgen/index.js",
 		"test": "mocha --reporter spec",
 		"cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
 	},

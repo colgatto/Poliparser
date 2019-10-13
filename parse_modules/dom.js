@@ -28,12 +28,11 @@ const rec_DOM = (value, data, opt) => {
 
 /** @docgen
 @name dom
-@desc fai il dom delle cose
-@input String
-@output Array / Object
-@param value [String] {R} CSS/Jquery selector
-@param attr [String] <undefined> attributo da prendere
-@return [Str ing] descrizione del ritorno
+@desc Parse an html string and get data with a CSS selector like jQuery.
+@input `String`
+@output `[DomObject]`
+@param value [`String`] {R} CSS/jquery selector string
+@param attr [`String` / `Array`] <`false`> get attribute value
 **/
 module.exports = (data, block) => {
 	let opt = {

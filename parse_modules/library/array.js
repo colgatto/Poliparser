@@ -65,6 +65,7 @@ module.exports = {
 	@desc prende il minimo
 	@input Array
 	@output Number
+	@param attr [`String` / `Array`] <`false`> get attribute value
 	**/
 	min: (data, block) => {
 		let l = data.length;

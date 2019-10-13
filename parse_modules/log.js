@@ -1,9 +1,8 @@
-/** docgen
- * log
- * 	fa i log
- *  delle cose
- * return:
-		[Any] descrizione del ritorno
+/** @docgen
+@name log
+@desc `console.log` the value and return it without changing it
+@input `Any`
+@output `Any`
 **/
 module.exports = (data, block) => {
 	console.log(data);

@@ -45,7 +45,15 @@ const rec_regEx = (value, data, opt) => {
 	}
 	return exp;
 };
-
+/** @docgen
+@name regex
+@desc Generate a json string from an object and parse a json string to an object
+@input `String`
+@output `[Object]`
+@param value [`Regex`] {R} regex to run
+@param only [`String`] <`false`> if set return only selected element instead of Object, Accept: `'full'`, `'matches'`, `'indexes'`.
+@param group [`Integer`] <`false`> get only selected group
+**/
 module.exports = (data, block) => {
 	var opt = {
 		only: typeof block.only == "undefined" ? false : block.only,

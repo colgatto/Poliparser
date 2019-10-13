@@ -1,3 +1,12 @@
+/** @docgen
+@name json
+@desc Generate a json string from an object and parse a json string to an object
+@input ( `String`, `Object` )
+@output ( `Object`, `String` )
+@param value [`String`] <`'stringify'`> set json mode (`'stringify'`,`'parse'`)
+@param pretty [`Boolean`] <`false`> set `true` for pretty stringify 
+@param space [`Integer`] <`4`> set indentation's length for pretty stringify
+**/
 module.exports = (data, block) => {
 	var opt = {
 		pretty: typeof block.pretty == "undefined" ? false : block.pretty,

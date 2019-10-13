@@ -2,8 +2,10 @@ const Poliparser = require('..');
 const Handlebars = require('handlebars');
 const fs = require('fs');
 
+Handlebars.registerHelper('strEncoder',function(x){
+    return new Handlebars.SafeString(x);
+});
 const md_block_template = Handlebars.compile(fs.readFileSync(__dirname + '/md_block_template.hbs').toString());
-
 
 let p = new Poliparser();
 
@@ -47,7 +49,6 @@ let docMaker = new Poliparser({
 				type: x.slice(0, x.indexOf(' ')).slice(1),
 				val: x.slice(x.indexOf(' ') + 1)
 			})));
-
 			return chunked.map( (list) => {
 				let out = {};
 				let params = [];
@@ -57,14 +58,15 @@ let docMaker = new Poliparser({
 					else
 						out[el.type] = el.val;
 				});
+				let parser = new Poliparser({
+					v: {
+						f: 'regex',
+						value: /(.+?)\s+\[(.+)\]\s+(?:<(.+)>|{R})\s+(.+)/,
+						only: 'matches'
+					}
+				});
 				out.params = params.map( p => {
-					let pData = new Poliparser({
-						v: {
-							f: 'regex',
-							value: /(.+?)\s+\[(.+)\]\s+(?:<(.+)>|{R})\s+(.+)/,
-							only: 'matches'
-						}
-					}).run(p).v;
+					let pData = parser.run(p).v;
 					if(pData == null){
 						console.error('ERRORE');
 						return false;
@@ -87,30 +89,62 @@ let docMaker = new Poliparser({
 	}]
 });
 
+let basList = fs.readdirSync(__dirname + '/../parse_modules').filter(x=>x!="library");
 let mod_support_bl = [];
+for(let i = 0, l = basList.length; i < l; i++){
+	let strMod = fs.readFileSync(__dirname + '/../parse_modules/' +  basList[i]).toString();
+	mod_support_bl.push(...docMaker.run(strMod).val.map( bl => {
+		let t = md_block_template(bl);
+		return{
+			data: bl,
+			text: t
+		};
+	}) );
+}
 
-//TODO: da rifare, dividi tutto in base a @lib del blocco
+let libList = fs.readdirSync(__dirname + '/../parse_modules/library');
+for(let i = 0, l = libList.length; i < l; i++){
+	let strMod = fs.readFileSync(__dirname + '/../parse_modules/library/' + libList[i]);
+	let bList = docMaker.run(strMod).val;
+	mod_support_bl.push(...bList.map( bl => {
+		let t = md_block_template(bl);
+		return{
+			data: bl,
+			text: t
+		};
+	}) );
+}
+
+let blockList = { basic: [] };
+
+for (let i = 0, l = mod_support_bl.length; i < l; i++) {
+	const bl = mod_support_bl[i];
+	if(typeof bl.data.lib == "undefined"){
+		blockList.basic.push(bl.text);
+	}else{
+		if(typeof blockList[bl.data.lib] == "undefined") blockList[bl.data.lib] = [];
+		blockList[bl.data.lib].push(bl.text);
+	}
+}
 
 let allRaw = ['# Block type', '', '## basic', ''];
 
-let basList = fs.readdirSync(__dirname + '/../parse_modules').filter(x=>x!="library");
-
-for (let i = 0, l = basList.length; i < l; i++) {
-	let strMod = fs.readFileSync(__dirname + '/../parse_modules/' +  basList[i]).toString();
-	mod_support_bl.push(...docMaker.run(strMod).val.map(bl => md_block_template(bl)));
+for (let i = 0, l = blockList.basic.length; i < l; i++) {
+	allRaw.push(blockList.basic[i]);
 }
 
-allRaw.push(mod_support_bl.join('\n'));
+let libNameList = Object.keys(blockList).filter(x=>x!='basic');
 
-mod_support_bl = [];
+allRaw.push('', '---', '');
 
-let libList = fs.readdirSync(__dirname + '/../parse_modules/library');
-
-for (let i = 0, l = libList.length; i < l; i++) {
-	let strMod = fs.readFileSync(__dirname + '/../parse_modules/library/' + libList[i]).toString();
-	allRaw.push('## ' + libList[i].slice(0, libList[i].indexOf('.')));
-	allRaw.push(...docMaker.run(strMod).val.map(bl => md_block_template(bl)).join('\n'));
-	allRaw.push('\n');
+for (let i = 0, l = libNameList.length; i < l; i++) {
+	let libN = libNameList[i];
+	allRaw.push('## ' + libN[0].toUpperCase() + libN.slice(1));
+	allRaw.push('');
+	for (let j = 0, ll = blockList[libN].length; j < ll; j++) {
+		allRaw.push(blockList[[libN]][j]);
+	}
+	allRaw.push('', '---', '');
 }
 
-fs.writeFileSync('README.md', allRaw.join('\n'));
+fs.writeFileSync(__dirname + '/../Examples/block.md', allRaw.join('\n'));

@@ -10,13 +10,13 @@ describe('test blocks type', function() {
 		let data64 = 'SGVsbG8gbXkgbmFtZSBpcyBQb2xpcGFyc2Vy';
 		let p = new Poliparser({
 			val: {
-				f: 'base64',
+				f: 'crypto_base64',
 				value: 'encode'
 			}
 		});
 		let p64 = new Poliparser({
 			val: {
-				f: 'base64',
+				f: 'crypto_base64',
 				value: 'decode'
 			}
 		});
@@ -422,6 +422,14 @@ describe('test blocks type', function() {
 		expect(JSON.stringify(output.inverseDeep_1)).to.equal(JSON.stringify(data_i1));
 		expect(JSON.stringify(output.inverseDeep_2)).to.equal(JSON.stringify(data_i2));
 		expect(JSON.stringify(output_data_empy.inverseDeep_2)).to.equal(JSON.stringify([]));
+	});
+	it('str_mix', function() {
+		let data = "1234567890";
+		let m = new Poliparser({
+			split: { f: 'str_split', value: '6' }
+		});
+		let output = m.run(data);
+		expect(JSON.stringify(output.split)).to.equal(JSON.stringify(["12345","7890"]));
 	});
 	it('undefined block', function() {
 		let data = 'hi';
