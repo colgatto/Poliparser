@@ -36,6 +36,22 @@ const rec_trim = (value, data, opt) => {
 
 module.exports = {
 	/** @docgen
+	@lib str
+	@name base64
+	@desc encode or decode base64 string
+	@input `String`
+	@output `String`
+	@param value [`String`] {R} `'encode'` or `'decode'`
+	**/
+	base64: (data, block) => {
+		switch(block.value){
+			case 'encode':
+				return Buffer.from(data).toString('base64');
+			case 'decode':
+				return Buffer.from(data, 'base64').toString('ascii');
+		}
+	},
+	/** @docgen
 	@name split
 	@lib str
 	@descsplits a String object into an array of strings by separating the string into substrings, using a specified separator string to determine where to make each split.
@@ -77,7 +93,7 @@ module.exports = {
 	@desc return a new String with whitespace (or custom values) removed from start, end or both of a string.
 	@input `String`
 	@output `String`
-	@param value [`Array`] <[' ', '\t', '\r', '\n']> array of values you want to trim.
+	@param value [`Array`] <`[' ', '\t', '\r', '\n']`> array of values you want to trim.
 	@param start [`Boolean`] <`true`> if set `false` don't trim start of string.
 	@param end [`Boolean`] <`true`> if set `false` don't trim start of string.
 	**/

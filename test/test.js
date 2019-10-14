@@ -10,13 +10,13 @@ describe('test blocks type', function() {
 		let data64 = 'SGVsbG8gbXkgbmFtZSBpcyBQb2xpcGFyc2Vy';
 		let p = new Poliparser({
 			val: {
-				f: 'crypto_base64',
+				f: 'str_base64',
 				value: 'encode'
 			}
 		});
 		let p64 = new Poliparser({
 			val: {
-				f: 'crypto_base64',
+				f: 'str_base64',
 				value: 'decode'
 			}
 		});
@@ -487,6 +487,14 @@ describe('test blocks type', function() {
 			sha256_s: { f: 'crypto_sha256', secret: 'segretissimo', digest: 'ascii' },
 			sha512: { f: 'crypto_sha512' },
 			sha512_s: { f: 'crypto_sha512', secret: 'segretissimo', digest: 'ascii' },
+			aes: [
+				{ f: 'crypto_crypt', password: 'segretissimo' },
+				{ f: 'crypto_decrypt', password: 'segretissimo'}
+			],
+			aes_salt: [
+				{ f: 'crypto_crypt', mode: 'aes-256-cbc', password: 'segretissimo', salt: '1qazxsw23edcvfr4' },
+				{ f: 'crypto_decrypt', mode: 'aes-256-cbc', password: 'segretissimo'}
+			],
 		});
 		let output = m.run(data);
 		
@@ -498,6 +506,8 @@ describe('test blocks type', function() {
 		expect(output.sha256_s).to.equal('\u001b}\b\u000fB\u0003H\u0014S\u0010Cr^eW,H#Yb+\u00077&xk66+\rH}');
 		expect(output.sha512).to.equal('a0c299b71a9e59d5ebb07917e70601a3570aa103e99a7bb65a58e780ec9077b1902d1dedb31b1457beda595fe4d71d779b6ca9cad476266cc07590e31d84b206');
 		expect(output.sha512_s).to.equal('XN}Vo5J50U?w}-{g3\r[\u0003\u000e;4f|\b\u0019U \r\u000f1\u0010\n`%B\u0019yap*!D\f^8\u001a6C\t\u0001%#dD\f3%P^[L/');
+		expect(output.aes).to.equal(data);
+		expect(output.aes_salt).to.equal(data);
 	});
 	it('undefined block', function() {
 		let data = 'hi';
