@@ -7,7 +7,20 @@ Handlebars.registerHelper('strEncoder',function(x){
 });
 const md_block_template = Handlebars.compile(fs.readFileSync(__dirname + '/md_block_template.hbs').toString());
 
-let p = new Poliparser();
+const libOrder = [
+	{name: 'String', val: 'str'},
+	{name: 'Array', val: 'array'},
+	{name: 'Object', val: 'obj'},
+	{name: 'Crypto', val: 'crypto'},
+];
+
+let poliParam = new Poliparser({
+	v: {
+		f: 'regex',
+		value: /(.+?)\s+\[(.+)\]\s+(?:<(.+)>|{R})\s+(.+)/,
+		only: 'matches'
+	}
+});
 
 let docMaker = new Poliparser({
 	val: [{
@@ -21,7 +34,7 @@ let docMaker = new Poliparser({
 		f: 'str_split',
 		value: /\r?\n/
 	},{
-		f: 'trim',
+		f: 'str_trim',
 		value: ['\t', ' ', '*', '\\', '/']
 	},{
 		f: 'array_filter',
@@ -58,17 +71,10 @@ let docMaker = new Poliparser({
 					else
 						out[el.type] = el.val;
 				});
-				let parser = new Poliparser({
-					v: {
-						f: 'regex',
-						value: /(.+?)\s+\[(.+)\]\s+(?:<(.+)>|{R})\s+(.+)/,
-						only: 'matches'
-					}
-				});
 				out.params = params.map( p => {
-					let pData = parser.run(p).v;
+					let pData = poliParam.run(p).v;
 					if(pData == null){
-						console.error('ERRORE');
+						console.error('ERRORE SU: ', p);
 						return false;
 					}
 					let objPar = {
@@ -89,7 +95,7 @@ let docMaker = new Poliparser({
 	}]
 });
 
-let basList = fs.readdirSync(__dirname + '/../parse_modules').filter(x=>x!="library");
+let basList = fs.readdirSync(__dirname + '/../parse_modules').filter(x => x != "library");
 let mod_support_bl = [];
 for(let i = 0, l = basList.length; i < l; i++){
 	let strMod = fs.readFileSync(__dirname + '/../parse_modules/' +  basList[i]).toString();
@@ -99,7 +105,7 @@ for(let i = 0, l = basList.length; i < l; i++){
 			data: bl,
 			text: t
 		};
-	}) );
+	}));
 }
 
 let libList = fs.readdirSync(__dirname + '/../parse_modules/library');
@@ -115,6 +121,14 @@ for(let i = 0, l = libList.length; i < l; i++){
 	}) );
 }
 
+mod_support_bl = mod_support_bl.sort( (a,b) => {
+	if(a.data.name > b.data.name)
+		return 1;
+	if(a.data.name < b.data.name)
+		return -1;
+	return 0;
+});
+
 let blockList = { basic: [] };
 
 for (let i = 0, l = mod_support_bl.length; i < l; i++) {
@@ -127,24 +141,22 @@ for (let i = 0, l = mod_support_bl.length; i < l; i++) {
 	}
 }
 
-let allRaw = ['# Block type', '', '## basic', ''];
+let allRaw = ['# Block type', '', '## Basic', ''];
 
 for (let i = 0, l = blockList.basic.length; i < l; i++) {
 	allRaw.push(blockList.basic[i]);
 }
 
-let libNameList = Object.keys(blockList).filter(x=>x!='basic');
-
 allRaw.push('', '---', '');
 
-for (let i = 0, l = libNameList.length; i < l; i++) {
-	let libN = libNameList[i];
-	allRaw.push('## ' + libN[0].toUpperCase() + libN.slice(1));
+for (let i = 0, l = libOrder.length; i < l; i++) {
+	let libV = libOrder[i].val;
+	allRaw.push('## ' + libOrder[i].name);
 	allRaw.push('');
-	for (let j = 0, ll = blockList[libN].length; j < ll; j++) {
-		allRaw.push(blockList[[libN]][j]);
+	for (let j = 0, ll = blockList[libV].length; j < ll; j++) {
+		allRaw.push(blockList[libV][j]);
 	}
 	allRaw.push('', '---', '');
 }
 
-fs.writeFileSync(__dirname + '/../Examples/block.md', allRaw.join('\n'));
+fs.writeFileSync(__dirname + '/../Examples/README.md', allRaw.join('\n'));

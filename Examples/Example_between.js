@@ -4,7 +4,7 @@ let data = 'Hello my name is <p>Poliparser</p>';
 
 let p = new Poliparser({
 	name: {
-		f: 'between',
+		f: 'str_between',
 		from: '<p>',
 		to: '</p>'
 	}

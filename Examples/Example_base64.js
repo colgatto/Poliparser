@@ -4,13 +4,13 @@ let data = 'Hello my name is Poliparser';
 let data64 = 'SGVsbG8gbXkgbmFtZSBpcyBQb2xpcGFyc2Vy';
 let p = new Poliparser({
 	val: {
-		f: 'base64',
+		f: 'str_base64',
 		value: 'encode'
 	}
 });
 let p64 = new Poliparser({
 	val: {
-		f: 'base64',
+		f: 'str_base64',
 		value: 'decode'
 	}
 });

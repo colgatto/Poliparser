@@ -4,12 +4,12 @@
 - **Output**: {{strEncoder output}}
 {{!-- - **Recursive Parse Array**: `true` --}}
 
-{{desc}}
+{{strEncoder desc}}
 
 {{#if hasParams}}
 | Parameter | Type | Description | Required |
 | - | - | - | - |
 {{#each params}}
-| {{strEncoder name}} | {{strEncoder type}} | {{strEncoder desc}} |{{#if required }} required {{else}} optional (default {{strEncoder default}}) {{/if}}|
+| {{strEncoder name}} | {{strEncoder type}} | {{strEncoder desc}} |{{#if required }} required {{else}} optional (default: {{strEncoder default}}) {{/if}}|
 {{/each}}
 {{/if}}

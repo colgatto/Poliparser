@@ -71,3 +71,6 @@ debug.js
 
 #doc generator
 docgen
+
+#benchmark
+bench.js

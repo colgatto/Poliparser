@@ -10,14 +10,9 @@ const default_parse_library = {
 const default_parse_modules = {
 	log: require(__dirname + "/parse_modules/log.js"),
 	custom: require(__dirname + "/parse_modules/custom.js"),
-	base64: require(__dirname + "/parse_modules/base64.js"),
-	between: require(__dirname + "/parse_modules/between.js"),
 	dom: require(__dirname + "/parse_modules/dom.js"),
 	json: require(__dirname + "/parse_modules/json.js"),
-	key: require(__dirname + "/parse_modules/key.js"),
 	regex: require(__dirname + "/parse_modules/regex.js"),
-	reverse: require(__dirname + "/parse_modules/reverse.js"),
-	trim: require(__dirname + "/parse_modules/trim.js"),
 };
 
 class Poliparser {

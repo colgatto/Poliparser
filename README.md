@@ -155,3 +155,118 @@ console.log(out);
 	val_sum: 12
 }
 ```
+## **Examples**
+
+**Example_dom.js**
+```js
+let Poliparser = require('poliparser');
+
+let data = `
+	<html>
+		<head>
+			<title>prova</title>
+		</head>
+		<body>
+			<a href="link1.html" class="hiper">hello</a> world<br>
+			<a href="link2.html" class="hiper" data-label="byebye">bye</a> world<br>
+			<a href="link3.html" class="hiper" data-label="adios">ciao</a> world<br>
+		</body>
+	</html>`;
+
+let p = new Poliparser({
+	link: {
+		//get attribute href from all tag <a> with class "hiper"
+		f: 'dom',
+		value: 'a.hiper',
+		attr: 'href'
+	},
+	link_and_label: {
+		//get attribute href and data-label from all tag <a> with class "hiper"
+		f: 'dom',
+		value: 'a.hiper',
+		attr: ['href' , 'data-label']
+	}
+});
+
+let output = p.run(data);
+
+console.log(output);
+```
+
+**output**
+```js
+{
+	link: [
+		'link1.html',
+		'link2.html'
+	],
+	link_and_label: [
+		{ href: 'link1.html', 'data-label': undefined },
+		{ href: 'link2.html', 'data-label': 'byebye' },
+		{ href: 'link3.html', 'data-label': 'adios' }
+	]
+}
+```
+
+---
+
+**Example_regex.js**
+```js
+let Poliparser = require('poliparser');
+
+let data = `Contact Admin 011-11122111 Headquarter Industry Inc. 011-22211222`;
+
+let p = new Poliparser({
+	name: {
+		f: 'regex',
+		value: /Headquarter ([a-zA-Z0-9 ]+\.) .*/,
+		only: 'matches'
+	},
+	phone: {
+		f: 'regex',
+		value: /[0-9]{3}-[0-9]{8}/g,
+		only: 'full'
+	}
+});
+
+let output = p.run(data);
+
+console.log(output);
+```
+
+**output**
+```js
+{
+	name: [ 'Industry Inc.' ],
+	phone: [ '011-11122111', '011-22211222' ]
+}
+```
+
+---
+
+**Example_custom.js**
+```js
+let Poliparser = require('poliparser');
+
+let data = [
+	{ val: 'data1' },
+	{ val: 'data2' },
+	{ val: 'data3' }
+];
+
+let p = new Poliparser({
+	val: {
+		f: 'custom',
+		value: (d) => d.map( x => x.val)
+	}
+});
+
+let output = p.run(data);
+
+console.log(output.val);
+```
+
+**output**
+```js
+[ 'data1', 'data2', 'data3' ]
+```

@@ -4,7 +4,7 @@ let data = {name: 'foo', phone: '011-111222333'};
 
 let p = new Poliparser({
 	val: {
-		f: 'key',
+		f: 'getKey',
 		value: 'phone'
 	}
 });

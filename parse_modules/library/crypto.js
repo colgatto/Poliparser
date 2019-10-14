@@ -1,3 +1,13 @@
+const crypto = require('crypto');
+
+const getHash = (type, data, block) => {
+	let digest = typeof block.digest == 'undefined' ? 'hex' : block.digest;
+	if(typeof block.secret != 'undefined')
+		return crypto.createHmac(type, block.secret).update(data).digest(digest).toString('hex');
+	else
+		return crypto.createHash(type).update(data).digest(digest).toString('hex');
+};
+
 module.exports = {
 	/** @docgen
 	@lib crypto
@@ -16,15 +26,15 @@ module.exports = {
 		}
 	},
 	md5: (data, block) => {
-		return data;
+		return getHash('md5', data, block);
 	},
 	sha1: (data, block) => {
-		return data;
+		return getHash('sha1', data, block);
 	},
 	sha256: (data, block) => {
-		return data;
+		return getHash('sha256', data, block);
 	},
 	sha512: (data, block) => {
-		return data;
+		return getHash('sha512', data, block);
 	},
 };

@@ -65,3 +65,6 @@ typings/
 
 #debug
 debug.js
+
+#benchmark
+bench.js
