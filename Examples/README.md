@@ -11,7 +11,7 @@ Run a custom function and return data
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value | `Function` | a function that has input data as first parameter and return output data | required |
+| value | `Function` | a function that has input data as first parameter and return output data. | required |
 
 ### `dom`
 
@@ -30,13 +30,13 @@ Parse an html string and get data with a CSS selector like jQuery.
 - **Input**: ( `String`, `Object` )
 - **Output**: ( `Object`, `String` )
 
-Generate a json string from an object and parse a json string to an object
+Generate a JSON string from an object and parse a JSON string to an object
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value | `String` | set json mode (`'stringify'`,`'parse'`) | optional (default: `'stringify'`) |
+| value | `String` | JSON mode (`'stringify'`,`'parse'`) | optional (default: `'stringify'`) |
 | pretty | `Boolean` | set `true` for pretty stringify | optional (default: `false`) |
-| space | `Integer` | set indentation's length for pretty stringify | optional (default: `4`) |
+| space | `Integer` | space length for pretty stringify | optional (default: `4`) |
 
 ### `log`
 
@@ -62,7 +62,73 @@ Generate a json string from an object and parse a json string to an object
 
 ---
 
+## CSV
+
+### `csv_fromJson`
+
+- **Input**: `String`
+- **Output**: `String`
+
+create a CSV from a JSON.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| separator | `String` | CSV value separator | optional (default: `','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
+
+### `csv_parse`
+
+- **Input**: `String`
+- **Output**: `Array`
+
+create a new Array of Object from CSV String.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| separator | `String` | CSV value separator | optional (default: `','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
+
+### `csv_stringify`
+
+- **Input**: `Object`
+- **Output**: `String`
+
+create a CSV from an array of object.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| separator | `String` | CSV value separator | optional (default: `','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
+
+### `csv_toJson`
+
+- **Input**: `String`
+- **Output**: `String`
+
+create a JSON from a CSV.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| separator | `String` | CSV value separator | optional (default: `','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
+| pretty | `Boolean` | set `true` for pretty JSON | optional (default: `false`) |
+| space | `Integer` | JSON space length, used if pretty = `true` | optional (default: `4`) |
+
+
+---
+
 ## String
+
+### `str_base64`
+
+- **Input**: `String`
+- **Output**: `String`
+
+encode or decode base64 string
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| value | `String` | `'encode'` or `'decode'` | required |
 
 ### `str_between`
 
@@ -127,7 +193,7 @@ return a new String with whitespace (or custom values) removed from start, end o
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value | `Array` | array of values you want to trim. | optional (default: [' ', '\t', '\r', '\n']) |
+| value | `Array` | array of values you want to trim. | optional (default: `[' ', '\t', '\r', '\n']`) |
 | start | `Boolean` | if set `false` don't trim start of string. | optional (default: `true`) |
 | end | `Boolean` | if set `false` don't trim start of string. | optional (default: `true`) |
 
@@ -371,17 +437,3 @@ returns an array of a given object's own enumerable property names, in the same 
 ---
 
 ## Crypto
-
-### `crypto_base64`
-
-- **Input**: `String`
-- **Output**: `String`
-
-encode or decode base64 string
-
-| Parameter | Type | Description | Required |
-| - | - | - | - |
-| value | `String` | `'encode'` or `'decode'` | required |
-
-
----

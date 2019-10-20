@@ -12,6 +12,7 @@ const libOrder = [
 	{name: 'Array', val: 'array'},
 	{name: 'Object', val: 'obj'},
 	{name: 'Crypto', val: 'crypto'},
+	{name: 'CSV', val: 'csv'},
 ];
 
 let poliParam = new Poliparser({
@@ -153,6 +154,8 @@ for (let i = 0, l = libOrder.length; i < l; i++) {
 	let libV = libOrder[i].val;
 	allRaw.push('## ' + libOrder[i].name);
 	allRaw.push('');
+	if(typeof blockList[libV] == "undefined")
+		continue;
 	for (let j = 0, ll = blockList[libV].length; j < ll; j++) {
 		allRaw.push(blockList[libV][j]);
 	}

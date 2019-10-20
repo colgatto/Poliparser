@@ -5,6 +5,7 @@ const default_parse_library = {
 	str:  require(__dirname + "/parse_modules/library/str.js"),
 	array:  require(__dirname + "/parse_modules/library/array.js"),
 	crypto:  require(__dirname + "/parse_modules/library/crypto.js"),
+	csv:  require(__dirname + "/parse_modules/library/csv.js"),
 };
 
 const default_parse_modules = {
@@ -45,7 +46,19 @@ class Poliparser {
 		this.parse_modules[name] = new_module;
 	}
 
+	requireModule(name, module_path){
+		this.parse_modules[name] = require(module_path);
+	}
+
 	setLibrary(name, new_library){
+		let modules = Object.keys(new_library);
+		modules.forEach(mod => {
+			this.parse_modules[name + '_' + mod] = new_library[mod];
+		});
+	}
+
+	requireLibrary(name, library_path){
+		let new_library = require(library_path);
 		let modules = Object.keys(new_library);
 		modules.forEach(mod => {
 			this.parse_modules[name + '_' + mod] = new_library[mod];

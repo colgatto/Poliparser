@@ -9,6 +9,9 @@ let p = new Poliparser({
 		f: 'myLib_sum',
 		value: 2
 	},
+	lib_require: {
+		f: 'requiredLibrary_mod1',
+	}
 });
 
 p.setLibrary('myLib', {
@@ -22,6 +25,9 @@ p.setLibrary('myLib', {
 	}
 
 });
+
+//add by require method
+p.requireLibrary('requiredLibrary', __dirname + '/myLibrary.js');
 
 let out = p.run(10);
 

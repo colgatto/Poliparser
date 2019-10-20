@@ -105,6 +105,8 @@ module.exports = {
 	crypt: (data, block) => {
 		const separator = typeof block.separator == 'undefined' ? '$' : block.separator;
 		const algorithm = typeof block.mode == 'undefined' ? 'aes-256-cbc' : block.mode;
+		if(typeof validChip[algorithm] == 'undefined')
+			throw new Error('Invalid mode');
 		let salt = typeof block.salt == 'undefined' ? crypto.randomBytes(16).toString('hex') : block.salt;
 		let key = crypto.scryptSync(block.password, salt, validChip[algorithm]);
 		const iv = crypto.randomBytes(16);
@@ -114,6 +116,8 @@ module.exports = {
 	decrypt: (data, block) => {
 		const separator = typeof block.separator == 'undefined' ? '$' : block.separator;
 		const algorithm = typeof block.mode == 'undefined' ? 'aes-256-cbc' : block.mode;
+		if(typeof validChip[algorithm] == 'undefined')
+			throw new Error('Invalid mode');
 		let part = data.split(separator);
 		let key = crypto.scryptSync(block.password, part[0], validChip[algorithm]);
 		const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(part[1], 'hex'));

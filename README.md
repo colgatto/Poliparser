@@ -72,15 +72,16 @@ console.log(output);
 
 ### Add Module
 
-You can add a new parser module with the second parameter of the constructor or with the setModule method.
+You can add a new parser module with: the second parameter of the constructor, the setModule method, the requireModule method.
 ```js
+//by constructor
 let p = new Poliparser({
 	val: {
-		f: 'my_parse_block',
+		f: 'my_parse_module',
 		value: 3
 	}
 },{
-	my_parse_block: (data, block) => {
+	my_parse_module: (data, block) => {
 		return data.map(x => x * block.value);
 	}
 });
@@ -93,20 +94,47 @@ console.log(out.val);
 same as
 
 ```js
+//by setModule
 let p = new Poliparser({
 	val: {
-		f: 'my_parse_block',
+		f: 'my_parse_module',
 		value: 3
 	}
 });
 
-p.setModule('my_parse_block', (data, block) => {
+p.setModule('my_parse_module', (data, block) => {
 	return data.map(x => x * block.value);
 });
 
 let out = p.run([1,2,3]);
 
 console.log(out.val);
+```
+
+same as
+
+```js
+//by requireModule
+let p = new Poliparser({
+	val: {
+		f: 'my_parse_module',
+		value: 3
+	}
+});
+
+//add by require method
+p.requireModule('my_parse_module', 'myModule.js');
+
+let out = p.run([1,2,3]);
+
+console.log(out.val);
+```
+
+**myModule.js**
+```js
+module.exports = (data, block) => {
+	return data.map(x => x * block.value);
+};
 ```
 
 **output**
@@ -116,9 +144,10 @@ console.log(out.val);
 
 ### Add Library
 
-You can add a new library with the setLibrary method.
+You can add a new library with the setLibrary or requireLibrary method.
 
 ```js
+//by setLibrary
 let p = new Poliparser({
 	val_mul: {
 		f: 'myLib_mul',
@@ -145,6 +174,43 @@ p.setLibrary('myLib', {
 let out = p.run(10);
 
 console.log(out);
+```
+
+same as
+
+```js
+//by requireLibrary
+let p = new Poliparser({
+	val_mul: {
+		f: 'myLib_mul',
+		value: 3
+	},
+	val_sum: {
+		f: 'myLib_sum',
+		value: 2
+	},
+});
+
+p.requireLibrary('myLib', 'myLib.js');
+
+let out = p.run(10);
+
+console.log(out);
+```
+
+**myLib.js**
+```js
+module.exports = {
+
+	mul: (data, block) => {
+		return data * block.value;
+	},
+
+	sum: (data, block) => {
+		return data + block.value;
+	}
+
+}
 ```
 
 **output**
