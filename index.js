@@ -18,11 +18,11 @@ const default_parse_modules = {
 
 class Poliparser {
 
-	constructor(parser, custom_modules = {}) {
+	constructor(parser = {}) {
 		
 		this.parser = parser;
 
-		let base_module_obj = default_parse_modules;
+		let base_module_obj = Object.assign({}, default_parse_modules);
 
 		let libs = Object.keys(default_parse_library);
 		libs.forEach(lib => {
@@ -32,7 +32,7 @@ class Poliparser {
 			});
 		});
 
-		this.parse_modules = Object.assign({}, base_module_obj, custom_modules);
+		this.parse_modules = base_module_obj;
 	}
 
 	run(data){
@@ -44,6 +44,10 @@ class Poliparser {
 
 	setModule(name, new_module){
 		this.parse_modules[name] = new_module;
+	}
+
+	setParser(parser){
+		this.parser = parser;
 	}
 
 	requireModule(name, module_path){

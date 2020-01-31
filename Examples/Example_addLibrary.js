@@ -1,6 +1,21 @@
 const Poliparser = require('..');
 
-let p = new Poliparser({
+let p = new Poliparser();
+
+//from object
+p.setLibrary('myLib', {
+	mul: (data, block) => {
+		return data * block.value;
+	},
+	sum: (data, block) => {
+		return data + block.value;
+	}
+});
+
+//from file
+p.requireLibrary('requiredLibrary', __dirname + '/myLibrary.js');
+
+p.setParser({
 	val_mul: {
 		f: 'myLib_mul',
 		value: 3
@@ -13,21 +28,6 @@ let p = new Poliparser({
 		f: 'requiredLibrary_mod1',
 	}
 });
-
-p.setLibrary('myLib', {
-
-	mul: (data, block) => {
-		return data * block.value;
-	},
-
-	sum: (data, block) => {
-		return data + block.value;
-	}
-
-});
-
-//add by require method
-p.requireLibrary('requiredLibrary', __dirname + '/myLibrary.js');
 
 let out = p.run(10);
 

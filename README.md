@@ -13,16 +13,18 @@ $ npm install poliparser
 
 ## **Usage**
 
-Import Poliparser module
+Import and Instantiate Poliparser
 
 ```js
-let Poliparser = require('poliparser');
+const Poliparser = require('poliparser');
+
+let p = new Poliparser();
 ```
 
-Make your output Object template
+set a parser template
 
 ```js
-let template = {
+p.setParser({
 	title:{
 		f: 'between',
 		from: '<title>',
@@ -36,20 +38,14 @@ let template = {
 		f: 'regex',
 		value: /.+\.([a-zA-Z0-9]+)/
 	}]
-};
+});
 ```
 
-Note that `template` is an `Object` with many parse keys.
+Note that the template is an `Object` with many parse keys.
 
 The data is parsed independently for each template key, **with the parse block's executed sequentially in the order of its array**.
 
 The output of each block will become the input for the next one. In the case of `link_ext`, it will execute the `dom` block on the main input, the output will be passed to the `regex` block, and then it will be assigned to the `link_ext` key of the returned `Object`.
-
-Instantiate a Poliparser by passing it a template
-
-```js
-let p = new Poliparser(template);
-```
 
 Run
 
