@@ -14,14 +14,15 @@ describe('test blocks type', function() {
 				value: 'encode'
 			}
 		});
-		let p64 = new Poliparser({
+		let output = p.run(data);
+
+		let p64 = new Poliparser();
+		p64.setParser({
 			val: {
 				f: 'str_base64',
 				value: 'decode'
 			}
 		});
-
-		let output = p.run(data);
 		let output64 = p64.run(data64);
 
 		expect(output.val).to.equal(data64);
@@ -495,6 +496,14 @@ describe('test blocks type', function() {
 				{ f: 'crypto_crypt', mode: 'aes-256-cbc', password: 'segretissimo', salt: '1qazxsw23edcvfr4' },
 				{ f: 'crypto_decrypt', mode: 'aes-256-cbc', password: 'segretissimo'}
 			],
+			aes_sep: [
+				{ f: 'crypto_crypt', mode: 'aes-256-cbc', password: 'segretissimo', separator: '%%' },
+				{ f: 'crypto_decrypt', mode: 'aes-256-cbc', password: 'segretissimo',  separator: '%%'}
+			],
+			aes_sep_salt: [
+				{ f: 'crypto_crypt', mode: 'aes-256-cbc', password: 'segretissimo', salt: '1qazxsw23edcvfr4', separator: '%%' },
+				{ f: 'crypto_decrypt', mode: 'aes-256-cbc', password: 'segretissimo',  separator: '%%'}
+			]
 		});
 		let output = m.run(data);
 		
@@ -508,6 +517,43 @@ describe('test blocks type', function() {
 		expect(output.sha512_s).to.equal('XN}Vo5J50U?w}-{g3\r[\u0003\u000e;4f|\b\u0019U \r\u000f1\u0010\n`%B\u0019yap*!D\f^8\u001a6C\t\u0001%#dD\f3%P^[L/');
 		expect(output.aes).to.equal(data);
 		expect(output.aes_salt).to.equal(data);
+		expect(output.aes_sep).to.equal(data);
+		expect(output.aes_sep_salt).to.equal(data);
+
+		m.setParser({
+			err: {
+				f: 'crypto_crypt',
+				mode: 'impossible_mode',
+				password: 'cogito'
+			}
+		});
+		
+		let passed = false;
+		try{
+			m.run(data);
+		}catch(e){
+			if(e.message == 'Invalid mode')
+				passed = true;
+		}
+		expect(passed).to.equal(true);
+
+		m.setParser({
+			err: {
+				f: 'crypto_decrypt',
+				mode: 'impossible_mode',
+				password: 'cogito'
+			}
+		});
+		
+		passed = false;
+		try{
+			m.run(data);
+		}catch(e){
+			if(e.message == 'Invalid mode')
+				passed = true;
+		}
+		expect(passed).to.equal(true);
+
 	});
 	it('undefined block', function() {
 		let data = 'hi';
@@ -519,7 +565,15 @@ describe('test blocks type', function() {
 	});
 	it('add module', function() {
 		let data = 10;
-		let m = new Poliparser({
+		let m = new Poliparser();
+
+		m.setModule('testing_parser', (data, block) => {
+			return data * block.value;
+		})
+
+		m.requireModule('my_mul', __dirname + '/myModule.js');
+
+		m.setParser({
 			val2: {
 				f: 'testing_parser',
 				value:  2
@@ -527,27 +581,23 @@ describe('test blocks type', function() {
 			val4: {
 				f: 'testing_parser',
 				value: 4 
+			},
+			my_mul:{
+				f: 'my_mul',
+				value: 3
 			}
 		});
-		m.setModule('testing_parser', (data, block) => {
-			return data * block.value;
-		})
+
 		let output = m.run(data);
+
 		expect(output.val2).to.equal(20);
 		expect(output.val4).to.equal(40);
+		expect(output.my_mul).to.equal(30);
 	});
 	it('add library', function() {
 		let data = 10;
-		let m = new Poliparser({
-			val1: {
-				f: 'testingLib_mod1',
-				value:  3
-			},
-			val2: {
-				f: 'testingLib_mod2',
-				value: 4 
-			}
-		});
+		let m = new Poliparser();
+
 		m.setLibrary('testingLib', {
 			mod1: (data, block) => {
 			return data * block.value;
@@ -556,8 +606,25 @@ describe('test blocks type', function() {
 				return data + 'XX';
 			}
 		});
+
+		m.requireLibrary('my_lib', __dirname + '/myLibrary.js');
+		m.setParser({
+			val1: {
+				f: 'testingLib_mod1',
+				value:  3
+			},
+			val2: {
+				f: 'testingLib_mod2',
+				value: 4 
+			},
+			val3: {
+				f: 'my_lib_mod1'
+			}
+		});
+	
 		let output = m.run(data);
 		expect(output.val1).to.equal(30);
 		expect(output.val2).to.equal("10XX");
+		expect(output.val3).to.equal("MyLibrary_mod1 hello 10");
 	});
 });
