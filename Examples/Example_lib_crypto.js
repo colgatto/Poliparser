@@ -2,22 +2,17 @@ let Poliparser = require('..');
 
 let data = 'secret data';
 
-let p = new Poliparser({
-	sha: {
+let p = {
+	
+	sha: new Poliparser({
 		f: 'crypto_sha512'
-	},
-	aes: {
+	}).run(data),
+	
+	aes: new Poliparser({
 		f: 'crypto_crypt',
 		mode: 'aes128',
-		password: 'pippone'
-	},
-	err: {
-		f: 'crypto_crypt',
-		mode: 'moda',
-		password: 'pippone'
-	},
-});
+		password: 'str0ngP4$$worD'
+	}).run(data)
+};
 
-let output = p.run(data);
-
-console.log(output);
+console.log(p);

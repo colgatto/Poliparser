@@ -36,10 +36,7 @@ class Poliparser {
 	}
 
 	run(data){
-		let out = {};
-		for (const k in this.parser)
-			out[k] = this._parse(data, this.parser[k]);
-		return out;
+		return this._parse(data, this.parser);
 	}
 
 	setModule(name, new_module){

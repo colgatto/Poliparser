@@ -16,19 +16,18 @@ p.setLibrary('myLib', {
 p.requireLibrary('requiredLibrary', __dirname + '/myLibrary.js');
 
 p.setParser({
-	val_mul: {
-		f: 'myLib_mul',
-		value: 3
-	},
-	val_sum: {
-		f: 'myLib_sum',
-		value: 2
-	},
-	lib_require: {
-		f: 'requiredLibrary_mod1',
-	}
+	f: 'myLib_mul',
+	value: 3
 });
+console.log(p.run(10));
 
-let out = p.run(10);
+p.setParser({
+	f: 'myLib_sum',
+	value: 2
+});
+console.log(p.run(10));
 
-console.log(out);
+p.setParser({
+	f: 'requiredLibrary_mod1',
+});
+console.log(p.run(10));

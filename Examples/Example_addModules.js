@@ -12,16 +12,13 @@ p.requireModule('my_mul', __dirname + '/myModule.js');
 
 //define parser
 p.setParser({
-	val_mul: {
-		f: 'my_mul',
-		value: 3
-	},
-	val_sum: {
-		f: 'my_sum',
-		value: 2
-	}
+	f: 'my_mul',
+	value: 3
 });
+console.log(p.run(10));
 
-let out = p.run(10);
-
-console.log(out);
+p.setParser({
+	f: 'my_sum',
+	value: 2
+});
+console.log(p.run(10));
