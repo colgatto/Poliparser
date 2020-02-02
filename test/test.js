@@ -83,7 +83,6 @@ describe('test blocks type', function() {
 
 		expect(JSON.stringify(m_arr)).to.equal(JSON.stringify(['dato1', 'dato2', 'dato3']));
 	});
-
 	it('json', function() {
 		let str_json = '{"a":34,"b":"ciao","we":{"we2":"23"}}';
 		let obj_json = {
@@ -131,7 +130,6 @@ describe('test blocks type', function() {
 		expect(output).to.equal(data.phone);
 		expect(JSON.stringify(output2)).to.equal(JSON.stringify({name: 'foo', surname: 'bar'}));
 	});
-	
 	it('regex', function() {
 		let data = `Contact Admin 011-11122111 Headquarter Industry Inc. 011-22211222`;
 		let arr_data = [
@@ -204,7 +202,6 @@ describe('test blocks type', function() {
 		expect(JSON.stringify(arr_m.rec)).to.equal(JSON.stringify([ '011-11122111', '011-22211222' ]));
 		expect(JSON.stringify(arr_m.rec_g)).to.equal(JSON.stringify([ ['011-11122111'], ['011-22211222'] ]));
 	});
-	
 	it('trim', function() {
 		let data = '    ciao   ';
 		let arr_data = ['    ciao   ','ciao   ','    ciao'];
@@ -372,7 +369,6 @@ describe('test blocks type', function() {
 			slice: data, slice_def: [1,2,9], sort: sData, sort_def: sdData, reverse: rData
 		}));
 	});
-	
 	/**/
 	it('array_flat', function() {
 		let data = [ 1, 1, [ 2, 2, [ 3, 3, [ 4 ] ], 2, 2, [ 3, 3 ] ], 1, 1, 1, [ 2, 2 ], 1 ];
@@ -447,7 +443,6 @@ describe('test blocks type', function() {
 		expect(JSON.stringify(m.entries)).to.equal(JSON.stringify([["key1","val1"],["key2","val2"]]));
 		expect(JSON.stringify(mArr)).to.equal(JSON.stringify(data));
 	});
-
 	it('crypto_mix', function() {
 		let data = "ciao";
 		let m = {
@@ -522,7 +517,59 @@ describe('test blocks type', function() {
 		}
 		expect(passed).to.equal(true);
 	});
+	it('csv', function() {
+		
+		let data = 'val1,str,num\n"valore 1","valore 2",345\n"valore 3","valore 4",678';
+		let data2 = 'val1;str;num\n"valore 1";"valore 2";345\n"valore 3";"valore 4";678';
+		
+		let m = new Poliparser({
+			f: 'csv_parse',
+			stringSeparator: '"'
+		});
+		let output = m.run(data);
+		expect(JSON.stringify(output)).to.equal('[{"val1":"valore 1","str":"valore 2","num":345},{"val1":"valore 3","str":"valore 4","num":678}]');
 
+		let m4 = new Poliparser({
+			f: 'csv_parse',
+		});
+		let output4 = m4.run(data);
+		expect(JSON.stringify(output4)).to.equal('[{"val1":"\\"valore 1\\"","str":"\\"valore 2\\"","num":"345"},{"val1\":"\\"valore 3\\"","str":"\\"valore 4\\"","num":"678"}]');
+		/*
+		let m5 = new Poliparser({
+			f: 'csv_parse',
+		});
+		let output5 = m5.run(data);
+		expect(JSON.stringify(output5)).to.equal('[{"val1":"\\"valore 1\\"","str":"\\"valore 2\\"","num":"345"},{"val1\":"\\"valore 3\\"","str":"\\"valore 4\\"","num":"678"}]');
+		*/
+		let m2 = new Poliparser({
+			f: 'csv_stringify',
+			stringSeparator: '"'
+		});
+		let redata = m2.run(output);
+		expect(JSON.stringify(data)).to.equal(JSON.stringify(redata));
+		
+		let m6 = new Poliparser({
+			f: 'csv_stringify',
+		});
+		let empty = m6.run('');
+		expect(empty).to.equal('');
+		
+		let m7 = new Poliparser({
+			f: 'csv_parse',
+			separator: ';',
+			stringSeparator: '"'
+		});
+		let o2 = m7.run(data2);
+		expect(JSON.stringify(o2)).to.equal('[{"val1":"valore 1","str":"valore 2","num":345},{"val1":"valore 3","str":"valore 4","num":678}]');
+	
+		let m3 = new Poliparser({
+			f: 'csv_toJson',
+			stringSeparator: '"'
+		});
+		let jdata = m3.run(data);
+		expect(jdata).to.equal('[{"val1":"valore 1","str":"valore 2","num":345},{"val1":"valore 3","str":"valore 4","num":678}]');
+
+	});
 	it('undefined block', function() {
 		let data = 'hi';
 		let m = new Poliparser( 42 );
@@ -558,7 +605,6 @@ describe('test blocks type', function() {
 		expect(m.run(data)).to.equal(30);
 
 	});
-
 	it('add library', function() {
 		let data = 10;
 		let m = new Poliparser();
@@ -591,4 +637,5 @@ describe('test blocks type', function() {
 		});
 		expect(m.run(data)).to.equal("MyLibrary_mod1 hello 10");
 	});
+
 });
