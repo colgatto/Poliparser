@@ -47,7 +47,7 @@ const rec_regEx = (value, data, opt) => {
 };
 /** @docgen
 @name regex
-@desc Generate a json string from an object and parse a json string to an object
+@desc exec regex passed by value parameter and return matches and index
 @input `String`
 @output `[Object]`
 @param value [`Regex`] {R} regex to execute

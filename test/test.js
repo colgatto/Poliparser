@@ -92,22 +92,18 @@ describe('test blocks type', function (done) {
 			}
 		};
 		let m1 = new Poliparser({
-			m: 'json',
-			value: 'stringify'
+			m: 'json_stringify',
 		}).parse(obj_json);
 		let m2 = new Poliparser({
-			m: 'json',
-			value: 'parse'
+			m: 'json_parse'
 		}).parse(str_json);
 		let m3 = new Poliparser({
-			m: 'json',
-			value: 'stringify',
+			m: 'json_stringify',
 			pretty: true,
 			space: 2
 		}).parse(obj_json);
 		let m4 = new Poliparser({
-			m: 'json',
-			value: 'stringify',
+			m: 'json_stringify',
 			pretty: true
 		}).parse(obj_json);
 		expect(JSON.stringify(obj_json)).to.equal(m1);

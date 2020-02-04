@@ -8,7 +8,7 @@ const getHash = (type, data, block) => {
 		return crypto.createHash(type).update(data).digest(digest).toString('hex');
 };
 
-const validChip = {
+const valid_chiper_list = {
 	'aes-128-cbc': 16,
 	'aes-128-cbc-hmac-sha1': 16,
 	'aes-128-cbc-hmac-sha256': 16,
@@ -141,10 +141,10 @@ module.exports = {
 	crypt: (data, block) => {
 		const separator = typeof block.separator == 'undefined' ? '$' : block.separator;
 		const algorithm = typeof block.mode == 'undefined' ? 'aes-256-cbc' : block.mode;
-		if(typeof validChip[algorithm] == 'undefined')
+		if(typeof valid_chiper_list[algorithm] == 'undefined')
 			throw new Error('Invalid mode');
 		let salt = typeof block.salt == 'undefined' ? crypto.randomBytes(16).toString('hex') : block.salt;
-		let key = crypto.scryptSync(block.password, salt, validChip[algorithm]);
+		let key = crypto.scryptSync(block.password, salt, valid_chiper_list[algorithm]);
 		const iv = crypto.randomBytes(16);
 		const cipher = crypto.createCipheriv(algorithm, key, iv);
 		return salt + separator + iv.toString('hex') + separator + cipher.update(data, 'utf8', 'hex') + cipher.final('hex');
@@ -152,10 +152,10 @@ module.exports = {
 	decrypt: (data, block) => {
 		const separator = typeof block.separator == 'undefined' ? '$' : block.separator;
 		const algorithm = typeof block.mode == 'undefined' ? 'aes-256-cbc' : block.mode;
-		if(typeof validChip[algorithm] == 'undefined')
+		if(typeof valid_chiper_list[algorithm] == 'undefined')
 			throw new Error('Invalid mode');
 		let part = data.split(separator);
-		let key = crypto.scryptSync(block.password, part[0], validChip[algorithm]);
+		let key = crypto.scryptSync(block.password, part[0], valid_chiper_list[algorithm]);
 		const decipher = crypto.createDecipheriv(algorithm, key, Buffer.from(part[1], 'hex'));
 		return decipher.update(part[2], 'hex', 'utf8') + decipher.final('utf8');
 	}

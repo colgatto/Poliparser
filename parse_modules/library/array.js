@@ -163,7 +163,7 @@ module.exports = {
 	},
 
 	/** @docgen
-	@name flat
+	@name uniq
 	@lib array
 	@desc returns a new array without duplicate values
 	@input `Array`

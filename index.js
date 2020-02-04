@@ -11,6 +11,7 @@ const normalizeUrl = url => {
 const default_parse_library = {
 	obj: require(__dirname + "/parse_modules/library/obj.js"),
 	str: require(__dirname + "/parse_modules/library/str.js"),
+	json: require(__dirname + "/parse_modules/library/json.js"),
 	array: require(__dirname + "/parse_modules/library/array.js"),
 	crypto: require(__dirname + "/parse_modules/library/crypto.js"),
 	csv: require(__dirname + "/parse_modules/library/csv.js"),
@@ -20,7 +21,6 @@ const default_parse_modules = {
 	log: require(__dirname + "/parse_modules/log.js"),
 	custom: require(__dirname + "/parse_modules/custom.js"),
 	dom: require(__dirname + "/parse_modules/dom.js"),
-	json: require(__dirname + "/parse_modules/json.js"),
 	regex: require(__dirname + "/parse_modules/regex.js"),
 	break: require(__dirname + "/parse_modules/break.js"),
 };

@@ -1,19 +1,8 @@
-const Poliparser = require('..');
-const Handlebars = require('handlebars');
 const fs = require('fs');
+const Poliparser = require('..');
 
-Handlebars.registerHelper('strEncoder',function(x){
-    return new Handlebars.SafeString(x);
-});
-const md_block_template = Handlebars.compile(fs.readFileSync(__dirname + '/md_block_template.hbs').toString());
-
-const libOrder = [
-	{name: 'String', val: 'str'},
-	{name: 'Array', val: 'array'},
-	{name: 'Object', val: 'obj'},
-	{name: 'Crypto', val: 'crypto'},
-	{name: 'CSV', val: 'csv'},
-];
+const mainParser = new Poliparser();
+const innerParser = new Poliparser();
 
 let poliParam = new Poliparser({
 	m: 'regex',
@@ -21,58 +10,52 @@ let poliParam = new Poliparser({
 	only: 'matches'
 });
 
-let docMaker = new Poliparser([{
+const core_order = [ 'dom', 'regex', 'log', 'custom', 'break' ];
+
+const lib_order = [
+	{name: 'String', val: 'str'},
+	{name: 'Array', val: 'array'},
+	{name: 'Object', val: 'obj'},
+	{name: 'Json', val: 'json'},
+	{name: 'Crypto', val: 'crypto'},
+	{name: 'CSV', val: 'csv'},
+];
+
+const blockParse = (name, m) => {
+	let out = '### `' + name + '`\n- **Input**: ' + m.input + '\n- **Output**: ' + m.output + '\n\n' + m.desc + '\n\n';
+	if(m.hasParams){
+		out += '| Parameter | Type | Description | Required |\n| - | - | - | - |\n';
+		for (let j = 0, l = m.params.length; j < l; j++) {
+			const p = m.params[j];
+			out += '| ' + p.name + ' | ' + p.type + ' | ' + p.desc + ' | ' + (p.required ? p.required : 'optional (default:' + p.default + ')') + ' |\n';
+		}
+	}
+	return out;
+};
+
+mainParser.setParser([{
 	m: 'regex',
-	value: /\/\*\*[\s\S]+\*\//gmi,
+	value: /\/\*\* *@docgen[\s\S]+?\*\*\//gmi,
 	only: 'full'
 },{
-	m: 'custom',
-	value: (data) => data.length == 0 ? '' : data[0]
-},{
-	m: 'str_split',
-	value: /\r?\n/
-},{
 	m: 'str_trim',
-	value: ['\t', ' ', '*', '\\', '/']
 },{
-	m: 'array_filter',
-	value: line => line.match(/@(?:docgen|name|desc|input|output|param|lib)/)
+	m: 'array_map',
+	value: x => x.split(/[\r\n]+/g).map( y => y.trim() )
 },{
-	m: 'custom',
-	value: lines => {
-		if(lines.length == 0) return [];
-		lines.shift();
-		let chunked = [[]];
-		let push = true;
-		for (let i = 0, ind = 0, l = lines.length; i < l; i++) {
-			const line = lines[i];	
-			if(line.match(/^@docgen/)){
-				push = false;
-				ind++;
-				chunked[ind] = [];
-			}else{
-				push = true;
-			}
-			if(push) chunked[ind].push(line);
-		}
-
-		chunked = chunked.map( b => b.map(x => ({
-			type: x.slice(0, x.indexOf(' ')).slice(1),
-			val: x.slice(x.indexOf(' ') + 1)
-		})));
-		return chunked.map( (list) => {
-			let out = {};
-			let params = [];
-			list.forEach(el => {
-				if(el.type == 'param')
-					params.push(el.val);
-				else
-					out[el.type] = el.val;
-			});
-			out.params = params.map( p => {
-				let pData = poliParam.parse(p);
+	m: 'array_map',
+	value: x => innerParser.parse( x )
+},{
+	m: 'array_map',
+	value: x => {
+		let docBloc = {params:[]};
+		for (let i = 0, l = x.length; i < l; i++) {
+			let name = x[i][0];
+			let v = x[i][1].trim();
+			if(name == '@param'){
+				let pData = poliParam.parse(v);
 				if(pData == null){
-					console.error('ERRORE SU: ', p);
+					console.error('PARAM ERROR: ', p);
 					return false;
 				}
 				let objPar = {
@@ -83,78 +66,72 @@ let docMaker = new Poliparser([{
 				};
 				if(!objPar.required)
 					objPar.default = pData[2];
-				return objPar;
-			}).filter(x=>x);
-			out.isLib = typeof out.lib != "undefined";
-			out.hasParams = out.params.length > 0;
-			return out;
-		});
+				docBloc.params.push(objPar);
+			}else{
+				docBloc[name.slice(1)] = v;
+			}
+		}
+		docBloc.isLib = typeof docBloc.lib != "undefined";
+		docBloc.hasParams = docBloc.params.length > 0;
+		return docBloc;
 	}
 }]);
 
-let basList = fs.readdirSync(__dirname + '/../parse_modules').filter(x => x != "library");
-let mod_support_bl = [];
-for(let i = 0, l = basList.length; i < l; i++){
-	let strMod = fs.readFileSync(__dirname + '/../parse_modules/' +  basList[i]).toString();
-	mod_support_bl.push(...docMaker.parse(strMod).map( bl => {
-		let t = md_block_template(bl);
-		return{
-			data: bl,
-			text: t
-		};
-	}));
-}
+innerParser.setParser([{
+	m: 'array_filter',
+	value: line => line.match(/^@(?:name|lib|desc|input|output|param)/)
+},{
+	m: 'array_map',
+	value: data => {
+		let r = [];
+		r[0] = data.slice(0, data.indexOf(' '));
+		r[1] = data.slice(data.indexOf(' '));
+		return r;
+	}
+}]);
 
-let libList = fs.readdirSync(__dirname + '/../parse_modules/library');
-for(let i = 0, l = libList.length; i < l; i++){
-	let strMod = fs.readFileSync(__dirname + '/../parse_modules/library/' + libList[i]);
-	let bList = docMaker.parse(strMod);
-	mod_support_bl.push(...bList.map( bl => {
-		let t = md_block_template(bl);
-		return{
-			data: bl,
-			text: t
-		};
-	}) );
-}
+let core_file = fs.readdirSync(__dirname + '/../parse_modules').filter(x => x != "library");
+let lib_file = fs.readdirSync(__dirname + '/../parse_modules/library');
 
-mod_support_bl = mod_support_bl.sort( (a,b) => {
-	if(a.data.name > b.data.name)
-		return 1;
-	if(a.data.name < b.data.name)
-		return -1;
-	return 0;
-});
+let modules = [];
+for(let i = 0, l = core_file.length; i < l; i++)
+	modules[i] = mainParser.parseFile(__dirname + '/../parse_modules/' + core_file[i])[0];
 
-let blockList = { basic: [] };
+for(let i = 0, l = lib_file.length; i < l; i++)
+	modules.push( ...mainParser.parseFile(__dirname + '/../parse_modules/library/' + lib_file[i]) );
 
-for (let i = 0, l = mod_support_bl.length; i < l; i++) {
-	const bl = mod_support_bl[i];
-	if(typeof bl.data.lib == "undefined"){
-		blockList.basic.push(bl.text);
-	}else{
-		if(typeof blockList[bl.data.lib] == "undefined") blockList[bl.data.lib] = [];
-		blockList[bl.data.lib].push(bl.text);
+let lib = {};
+
+for(let i = 0, l = modules.length; i < l; i++){
+	let m = modules[i];
+	if(m.isLib){
+		if(typeof lib[m.lib] == 'undefined')
+			lib[m.lib] = [];
+		lib[m.lib].push(m);
+		delete modules[i];
 	}
 }
 
-let allRaw = ['# Documentation ', '', '## Basic', ''];
-
-for (let i = 0, l = blockList.basic.length; i < l; i++) {
-	allRaw.push(blockList.basic[i]);
+modules = modules.filter(x=>x);
+let core = {};
+for (let i = 0; i < modules.length; i++) {
+	core[modules[i].name] = modules[i];
 }
 
-allRaw.push('', '---', '');
+let md_out = '# Documentation\n\n## Core\n';
 
-for (let i = 0, l = libOrder.length; i < l; i++) {
-	let libV = libOrder[i].val;
-	allRaw.push('## ' + libOrder[i].name);
-	allRaw.push('');
-	if(typeof blockList[libV] == "undefined")
-		continue;
-	for (let j = 0, ll = blockList[libV].length; j < ll; j++) {
-		allRaw.push(blockList[libV][j]);
+for (let i = 0, l = core_order.length; i < l; i++) {
+	const m = core[ core_order[i] ];
+	md_out += blockParse(m.name, m);
+}
+
+for (let i = 0, l = lib_order.length; i < l; i++) {
+	md_out += '\n---\n\n## ' + lib_order[i].name + '\n';
+	const mList = lib[ lib_order[i].val ];
+	for (let j = 0, ll = mList.length; j < ll; j++) {
+		const m = mList[j];
+		md_out += blockParse(m.lib + '_' + m.name, m);
 	}
-	allRaw.push('', '---', '');
 }
-fs.writeFileSync(__dirname + '/../Examples/README.md', allRaw.join('\n'));
+
+fs.writeFileSync(__dirname + '/../Examples/README.md', md_out);

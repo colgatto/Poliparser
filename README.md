@@ -1,5 +1,10 @@
 # **Poliparser**
-[![Build Status](https://travis-ci.org/colgatto/Poliparser.svg?branch=master)](https://travis-ci.org/colgatto/Poliparser) [![Coverage Status](https://coveralls.io/repos/github/colgatto/Poliparser/badge.svg?branch=master)](https://coveralls.io/github/colgatto/Poliparser?branch=master)
+[![Build Status](https://travis-ci.org/colgatto/Poliparser.svg?branch=master)](https://travis-ci.org/colgatto/Poliparser)
+[![Coverage Status](https://coveralls.io/repos/github/colgatto/Poliparser/badge.svg?branch=master)](https://coveralls.io/github/colgatto/Poliparser?branch=master)
+![npm](https://badgen.net/npm/dt/poliparser)
+[![license](https://badgen.net/npm/license/poliparser)](https://github.com/colgatto/RWTFPL)
+![size](https://badgen.net/packagephobia/publish/poliparser)
+[![npm](https://badgen.net/badge/icon/npm?icon=npm&label)](https://www.npmjs.com/package/poliparser)
 
 Poliparse allows you to extract end parse data from strings, files, urls and many other object in a simple and fast way.
 
@@ -32,8 +37,6 @@ p.setParser({
 });
 ```
 
-
-
 ```js
 let data = `<title>hello</title>
 	<div class=".container">
@@ -49,6 +52,8 @@ console.log(output);
 hello
 ```
 
+---
+
 >ps. The fastest way is to pass it in the declaration like this
 
 ```js
@@ -60,7 +65,7 @@ let p = new Poliparser({
 ```
 ## **Documentation**
 
-**See [Here](https://github.com/colgatto/Poliparser/tree/master/Examples) for complete documentation**
+**See [Here](https://github.com/colgatto/Poliparser/tree/master/Examples) for complete modules documentation**
 
 ### Add Module
 

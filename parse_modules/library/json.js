@@ -3,32 +3,46 @@ const lib = require('../../lib');
 module.exports = {
 	/** @docgen
 	@name parse
-	@lib csv
-	@desc create a new Array of Object from CSV String.
+	@lib json
+	@desc Parse a JSON string to an object
 	@input `String`
-	@output `Array`
-	@param separator [`String`] <`','`> CSV value separator
-	@param stringSeparator [`String`] <`false`> CSV string separator, if false don't use string separator
+	@output `Object`
 	**/
 	parse: (data, block) => {
-		return lib._csv_parse(data, block);
+		return JSON.parse(data);
 	},
 	/** @docgen
 	@name stringify
-	@lib csv
-	@desc create a CSV from an array of object.
+	@lib json
+	@desc Generate a JSON string from an object
 	@input `Object`
+	@output `String`
+	@param pretty [`Boolean`] <`false`> set `true` for pretty stringify 
+	@param space [`Integer`] <`4`> space length for pretty stringify
+	**/
+	stringify: (data, block) => {
+		var opt = {
+			pretty: typeof block.pretty == "undefined" ? false : block.pretty,
+			space: typeof block.space == "undefined" ? 4 : block.space
+		};
+		return opt.pretty ? JSON.stringify(data, null, opt.space) : JSON.stringify(data);
+	},
+	/** @docgen
+	@name toCsv
+	@lib json
+	@desc Create a CSV from a JSON.
+	@input `String`
 	@output `String`
 	@param separator [`String`] <`','`> CSV value separator
 	@param stringSeparator [`String`] <`false`> CSV string separator, if false don't use string separator
 	**/
-	stringify: (data, block) => {
-		return lib._csv_stringify(data, block);
+	toCsv: (data, block) => {
+		return lib._csv_stringify(JSON.parse(data), block);
 	},
 	/** @docgen
-	@name toJson
-	@lib csv
-	@desc create a JSON from a CSV.
+	@name fromCsv
+	@lib json
+	@desc Create a JSON from a CSV.
 	@input `String`
 	@output `String`
 	@param separator [`String`] <`','`> CSV value separator
@@ -36,24 +50,12 @@ module.exports = {
 	@param pretty [`Boolean`] <`false`> set `true` for pretty JSON
 	@param space [`Integer`] <`4`> JSON space length, used if pretty = `true`
 	**/
-	toJson: (data, block) => {
+	fromCsv: (data, block) => {
 		if(typeof block.pretty != "undefined" && block.pretty){
 			let sp = typeof block.space == "undefined" ? 4 : block.space;
 			return JSON.stringify(lib._csv_parse(data, block), null, sp);
 		}else{
 			return JSON.stringify(lib._csv_parse(data, block));
 		}
-	},
-	/** @docgen
-	@name fromJson
-	@lib csv
-	@desc create a CSV from a JSON.
-	@input `String`
-	@output `String`
-	@param separator [`String`] <`','`> CSV value separator
-	@param stringSeparator [`String`] <`false`> CSV string separator, if false don't use string separator
-	**/
-	fromJson: (data, block) => {
-		return lib._csv_stringify(JSON.parse(data), block);
 	},
 };
