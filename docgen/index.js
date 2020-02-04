@@ -138,7 +138,7 @@ for (let i = 0, l = mod_support_bl.length; i < l; i++) {
 	}
 }
 
-let allRaw = ['# Block type', '', '## Basic', ''];
+let allRaw = ['# Documentation ', '', '## Basic', ''];
 
 for (let i = 0, l = blockList.basic.length; i < l; i++) {
 	allRaw.push(blockList.basic[i]);

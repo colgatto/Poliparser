@@ -1,4 +1,4 @@
-# Block type
+# Documentation 
 
 ## Basic
 
@@ -11,8 +11,8 @@ break is a conditional block thats used to exit from an Array of module. it can 
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| condition | `bool` | if condition is true the poliparser exit and return input data, or a custom value if specified | required |
-| return | `Any` | custom value that return if condition is true, if undefined the module return the input data | optional (default: `undefined`) |
+| condition | `Function` | if function return true the poliparser exit and return input data, or a custom value if specified, first parameter of function is the input data | required |
+| return | `Any` | custom value that return if condition is true, if undefined the module return the input data | optional (default:`undefined`) |
 
 ### `custom`
 
@@ -35,20 +35,20 @@ Parse an html string and get data with a CSS selector like jQuery.
 | Parameter | Type | Description | Required |
 | - | - | - | - |
 | value | `String` | CSS/jquery selector string | required |
-| attr | `String` / `Array` | get attribute value | optional (default: `false`) |
+| attr | `String`/`Array` | get attribute value | optional (default:`false`) |
 
 ### `json`
 
-- **Input**: ( `String`, `Object` )
-- **Output**: ( `Object`, `String` )
+- **Input**: (`String`, `Object`)
+- **Output**: (`Object`, `String`)
 
 Generate a JSON string from an object and parse a JSON string to an object
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value | `String` | JSON mode (`'stringify'`,`'parse'`) | optional (default: `'stringify'`) |
-| pretty | `Boolean` | set `true` for pretty stringify | optional (default: `false`) |
-| space | `Integer` | space length for pretty stringify | optional (default: `4`) |
+| value | `String` | JSON mode (`'stringify'`,`'parse'`) | optional (default:`'stringify'`) |
+| pretty | `Boolean` | set `true` for pretty stringify | optional (default:`false`) |
+| space | `Integer` | space length for pretty stringify | optional (default:`4`) |
 
 ### `log`
 
@@ -68,8 +68,8 @@ Generate a json string from an object and parse a json string to an object
 | Parameter | Type | Description | Required |
 | - | - | - | - |
 | value | `Regex` | regex to execute | required |
-| only | `String` | if set return only selected element instead of Object, Accept: `'full'`, `'matches'`, `'indexes'`. | optional (default: `false`) |
-| group | `Integer` | get only selected group | optional (default: `false`) |
+| only | `String` | if set return only selected element instead of Object, Accept: `'full'`, `'matches'`, `'indexes'`. | optional (default:`false`) |
+| group | `Integer` | get only selected group | optional (default:`false`) |
 
 
 ---
@@ -108,7 +108,7 @@ return the part of the string between `from` parameter and `to` parameter
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value | `Integer` | The offset of char you want. An integer between 0 and 1-less-than the length of the string. | optional (default: `0`) |
+| value | `Integer` | The offset of char you want. An integer between 0 and 1-less-than the length of the string. | optional (default:`0`) |
 
 ### `str_replace`
 
@@ -119,8 +119,8 @@ returns a new string with some or all matches of a pattern replaced by a replace
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value |  ( `String` / `RegExp` )  | A value that is to be replaced by newSubStr. | required |
-| newValue |  ( `String` / `Function` )  | The String that replaces the substring/regex specified by the value parameter. | required |
+| value |  (`String`/`RegExp`)  | A value that is to be replaced by newSubStr. | required |
+| newValue |  (`String`/`Function`)  | The String that replaces the substring/regex specified by the value parameter. | required |
 
 ### `str_reverse`
 
@@ -139,7 +139,7 @@ splits a String object into an array of strings by separating the string into su
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value |  ( `String` / `RegExp` )  | Specifies the string which denotes the points at which each split should occur. | required |
+| value |  (`String`/`RegExp`)  | Specifies the string which denotes the points at which each split should occur. | required |
 
 ### `str_trim`
 
@@ -150,9 +150,9 @@ return a new String with whitespace (or custom values) removed from start, end o
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value | `Array` | array of values you want to trim. | optional (default: `[' ', '\t', '\r', '\n']`) |
-| start | `Boolean` | if set `false` don't trim start of string. | optional (default: `true`) |
-| end | `Boolean` | if set `false` don't trim start of string. | optional (default: `true`) |
+| value | `Array` | array of values you want to trim. | optional (default:`[' ', '\t', '\r', '\n']`) |
+| start | `Boolean` | if set `false` don't trim start of string. | optional (default:`true`) |
+| end | `Boolean` | if set `false` don't trim start of string. | optional (default:`true`) |
 
 
 ---
@@ -195,7 +195,7 @@ returns a new array with all sub-array elements concatenated into it recursively
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| deep | `Integer` | The depth level specifying how deep a nested array structure should be flattened. If negative start from the deepest array. | optional (default: `Infinity`) |
+| deep | `Integer` | The depth level specifying how deep a nested array structure should be flattened. If negative start from the deepest array. | optional (default:`Infinity`) |
 
 ### `array_indexMax`
 
@@ -223,7 +223,7 @@ returns the first index at which a given element can be found in the array, or -
 | Parameter | Type | Description | Required |
 | - | - | - | - |
 | value | `Any` | Element to locate in the array. | required |
-| position | `Integer` | The index to start the search at. If negative, it is taken as the offset from the end of the array. | optional (default: 0) |
+| position | `Integer` | The index to start the search at. If negative, it is taken as the offset from the end of the array. | optional (default:0) |
 
 ### `array_join`
 
@@ -234,7 +234,7 @@ returns a new string by concatenating all of the elements in an array, separated
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value | `String` | Specifies a string to separate each pair of adjacent elements of the array. | optional (default: `','`) |
+| value | `String` | Specifies a string to separate each pair of adjacent elements of the array. | optional (default:`','`) |
 
 ### `array_lastIndexOf`
 
@@ -246,7 +246,7 @@ returns the last index at which a given element can be found in the array, or -1
 | Parameter | Type | Description | Required |
 | - | - | - | - |
 | value | `Any` | Element to locate in the array. | required |
-| position | `Integer` | The index at which to start searching backwards. If negative, it is taken as the offset from the end of the array. | optional (default: arr.length - 1) |
+| position | `Integer` | The index at which to start searching backwards. If negative, it is taken as the offset from the end of the array. | optional (default:arr.length - 1) |
 
 ### `array_map`
 
@@ -293,7 +293,7 @@ executes a reducer function (that you provide) on each element of the array, res
 | Parameter | Type | Description | Required |
 | - | - | - | - |
 | value | `Function` | A function to execute on each element in the array (except for the first, if no start is supplied), taking four arguments: `( accumulator, currentValue, <index>, <array> )` | required |
-| start | `Any` | first value of accumulator | optional (default: first value of array) |
+| start | `Any` | first value of accumulator | optional (default:first value of array) |
 
 ### `array_reverse`
 
@@ -320,8 +320,8 @@ returns a shallow copy of a portion of an array into a new array object selected
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| start | `Integer` | Zero-based index at which to begin extraction. If negative, indicating an offset from the end of the sequence. | optional (default: 0) |
-| end | `Integer` | Zero-based index before which to end extraction. slice extracts up to but not including end. A negative index can be used, indicating an offset from the end of the sequence. | optional (default: arr.length) |
+| start | `Integer` | Zero-based index at which to begin extraction. If negative, indicating an offset from the end of the sequence. | optional (default:0) |
+| end | `Integer` | Zero-based index before which to end extraction. slice extracts up to but not including end. A negative index can be used, indicating an offset from the end of the sequence. | optional (default:arr.length) |
 
 ### `array_sort`
 
@@ -332,7 +332,7 @@ returns a shallow copy of a portion of an array into a new array object selected
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value | `Function` | a function that defines the sort order. | optional (default: javascript sort) |
+| value | `Function` | a function that defines the sort order. | optional (default:javascript sort) |
 
 ### `array_sum`
 
@@ -372,7 +372,7 @@ return a single key from an Object, or a subObject if specify more then one key.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value | `String` / `Array` | name of the key you want return, use `Array` if you want more keys. | required |
+| value | `String`/`Array` | name of the key you want return, use `Array` if you want more keys. | required |
 
 ### `obj_keys`
 
@@ -404,8 +404,8 @@ create MD5 hash of given value.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| digest | `String` | hash digest | optional (default: `'hex'`) |
-| secret | `String` | hash secret | optional (default: `false`) |
+| digest | `String` | hash digest | optional (default:`'hex'`) |
+| secret | `String` | hash secret | optional (default:`false`) |
 
 ### `crypto_sha1`
 
@@ -416,8 +416,8 @@ create SHA1 hash of given value.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| digest | `String` | hash digest | optional (default: `'hex'`) |
-| secret | `String` | hash secret | optional (default: `false`) |
+| digest | `String` | hash digest | optional (default:`'hex'`) |
+| secret | `String` | hash secret | optional (default:`false`) |
 
 ### `crypto_sha256`
 
@@ -428,8 +428,8 @@ create SHA256 hash of given value.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| digest | `String` | hash digest | optional (default: `'hex'`) |
-| secret | `String` | hash secret | optional (default: `false`) |
+| digest | `String` | hash digest | optional (default:`'hex'`) |
+| secret | `String` | hash secret | optional (default:`false`) |
 
 ### `crypto_sha512`
 
@@ -440,8 +440,8 @@ create SHA512 hash of given value.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| digest | `String` | hash digest | optional (default: `'hex'`) |
-| secret | `String` | hash secret | optional (default: `false`) |
+| digest | `String` | hash digest | optional (default:`'hex'`) |
+| secret | `String` | hash secret | optional (default:`false`) |
 
 
 ---
@@ -457,8 +457,8 @@ create a CSV from a JSON.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| separator | `String` | CSV value separator | optional (default: `','`) |
-| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
+| separator | `String` | CSV value separator | optional (default:`','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default:`false`) |
 
 ### `csv_parse`
 
@@ -469,8 +469,8 @@ create a new Array of Object from CSV String.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| separator | `String` | CSV value separator | optional (default: `','`) |
-| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
+| separator | `String` | CSV value separator | optional (default:`','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default:`false`) |
 
 ### `csv_stringify`
 
@@ -481,8 +481,8 @@ create a CSV from an array of object.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| separator | `String` | CSV value separator | optional (default: `','`) |
-| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
+| separator | `String` | CSV value separator | optional (default:`','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default:`false`) |
 
 ### `csv_toJson`
 
@@ -493,10 +493,10 @@ create a JSON from a CSV.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| separator | `String` | CSV value separator | optional (default: `','`) |
-| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
-| pretty | `Boolean` | set `true` for pretty JSON | optional (default: `false`) |
-| space | `Integer` | JSON space length, used if pretty = `true` | optional (default: `4`) |
+| separator | `String` | CSV value separator | optional (default:`','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default:`false`) |
+| pretty | `Boolean` | set `true` for pretty JSON | optional (default:`false`) |
+| space | `Integer` | JSON space length, used if pretty = `true` | optional (default:`4`) |
 
 
 ---

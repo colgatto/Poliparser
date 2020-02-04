@@ -10,7 +10,8 @@
 	},
 	"dependencies": {
 		"fast-html-parser": "^1.0.1",
-		"request": "^2.88.0"
+		"request": "^2.88.0",
+		"snyk": "^1.290.1"
 	},
 	"repository": {
 		"type": "git",
@@ -28,9 +29,9 @@
 	"license": "RWTFPL",
 	"devDependencies": {
 		"chai": "^4.2.0",
-		"coveralls": "^3.0.6",
+		"coveralls": "^3.0.9",
 		"handlebars": "^4.7.2",
 		"istanbul": "^0.4.5",
-		"mocha": "^6.2.1"
+		"mocha": "^7.0.1"
 	}
 }

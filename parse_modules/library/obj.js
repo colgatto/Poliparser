@@ -15,7 +15,7 @@ module.exports = {
 	@desc return a single key from an Object, or a subObject if specify more then one key.
 	@input `Object`
 	@output `Any`
-	@param value [`String` / `Array`] {R} name of the key you want return, use `Array` if you want more keys.
+	@param value [`String`/`Array`] {R} name of the key you want return, use `Array` if you want more keys.
 	**/
 	getKey: (data, block) => {
 		if(block.value.constructor == Array){

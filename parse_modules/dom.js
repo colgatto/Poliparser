@@ -32,7 +32,7 @@ const rec_DOM = (value, data, opt) => {
 @input `String`
 @output `[DomObject]`
 @param value [`String`] {R} CSS/jquery selector string
-@param attr [`String` / `Array`] <`false`> get attribute value
+@param attr [`String`/`Array`] <`false`> get attribute value
 **/
 module.exports = (data, block) => {
 	let opt = {

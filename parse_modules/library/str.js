@@ -57,7 +57,7 @@ module.exports = {
 	@desc splits a String object into an array of strings by separating the string into substrings, using a specified separator string to determine where to make each split.
 	@input `String`
 	@output `Array`
-	@param value [ ( `String` / `RegExp` ) ] {R} Specifies the string which denotes the points at which each split should occur.
+	@param value [ (`String`/`RegExp`) ] {R} Specifies the string which denotes the points at which each split should occur.
 	**/
 	split: (data, block) => {
 		return data.split(block.value);
@@ -81,8 +81,8 @@ module.exports = {
 	@desc returns a new string with some or all matches of a pattern replaced by a replacement. The replacement can be a string or a function to be called for each match. If pattern is a string, only the first occurrence will be replaced.
 	@input `String`
 	@output `String`
-	@param value [ ( `String` / `RegExp` ) ] {R} A value that is to be replaced by newSubStr.
-	@param newValue [ ( `String` / `Function` ) ] {R} The String that replaces the substring/regex specified by the value parameter.
+	@param value [ (`String`/`RegExp`) ] {R} A value that is to be replaced by newSubStr.
+	@param newValue [ (`String`/`Function`) ] {R} The String that replaces the substring/regex specified by the value parameter.
 	**/
 	replace: (data, block) => {
 		return data.replace(block.value, block.newValue);

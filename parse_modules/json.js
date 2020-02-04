@@ -1,8 +1,8 @@
 /** @docgen
 @name json
 @desc Generate a JSON string from an object and parse a JSON string to an object
-@input ( `String`, `Object` )
-@output ( `Object`, `String` )
+@input (`String`, `Object`)
+@output (`Object`, `String`)
 @param value [`String`] <`'stringify'`> JSON mode (`'stringify'`,`'parse'`)
 @param pretty [`Boolean`] <`false`> set `true` for pretty stringify 
 @param space [`Integer`] <`4`> space length for pretty stringify
