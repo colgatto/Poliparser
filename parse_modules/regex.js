@@ -50,7 +50,7 @@ const rec_regEx = (value, data, opt) => {
 @desc Generate a json string from an object and parse a json string to an object
 @input `String`
 @output `[Object]`
-@param value [`Regex`] {R} regex to run
+@param value [`Regex`] {R} regex to execute
 @param only [`String`] <`false`> if set return only selected element instead of Object, Accept: `'full'`, `'matches'`, `'indexes'`.
 @param group [`Integer`] <`false`> get only selected group
 **/

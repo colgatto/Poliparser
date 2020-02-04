@@ -4,53 +4,53 @@ let data = [1,0,1,2,9,8,7,4,5,6,3,3,3,9,9,0];
 
 let p = {
 
-	max: new Poliparser({ f: 'array_max' }).run(data),
-	indexMax: new Poliparser({ f: 'array_indexMax' }).run(data),
-	min: new Poliparser({ f: 'array_min' }).run(data),
-	indexMin: new Poliparser({ f: 'array_indexMin' }).run(data),
+	max: new Poliparser({ m: 'array_max' }).parse(data),
+	indexMax: new Poliparser({ m: 'array_indexMax' }).parse(data),
+	min: new Poliparser({ m: 'array_min' }).parse(data),
+	indexMin: new Poliparser({ m: 'array_indexMin' }).parse(data),
 
-	count: new Poliparser({ f: 'array_count' }).run(data),
-	sum: new Poliparser({ f: 'array_sum' }).run(data),
-	uniq: new Poliparser({ f: 'array_uniq' }).run(data),
-	pop: new Poliparser({ f: 'array_pop' }).run(data),
-	shift: new Poliparser({ f: 'array_shift' }).run(data),
+	count: new Poliparser({ m: 'array_count' }).parse(data),
+	sum: new Poliparser({ m: 'array_sum' }).parse(data),
+	uniq: new Poliparser({ m: 'array_uniq' }).parse(data),
+	pop: new Poliparser({ m: 'array_pop' }).parse(data),
+	shift: new Poliparser({ m: 'array_shift' }).parse(data),
 
 	map: new Poliparser({
-		f: 'array_map',
+		m: 'array_map',
 		value: (v) => {
 			return 'Mapped ' +  v;
 		}
-	}).run(data),
+	}).parse(data),
 	
 	filter: new Poliparser({
-		f: 'array_filter',
+		m: 'array_filter',
 		value: (v) => {
 			return v > 7;
 		}
-	}).run(data),
+	}).parse(data),
 
 	reduce: new Poliparser({
-		f: 'array_reduce',
+		m: 'array_reduce',
 		value: (v, tot) => {
 			return v + tot;
 		},
 		start: 0,
-	}).run(data),
+	}).parse(data),
 
 	join: new Poliparser({
-		f: 'array_join',
+		m: 'array_join',
 		value: '-'
-	}).run(data),
+	}).parse(data),
 
 	indexOf: new Poliparser({
-		f: 'array_indexOf',
+		m: 'array_indexOf',
 		value: 9
-	}).run(data),
+	}).parse(data),
 
 	lastIndexOf: new Poliparser({
-		f: 'array_lastIndexOf',
+		m: 'array_lastIndexOf',
 		value: 9
-	}).run(data)
+	}).parse(data)
 };
 
 console.log(p);

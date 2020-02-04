@@ -90,15 +90,51 @@ const validChip = {
 };
 
 module.exports = {
+	/** @docgen
+	@name md5
+	@lib crypto
+	@desc create MD5 hash of given value.
+	@input `String`
+	@output `String`
+	@param digest [`String`] <`'hex'`> hash digest
+	@param secret [`String`] <`false`> hash secret
+	**/
 	md5: (data, block) => {
 		return getHash('md5', data, block);
 	},
+	/** @docgen
+	@name sha1
+	@lib crypto
+	@desc create SHA1 hash of given value.
+	@input `String`
+	@output `String`
+	@param digest [`String`] <`'hex'`> hash digest
+	@param secret [`String`] <`false`> hash secret
+	**/
 	sha1: (data, block) => {
 		return getHash('sha1', data, block);
 	},
+	/** @docgen
+	@name sha256
+	@lib crypto
+	@desc create SHA256 hash of given value.
+	@input `String`
+	@output `String`
+	@param digest [`String`] <`'hex'`> hash digest
+	@param secret [`String`] <`false`> hash secret
+	**/
 	sha256: (data, block) => {
 		return getHash('sha256', data, block);
 	},
+	/** @docgen
+	@name sha512
+	@lib crypto
+	@desc create SHA512 hash of given value.
+	@input `String`
+	@output `String`
+	@param digest [`String`] <`'hex'`> hash digest
+	@param secret [`String`] <`false`> hash secret
+	**/
 	sha512: (data, block) => {
 		return getHash('sha512', data, block);
 	},

@@ -7,10 +7,10 @@ let data = [
 ];
 
 let p = new Poliparser({
-	f: 'custom',
+	m: 'custom',
 	value: (d) => d.map( x => x.val)
 });
 
-let output = p.run(data);
+let output = p.parse(data);
 
 console.log(output);

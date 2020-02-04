@@ -6,10 +6,11 @@
 	"scripts": {
 		"docgen": "node docgen/index.js",
 		"test": "mocha --reporter spec",
-		"cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
+		"cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/test.js --timeout 10000"
 	},
 	"dependencies": {
-		"fast-html-parser": "^1.0.1"
+		"fast-html-parser": "^1.0.1",
+		"request": "^2.88.0"
 	},
 	"repository": {
 		"type": "git",
@@ -28,7 +29,7 @@
 	"devDependencies": {
 		"chai": "^4.2.0",
 		"coveralls": "^3.0.6",
-		"handlebars": "^4.4.3",
+		"handlebars": "^4.7.2",
 		"istanbul": "^0.4.5",
 		"mocha": "^6.2.1"
 	}

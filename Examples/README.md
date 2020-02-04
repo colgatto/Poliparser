@@ -55,64 +55,9 @@ Generate a json string from an object and parse a json string to an object
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
-| value | `Regex` | regex to run | required |
+| value | `Regex` | regex to execute | required |
 | only | `String` | if set return only selected element instead of Object, Accept: `'full'`, `'matches'`, `'indexes'`. | optional (default: `false`) |
 | group | `Integer` | get only selected group | optional (default: `false`) |
-
-
----
-
-## CSV
-
-### `csv_fromJson`
-
-- **Input**: `String`
-- **Output**: `String`
-
-create a CSV from a JSON.
-
-| Parameter | Type | Description | Required |
-| - | - | - | - |
-| separator | `String` | CSV value separator | optional (default: `','`) |
-| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
-
-### `csv_parse`
-
-- **Input**: `String`
-- **Output**: `Array`
-
-create a new Array of Object from CSV String.
-
-| Parameter | Type | Description | Required |
-| - | - | - | - |
-| separator | `String` | CSV value separator | optional (default: `','`) |
-| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
-
-### `csv_stringify`
-
-- **Input**: `Object`
-- **Output**: `String`
-
-create a CSV from an array of object.
-
-| Parameter | Type | Description | Required |
-| - | - | - | - |
-| separator | `String` | CSV value separator | optional (default: `','`) |
-| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
-
-### `csv_toJson`
-
-- **Input**: `String`
-- **Output**: `String`
-
-create a JSON from a CSV.
-
-| Parameter | Type | Description | Required |
-| - | - | - | - |
-| separator | `String` | CSV value separator | optional (default: `','`) |
-| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
-| pretty | `Boolean` | set `true` for pretty JSON | optional (default: `false`) |
-| space | `Integer` | JSON space length, used if pretty = `true` | optional (default: `4`) |
 
 
 ---
@@ -178,7 +123,7 @@ return a new string where char are reversed. The first char becomes the last, an
 - **Input**: `String`
 - **Output**: `Array`
 
-undefined
+splits a String object into an array of strings by separating the string into substrings, using a specified separator string to determine where to make each split.
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
@@ -437,3 +382,109 @@ returns an array of a given object's own enumerable property names, in the same 
 ---
 
 ## Crypto
+
+### `crypto_md5`
+
+- **Input**: `String`
+- **Output**: `String`
+
+create MD5 hash of given value.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| digest | `String` | hash digest | optional (default: `'hex'`) |
+| secret | `String` | hash secret | optional (default: `false`) |
+
+### `crypto_sha1`
+
+- **Input**: `String`
+- **Output**: `String`
+
+create SHA1 hash of given value.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| digest | `String` | hash digest | optional (default: `'hex'`) |
+| secret | `String` | hash secret | optional (default: `false`) |
+
+### `crypto_sha256`
+
+- **Input**: `String`
+- **Output**: `String`
+
+create SHA256 hash of given value.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| digest | `String` | hash digest | optional (default: `'hex'`) |
+| secret | `String` | hash secret | optional (default: `false`) |
+
+### `crypto_sha512`
+
+- **Input**: `String`
+- **Output**: `String`
+
+create SHA512 hash of given value.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| digest | `String` | hash digest | optional (default: `'hex'`) |
+| secret | `String` | hash secret | optional (default: `false`) |
+
+
+---
+
+## CSV
+
+### `csv_fromJson`
+
+- **Input**: `String`
+- **Output**: `String`
+
+create a CSV from a JSON.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| separator | `String` | CSV value separator | optional (default: `','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
+
+### `csv_parse`
+
+- **Input**: `String`
+- **Output**: `Array`
+
+create a new Array of Object from CSV String.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| separator | `String` | CSV value separator | optional (default: `','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
+
+### `csv_stringify`
+
+- **Input**: `Object`
+- **Output**: `String`
+
+create a CSV from an array of object.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| separator | `String` | CSV value separator | optional (default: `','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
+
+### `csv_toJson`
+
+- **Input**: `String`
+- **Output**: `String`
+
+create a JSON from a CSV.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| separator | `String` | CSV value separator | optional (default: `','`) |
+| stringSeparator | `String` | CSV string separator, if false don't use string separator | optional (default: `false`) |
+| pretty | `Boolean` | set `true` for pretty JSON | optional (default: `false`) |
+| space | `Integer` | JSON space length, used if pretty = `true` | optional (default: `4`) |
+
+
+---

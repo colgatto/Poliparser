@@ -4,20 +4,20 @@ let data = '    ciao   ';
 
 let p = {
 	base: new Poliparser({
-		f: 'str_trim'
-	}).run(data),
+		m: 'str_trim'
+	}).parse(data),
 	start: new Poliparser({
-		f: 'str_trim',
+		m: 'str_trim',
 		end: false
-	}).run(data),
+	}).parse(data),
 	end: new Poliparser({
-		f: 'str_trim',
+		m: 'str_trim',
 		start: false
-	}).run(data),
+	}).parse(data),
 	custom: new Poliparser({
-		f: 'str_trim',
+		m: 'str_trim',
 		value: [' ', '\t', 'c', 'o']
-	}).run(data)
+	}).parse(data)
 };
 
 console.log(p);

@@ -12,13 +12,13 @@ p.requireModule('my_mul', __dirname + '/myModule.js');
 
 //define parser
 p.setParser({
-	f: 'my_mul',
+	m: 'my_mul',
 	value: 3
 });
-console.log(p.run(10));
+console.log(p.parse(10));
 
 p.setParser({
-	f: 'my_sum',
+	m: 'my_sum',
 	value: 2
 });
-console.log(p.run(10));
+console.log(p.parse(10));

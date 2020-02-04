@@ -15,16 +15,16 @@ let data = `
 
 let p_link = new Poliparser({
 	//get attribute href from all tag <a> with class "hiper"
-	f: 'dom',
+	m: 'dom',
 	value: 'a.hiper',
 	attr: 'href'
 });
 let p_label = new Poliparser({
 	//get attribute href and data-label from all tag <a>
-	f: 'dom',
+	m: 'dom',
 	value: 'a',
 	attr: ['href' , 'data-label']
 });
 
-console.log(p_link.run(data));
-console.log(p_label.run(data));
+console.log(p_link.parse(data));
+console.log(p_label.parse(data));

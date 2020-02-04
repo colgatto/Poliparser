@@ -16,29 +16,29 @@ const libOrder = [
 ];
 
 let poliParam = new Poliparser({
-	f: 'regex',
+	m: 'regex',
 	value: /(.+?)\s+\[(.+)\]\s+(?:<(.+)>|{R})\s+(.+)/,
 	only: 'matches'
 });
 
 let docMaker = new Poliparser([{
-	f: 'regex',
+	m: 'regex',
 	value: /\/\*\*[\s\S]+\*\//gmi,
 	only: 'full'
 },{
-	f: 'custom',
+	m: 'custom',
 	value: (data) => data.length == 0 ? '' : data[0]
 },{
-	f: 'str_split',
+	m: 'str_split',
 	value: /\r?\n/
 },{
-	f: 'str_trim',
+	m: 'str_trim',
 	value: ['\t', ' ', '*', '\\', '/']
 },{
-	f: 'array_filter',
+	m: 'array_filter',
 	value: line => line.match(/@(?:docgen|name|desc|input|output|param|lib)/)
 },{
-	f: 'custom',
+	m: 'custom',
 	value: lines => {
 		if(lines.length == 0) return [];
 		lines.shift();
@@ -70,7 +70,7 @@ let docMaker = new Poliparser([{
 					out[el.type] = el.val;
 			});
 			out.params = params.map( p => {
-				let pData = poliParam.run(p);
+				let pData = poliParam.parse(p);
 				if(pData == null){
 					console.error('ERRORE SU: ', p);
 					return false;
@@ -96,7 +96,7 @@ let basList = fs.readdirSync(__dirname + '/../parse_modules').filter(x => x != "
 let mod_support_bl = [];
 for(let i = 0, l = basList.length; i < l; i++){
 	let strMod = fs.readFileSync(__dirname + '/../parse_modules/' +  basList[i]).toString();
-	mod_support_bl.push(...docMaker.run(strMod).map( bl => {
+	mod_support_bl.push(...docMaker.parse(strMod).map( bl => {
 		let t = md_block_template(bl);
 		return{
 			data: bl,
@@ -108,7 +108,7 @@ for(let i = 0, l = basList.length; i < l; i++){
 let libList = fs.readdirSync(__dirname + '/../parse_modules/library');
 for(let i = 0, l = libList.length; i < l; i++){
 	let strMod = fs.readFileSync(__dirname + '/../parse_modules/library/' + libList[i]);
-	let bList = docMaker.run(strMod);
+	let bList = docMaker.parse(strMod);
 	mod_support_bl.push(...bList.map( bl => {
 		let t = md_block_template(bl);
 		return{
@@ -157,5 +157,4 @@ for (let i = 0, l = libOrder.length; i < l; i++) {
 	}
 	allRaw.push('', '---', '');
 }
-
 fs.writeFileSync(__dirname + '/../Examples/README.md', allRaw.join('\n'));

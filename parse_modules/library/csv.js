@@ -82,7 +82,7 @@ const _csv_stringify = (data, block) => {
 		for (let j = 0, ll = keys.length; j < ll; j++) {
 			let v = data[i][keys[j]];
 			if(typeof v == 'string'){
-				line.push(stringSeparator + v.split(stringSeparator).join('\\' + stringSeparator) + stringSeparator);
+				line.push(stringSeparator + (stringSeparator == '' ? v : v.split(stringSeparator).join('\\' + stringSeparator) ) + stringSeparator);
 			}else{
 				line.push(v);
 			}
