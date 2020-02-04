@@ -22,6 +22,7 @@ const default_parse_modules = {
 	dom: require(__dirname + "/parse_modules/dom.js"),
 	json: require(__dirname + "/parse_modules/json.js"),
 	regex: require(__dirname + "/parse_modules/regex.js"),
+	break: require(__dirname + "/parse_modules/break.js"),
 };
 
 class Poliparser {
@@ -105,7 +106,16 @@ class Poliparser {
 		if (block.constructor == Array) {
 			let dOut = data;
 			for (let i = 0; i < block.length; i++) {
-				dOut = this.singleParse(dOut, block[i]);
+				try{
+					dOut = this.singleParse(dOut, block[i]);
+				}catch(e){
+					/* istanbul ignore else */
+					if(typeof e.break != "undefined" && e.break){
+						return e.value;
+					}else{
+						throw e;
+					}
+				}
 			}
 			return dOut;
 		}

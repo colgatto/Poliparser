@@ -3,9 +3,9 @@
 const expect = require('chai').expect;
 const Poliparser = require('..');
 
-describe('test blocks type', function(done) {
-    it('base64', function() {
-		
+describe('test blocks type', function (done) {
+	it('base64', function () {
+
 		let data = 'Hello my name is Poliparser';
 		let data64 = 'SGVsbG8gbXkgbmFtZSBpcyBQb2xpcGFyc2Vy';
 		let p = new Poliparser({
@@ -23,8 +23,8 @@ describe('test blocks type', function(done) {
 
 		expect(output).to.equal(data64);
 		expect(output64).to.equal(data);
-    });
-    it('between', function() {
+	});
+	it('between', function () {
 		let data = 'Hello my name is <p>Poliparser</p>';
 		let m = new Poliparser({
 			m: 'str_between',
@@ -33,8 +33,8 @@ describe('test blocks type', function(done) {
 		});
 		let output = m.parse(data);
 		expect(output).to.equal('Poliparser');
-    });
-	it('custom', function() {
+	});
+	it('custom', function () {
 		let data = [
 			{ val: 'data1' },
 			{ val: 'data2' },
@@ -42,18 +42,18 @@ describe('test blocks type', function(done) {
 		];
 		let m = new Poliparser({
 			m: 'custom',
-			value: (d) => d.map( x => x.val)
+			value: (d) => d.map(x => x.val)
 		});
 		let output = m.parse(data);
-		expect(JSON.stringify(output)).to.equal(JSON.stringify(['data1','data2','data3']));
+		expect(JSON.stringify(output)).to.equal(JSON.stringify(['data1', 'data2', 'data3']));
 	});
-	it('dom', function() {
+	it('dom', function () {
 		let data = `<html><head><title>prova</title></head><body>
 			<a href="link1.html" class="hiper">hello</a> world<br>
 			<a href="link2.html" class="hiper" data-label="byebye">bye</a> world<br>
 			<a href="link3.html" class="not-hiper" data-label="adios">ciao3</a> world<br>
 		</body></html>`;
-		let arr_data = ['<a>dato1</a>','<a>dato<br>2</a>','<a>dato3</a>'];
+		let arr_data = ['<a>dato1</a>', '<a>dato<br>2</a>', '<a>dato3</a>'];
 		let m = {
 			link: new Poliparser({
 				m: 'dom',
@@ -63,18 +63,18 @@ describe('test blocks type', function(done) {
 			link_and_label: new Poliparser({
 				m: 'dom',
 				value: 'a',
-				attr: ['href' , 'data-label']
+				attr: ['href', 'data-label']
 			}).parse(data)
 		};
 		let m_arr = new Poliparser([{
 			m: 'dom',
 			value: 'a'
-		},{
-			m:'custom',
-			value: (data) => data.map( x => x[0].text )
+		}, {
+			m: 'custom',
+			value: (data) => data.map(x => x[0].text)
 		}]).parse(arr_data);
 
-		expect(JSON.stringify(m.link)).to.equal(JSON.stringify([ 'link1.html', 'link2.html' ]));
+		expect(JSON.stringify(m.link)).to.equal(JSON.stringify(['link1.html', 'link2.html']));
 		expect(JSON.stringify(m.link_and_label)).to.equal(JSON.stringify([
 			{ href: 'link1.html' },
 			{ href: 'link2.html', 'data-label': 'byebye' },
@@ -83,7 +83,7 @@ describe('test blocks type', function(done) {
 
 		expect(JSON.stringify(m_arr)).to.equal(JSON.stringify(['dato1', 'dato2', 'dato3']));
 	});
-	it('json', function() {
+	it('json', function () {
 		let str_json = '{"a":34,"b":"ciao","we":{"we2":"23"}}';
 		let obj_json = {
 			a: 34, b: "ciao",
@@ -115,8 +115,8 @@ describe('test blocks type', function(done) {
 		expect(JSON.stringify(obj_json, null, 2)).to.equal(m3);
 		expect(JSON.stringify(obj_json, null, 4)).to.equal(m4);
 	});
-	it('key', function() {
-		let data = {name: 'foo', phone: '011-111222333', surname: 'bar'};
+	it('key', function () {
+		let data = { name: 'foo', phone: '011-111222333', surname: 'bar' };
 		let p = new Poliparser({
 			m: 'obj_getKey',
 			value: 'phone'
@@ -128,17 +128,17 @@ describe('test blocks type', function(done) {
 		let output = p.parse(data);
 		let output2 = pp.parse(data);
 		expect(output).to.equal(data.phone);
-		expect(JSON.stringify(output2)).to.equal(JSON.stringify({name: 'foo', surname: 'bar'}));
+		expect(JSON.stringify(output2)).to.equal(JSON.stringify({ name: 'foo', surname: 'bar' }));
 	});
-	it('regex', function() {
+	it('regex', function () {
 		let data = `Contact Admin 011-11122111 Headquarter Industry Inc. 011-22211222`;
 		let arr_data = [
 			'Admin 011-11122111',
 			'Headquarter 011-22211222'
 		];
 		let empty = '';
-		let m ={
-			name:  new Poliparser({
+		let m = {
+			name: new Poliparser({
 				m: 'regex',
 				value: /Headquarter ([a-zA-Z0-9 ]+\.) .*/,
 				only: 'matches'
@@ -182,29 +182,29 @@ describe('test blocks type', function(done) {
 				value: /(hi)?/
 			}).parse(empty)
 		};
-		expect(JSON.stringify(m.name)).to.equal(JSON.stringify([ 'Industry Inc.' ]));
-		expect(JSON.stringify(m.phone)).to.equal(JSON.stringify([ '011-11122111', '011-22211222' ]));
+		expect(JSON.stringify(m.name)).to.equal(JSON.stringify(['Industry Inc.']));
+		expect(JSON.stringify(m.phone)).to.equal(JSON.stringify(['011-11122111', '011-22211222']));
 		expect(m.nullD).to.equal(null);
-		
+
 		expect(JSON.stringify(emp.val_g)).to.equal(JSON.stringify([{
 			full: "",
-			matches: [ null ],
-			index: 0 
+			matches: [null],
+			index: 0
 		}]));
 		expect(JSON.stringify(emp.val)).to.equal(JSON.stringify({
 			full: "",
-			matches: [ null ],
-			index: 0 
+			matches: [null],
+			index: 0
 		}));
 
 		expect(JSON.stringify(m.glob)).to.equal(JSON.stringify([64]));
-		
-		expect(JSON.stringify(arr_m.rec)).to.equal(JSON.stringify([ '011-11122111', '011-22211222' ]));
-		expect(JSON.stringify(arr_m.rec_g)).to.equal(JSON.stringify([ ['011-11122111'], ['011-22211222'] ]));
+
+		expect(JSON.stringify(arr_m.rec)).to.equal(JSON.stringify(['011-11122111', '011-22211222']));
+		expect(JSON.stringify(arr_m.rec_g)).to.equal(JSON.stringify([['011-11122111'], ['011-22211222']]));
 	});
-	it('trim', function() {
+	it('trim', function () {
 		let data = '    ciao   ';
-		let arr_data = ['    ciao   ','ciao   ','    ciao'];
+		let arr_data = ['    ciao   ', 'ciao   ', '    ciao'];
 		let m = {
 			base: new Poliparser({
 				m: 'str_trim'
@@ -241,9 +241,43 @@ describe('test blocks type', function(done) {
 		expect(m.end).to.equal('    ciao');
 		expect(m.end_c).to.equal('    cia');
 		expect(m.custom).to.equal('ia');
-		expect(JSON.stringify(m_arr)).to.equal(JSON.stringify(['ciao','ciao','ciao']));
+		expect(JSON.stringify(m_arr)).to.equal(JSON.stringify(['ciao', 'ciao', 'ciao']));
 	});
-	it('log', function() {
+	it('break', function () {
+		let p = new Poliparser();
+
+		const data1 = [1, 2, -1, -2];
+		const data2 = [1, 2, 3];
+
+		p.setParser([{
+			m: 'array_sum'
+		}, {
+			m: 'break',
+			condition: (data) => data === 0,
+			return: 'invalid'
+		}, {
+			m: 'custom',
+			value: (data) => data * 2
+		}]);
+
+		let val1 = p.parse(data1);
+		let val2 = p.parse(data2);
+
+		expect(val1).to.equal('invalid');
+		expect(val2).to.equal(12);
+
+		p.setParser([{
+			m: 'array_sum'
+		}, {
+			m: 'break',
+			condition: (data) => data === 0
+		}]);
+		
+		let val3 = p.parse(data1);
+
+		expect(val3).to.equal(0);
+	});
+	it('log', function () {
 		let data = 'hi';
 		let m = new Poliparser({
 			m: 'log'
@@ -251,20 +285,20 @@ describe('test blocks type', function(done) {
 		let output = m.parse(data);
 		expect(output).to.equal('hi');
 	});
-	it('array_uniq', function() {
-		let data = [1,1,2,3,4,4,4,5,6,7,8,9,9,9,0,0];
+	it('array_uniq', function () {
+		let data = [1, 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9, 9, 9, 0, 0];
 		let m = new Poliparser({
 			m: 'array_uniq'
 		});
 		let output = m.parse(data);
-		expect(JSON.stringify(output)).to.equal(JSON.stringify([1,2,3,4,5,6,7,8,9,0]));
+		expect(JSON.stringify(output)).to.equal(JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]));
 	});
-	it('array_mix', function() {
-		let data = [1,0,1,2,9,8,7,4,5,6,3,3,3,9,9,0];
+	it('array_mix', function () {
+		let data = [1, 0, 1, 2, 9, 8, 7, 4, 5, 6, 3, 3, 3, 9, 9, 0];
 		let sData = Array.from(data);
 		sData.sort();
 		let sdData = Array.from(data);
-		sdData.sort( (a, b) => {
+		sdData.sort((a, b) => {
 			return b < a ? -1 : 1;
 		});
 		let rData = Array.from(data);
@@ -363,20 +397,20 @@ describe('test blocks type', function(done) {
 		}));
 		expect(JSON.stringify(output)).to.equal(JSON.stringify({
 			min: 0, max: 9, indexMax: 4, indexMin: 1, count: 16, sum: 70,
-			map: data.map( x => 'MM' + x), filter: data.filter(x => x > 7),  reduce: data.reduce( (t, x) => x + t, 10),  reduce_no_start: data.reduce( (t, x) => x + t),
+			map: data.map(x => 'MM' + x), filter: data.filter(x => x > 7), reduce: data.reduce((t, x) => x + t, 10), reduce_no_start: data.reduce((t, x) => x + t),
 			join: data.join('-'), empty_join: data.join(''), indexOf: 4, lastIndexOf: 14, indexOf_s: 13, lastIndexOf_s: 4,
-			pop: [1,0,1,2,9,8,7,4,5,6,3,3,3,9,9], shift: [0,1,2,9,8,7,4,5,6,3,3,3,9,9,0],
-			slice: data, slice_def: [1,2,9], sort: sData, sort_def: sdData, reverse: rData
+			pop: [1, 0, 1, 2, 9, 8, 7, 4, 5, 6, 3, 3, 3, 9, 9], shift: [0, 1, 2, 9, 8, 7, 4, 5, 6, 3, 3, 3, 9, 9, 0],
+			slice: data, slice_def: [1, 2, 9], sort: sData, sort_def: sdData, reverse: rData
 		}));
 	});
 	/**/
-	it('array_flat', function() {
-		let data = [ 1, 1, [ 2, 2, [ 3, 3, [ 4 ] ], 2, 2, [ 3, 3 ] ], 1, 1, 1, [ 2, 2 ], 1 ];
-		let data_1 = [ 1, 1, 2, 2, [ 3, 3, [ 4 ] ], 2, 2, [ 3, 3 ], 1, 1, 1, 2, 2, 1 ];
-		let data_2 = [ 1, 1, 2, 2, 3, 3, [ 4 ], 2, 2, 3, 3, 1, 1, 1, 2, 2, 1 ];
-		let data_i1 = [ 1, 1, [ 2, 2, [ 3, 3, 4 ], 2, 2, 3, 3 ], 1, 1, 1, 2, 2, 1 ];
-		let data_i2 = [ 1, 1, [ 2, 2, 3, 3, 4, 2, 2, 3, 3 ], 1, 1, 1, 2, 2, 1 ];
-		let data_clean = [ 1, 1, 2, 2, 3, 3, 4, 2, 2, 3, 3, 1, 1, 1, 2, 2, 1 ];
+	it('array_flat', function () {
+		let data = [1, 1, [2, 2, [3, 3, [4]], 2, 2, [3, 3]], 1, 1, 1, [2, 2], 1];
+		let data_1 = [1, 1, 2, 2, [3, 3, [4]], 2, 2, [3, 3], 1, 1, 1, 2, 2, 1];
+		let data_2 = [1, 1, 2, 2, 3, 3, [4], 2, 2, 3, 3, 1, 1, 1, 2, 2, 1];
+		let data_i1 = [1, 1, [2, 2, [3, 3, 4], 2, 2, 3, 3], 1, 1, 1, 2, 2, 1];
+		let data_i2 = [1, 1, [2, 2, 3, 3, 4, 2, 2, 3, 3], 1, 1, 1, 2, 2, 1];
+		let data_clean = [1, 1, 2, 2, 3, 3, 4, 2, 2, 3, 3, 1, 1, 1, 2, 2, 1];
 
 		let base = new Poliparser({
 			m: 'array_flat'
@@ -410,7 +444,7 @@ describe('test blocks type', function(done) {
 		expect(JSON.stringify(base.parse([]))).to.equal(JSON.stringify([]));
 		expect(JSON.stringify(no_change.parse(data_clean))).to.equal(JSON.stringify(data_clean));
 	});
-	it('str_mix', function() {
+	it('str_mix', function () {
 		let data = "1234567890";
 		let m = {
 			split: new Poliparser({ m: 'str_split', value: '6' }).parse(data),
@@ -423,32 +457,32 @@ describe('test blocks type', function(done) {
 				newValue: 'Z'
 			}).parse(data)
 		};
-		expect(JSON.stringify(m.split)).to.equal(JSON.stringify(["12345","7890"]));
+		expect(JSON.stringify(m.split)).to.equal(JSON.stringify(["12345", "7890"]));
 		expect(m.reverse).to.equal('0987654321');
 		expect(m.charAt).to.equal('3');
 		expect(m.charAt_0).to.equal('1');
 		expect(m.replace).to.equal('1Z67890');
 	});
-	it('obj_mix', function() {
+	it('obj_mix', function () {
 		let data = {
 			key1: 'val1',
 			key2: 'val2'
-		};		
+		};
 		let m = {
 			key: new Poliparser({ m: 'obj_keys' }).parse(data),
 			value: new Poliparser({ m: 'obj_values' }).parse(data),
 			entries: new Poliparser({ m: 'obj_entries' }).parse(data)
 		};
 
-		let dataArr = [["key1","val1"],["key2","val2"]];
+		let dataArr = [["key1", "val1"], ["key2", "val2"]];
 		let mArr = new Poliparser({ m: 'obj_fromEntries' }).parse(dataArr);
 
-		expect(JSON.stringify(m.key)).to.equal(JSON.stringify(["key1","key2"]));
-		expect(JSON.stringify(m.value)).to.equal(JSON.stringify(["val1","val2"]));
-		expect(JSON.stringify(m.entries)).to.equal(JSON.stringify([["key1","val1"],["key2","val2"]]));
+		expect(JSON.stringify(m.key)).to.equal(JSON.stringify(["key1", "key2"]));
+		expect(JSON.stringify(m.value)).to.equal(JSON.stringify(["val1", "val2"]));
+		expect(JSON.stringify(m.entries)).to.equal(JSON.stringify([["key1", "val1"], ["key2", "val2"]]));
 		expect(JSON.stringify(mArr)).to.equal(JSON.stringify(data));
 	});
-	it('crypto_mix', function() {
+	it('crypto_mix', function () {
 		let data = "ciao";
 		let m = {
 			md5: new Poliparser({ m: 'crypto_md5' }).parse(data),
@@ -461,19 +495,19 @@ describe('test blocks type', function(done) {
 			sha512_s: new Poliparser({ m: 'crypto_sha512', secret: 'segretissimo', digest: 'ascii' }).parse(data),
 			aes: new Poliparser([
 				{ m: 'crypto_crypt', password: 'segretissimo' },
-				{ m: 'crypto_decrypt', password: 'segretissimo'}
+				{ m: 'crypto_decrypt', password: 'segretissimo' }
 			]).parse(data),
 			aes_salt: new Poliparser([
 				{ m: 'crypto_crypt', mode: 'aes-256-cbc', password: 'segretissimo', salt: '1qazxsw23edcvfr4' },
-				{ m: 'crypto_decrypt', mode: 'aes-256-cbc', password: 'segretissimo'}
+				{ m: 'crypto_decrypt', mode: 'aes-256-cbc', password: 'segretissimo' }
 			]).parse(data),
 			aes_sep: new Poliparser([
 				{ m: 'crypto_crypt', mode: 'aes-256-cbc', password: 'segretissimo', separator: '%%' },
-				{ m: 'crypto_decrypt', mode: 'aes-256-cbc', password: 'segretissimo',  separator: '%%'}
+				{ m: 'crypto_decrypt', mode: 'aes-256-cbc', password: 'segretissimo', separator: '%%' }
 			]).parse(data),
 			aes_sep_salt: new Poliparser([
 				{ m: 'crypto_crypt', mode: 'aes-256-cbc', password: 'segretissimo', salt: '1qazxsw23edcvfr4', separator: '%%' },
-				{ m: 'crypto_decrypt', mode: 'aes-256-cbc', password: 'segretissimo',  separator: '%%'}
+				{ m: 'crypto_decrypt', mode: 'aes-256-cbc', password: 'segretissimo', separator: '%%' }
 			]).parse(data)
 		};
 
@@ -497,12 +531,12 @@ describe('test blocks type', function(done) {
 			mode: 'impossible_mode',
 			password: 'cogito'
 		});
-		
+
 		let passed = false;
-		try{
+		try {
 			m.parse(data);
-		}catch(e){
-			if(e.message == 'Invalid mode')
+		} catch (e) {
+			if (e.message == 'Invalid mode')
 				passed = true;
 		}
 		expect(passed).to.equal(true);
@@ -512,22 +546,22 @@ describe('test blocks type', function(done) {
 			mode: 'impossible_mode',
 			password: 'cogito'
 		});
-		
+
 		passed = false;
-		try{
+		try {
 			m.parse(data);
-		}catch(e){
-			if(e.message == 'Invalid mode')
+		} catch (e) {
+			if (e.message == 'Invalid mode')
 				passed = true;
 		}
 		expect(passed).to.equal(true);
 	});
-	it('csv', function() {
+	it('csv', function () {
 		let base_obj = [{
 			val1: "valore 1",
 			str: "valore 2",
 			num: 345
-		},{
+		}, {
 			val1: "valore 3",
 			str: "valore 4",
 			num: 678
@@ -536,7 +570,7 @@ describe('test blocks type', function(done) {
 			val1: "valore 1",
 			str: "valore 2",
 			num: '345'
-		},{
+		}, {
 			val1: "valore 3",
 			str: "valore 4",
 			num: '678'
@@ -562,7 +596,7 @@ describe('test blocks type', function(done) {
 		expect(JSON.stringify(new Poliparser({
 			m: 'csv_parse',
 		}).parse(data))).to.equal('[{"val1":"\\"valore 1\\"","str":"\\"valore 2\\"","num":"345"},{"val1\":"\\"valore 3\\"","str":"\\"valore 4\\"","num":"678"}]');
-		
+
 		expect(JSON.stringify(new Poliparser({
 			m: 'csv_parse',
 		}).parse(data))).to.equal('[{"val1":"\\"valore 1\\"","str":"\\"valore 2\\"","num":"345"},{"val1\":"\\"valore 3\\"","str":"\\"valore 4\\"","num":"678"}]');
@@ -587,23 +621,23 @@ describe('test blocks type', function(done) {
 			m: 'csv_parse',
 			separator: ','
 		}).parse(''))).to.equal('[]');
-		
+
 		expect(JSON.stringify(new Poliparser({
 			m: 'csv_parse',
 			separator: ';',
 			stringSeparator: '"'
 		}).parse(data2))).to.equal('[{"val1":"valore 1","str":"valore 2","num":345},{"val1":"valore 3","str":"valore 4","num":678}]');
-	
+
 		expect(JSON.stringify(new Poliparser({
 			m: 'csv_parse',
 			stringSeparator: '"'
 		}).parse(data4))).to.equal('[{"val1":"valore \\\\1","str":"valore \\\\2","num":345},{"val1":"valore \\\\3","str":"valore \\\\4","num":678}]');
-	
+
 		expect(new Poliparser({
 			m: 'csv_toJson',
 			stringSeparator: '"'
 		}).parse(data)).to.equal(jdata);
-		
+
 		expect(new Poliparser({
 			m: 'csv_toJson',
 			pretty: true,
@@ -623,13 +657,13 @@ describe('test blocks type', function(done) {
 		}).parse(p_jdata)).to.equal(data);
 
 	});
-	it('undefined block', function() {
+	it('undefined block', function () {
 		let data = 'hi';
-		let m = new Poliparser( 42 );
+		let m = new Poliparser(42);
 		let output = m.parse(data);
 		expect(output).to.equal('hi');
 	});
-	it('add module', function() {
+	it('add module', function () {
 		let data = 10;
 		let m = new Poliparser();
 
@@ -641,16 +675,16 @@ describe('test blocks type', function(done) {
 
 		m.setParser({
 			m: 'testing_parser',
-			value:  2
+			value: 2
 		});
 		expect(m.parse(data)).to.equal(20);
 
 		m.setParser({
 			m: 'testing_parser',
-			value: 4 
+			value: 4
 		});
 		expect(m.parse(data)).to.equal(40);
-		
+
 		m.setParser({
 			m: 'my_mul',
 			value: 3
@@ -658,13 +692,13 @@ describe('test blocks type', function(done) {
 		expect(m.parse(data)).to.equal(30);
 
 	});
-	it('add library', function() {
+	it('add library', function () {
 		let data = 10;
 		let m = new Poliparser();
 
 		m.setLibrary('testingLib', {
 			mod1: (data, block) => {
-			return data * block.value;
+				return data * block.value;
 			},
 			mod2: (data, block) => {
 				return data + 'XX';
@@ -672,16 +706,16 @@ describe('test blocks type', function(done) {
 		});
 
 		m.requireLibrary('my_lib', __dirname + '/myLibrary.js');
-		
+
 		m.setParser({
 			m: 'testingLib_mod1',
-			value:  3
+			value: 3
 		});
 		expect(m.parse(data)).to.equal(30);
 
 		m.setParser({
 			m: 'testingLib_mod2',
-			value: 4 
+			value: 4
 		});
 		expect(m.parse(data)).to.equal("10XX");
 
@@ -690,7 +724,7 @@ describe('test blocks type', function(done) {
 		});
 		expect(m.parse(data)).to.equal("MyLibrary_mod1 hello 10");
 	});
-	it('parseFile', function() {
+	it('parseFile', function () {
 
 
 		let link = new Poliparser({
@@ -699,10 +733,10 @@ describe('test blocks type', function(done) {
 			attr: 'href'
 		});
 
-		expect(JSON.stringify(link.parseFile(__dirname + '/data.html'))).to.equal(JSON.stringify([ 'link1.html', 'link2.html' ]));
+		expect(JSON.stringify(link.parseFile(__dirname + '/data.html'))).to.equal(JSON.stringify(['link1.html', 'link2.html']));
 
 	});
-	it('parseUrl', function(done) {
+	it('parseUrl', function (done) {
 
 		let link = new Poliparser({
 			m: 'dom',
@@ -714,14 +748,9 @@ describe('test blocks type', function(done) {
 			expect(JSON.stringify(data)).to.equal('[]');
 			link.parseUrl('https://raw.githubusercontent.com/colgatto/Poliparser/master/Examples/data.html').then(data => {
 				expect(JSON.stringify(data)).to.equal(JSON.stringify(['link3.html']));
-				link.parseUrl('INVALID URL!').then(() => {}).catch((e) => {
+				link.parseUrl('INVALID URL!').then(() => { }).catch((e) => {
 					expect(e).to.equal('invalid url!');
 					done();
-					/*
-					link.parseUrl('qwerty').then((data) => {console.log(data)}).catch((e) => {
-						expect(e).to.equal('invalid url!');
-					});
-					*/
 				});
 			});
 		});

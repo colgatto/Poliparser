@@ -2,6 +2,18 @@
 
 ## Basic
 
+### `break`
+
+- **Input**: `Any`
+- **Output**: `Any`
+
+break is a conditional block thats used to exit from an Array of module. it can return a custom value.
+
+| Parameter | Type | Description | Required |
+| - | - | - | - |
+| condition | `bool` | if condition is true the poliparser exit and return input data, or a custom value if specified | required |
+| return | `Any` | custom value that return if condition is true, if undefined the module return the input data | optional (default: `undefined`) |
+
 ### `custom`
 
 - **Input**: `Any`
