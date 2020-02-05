@@ -772,7 +772,7 @@ describe('test blocks type', function (done) {
 				link.parseUrl('INVALID URL!').then(() => { }).catch((e) => {
 					expect(e).to.equal('invalid url!');
 					link.parseUrl('https://no').then(() => { }).catch((e) => {
-						expect(e.message).to.equal('getaddrinfo ENOTFOUND no no:443');
+						expect(e.message.match(/getaddrinfo ENOTFOUND/gmi).length > 0).to.equal(true);
 						done();
 					});
 				});
@@ -781,7 +781,7 @@ describe('test blocks type', function (done) {
 
 	});
 
-	it('parseError', function (done) {
+	it('parseError', function () {
 
 		let p = new Poliparser({
 			m: 'custom',
@@ -794,30 +794,12 @@ describe('test blocks type', function (done) {
 			expect(e.message).to.equal('undef is not defined');
 		}
 
-		p.setParser([{
-			m: 'custom',
-			value: () => undef
-		}]);
-
-		//try{
-			p.parseUrl(42).then(data => {
-				console.log('MAH.... ' + data);
-			}).catch(e => {
-				expect(e.message).to.equal('getaddrinfo ENOTFOUND 42 42:443');
-				done();
-			});
-/*
-		p.setParser([{
-			m: 'custom',
-			value: x => x
-		}]);
-
 		/*
-		p.parseUrl('https://google.com', { body: 98 }).then(()=>{
-			console.log('FATTO');
+		p.parseUrl(42).then(data => {
+			console.log('MAH.... ' + data);
 		}).catch(e => {
-			expect(e.message).to.equal('Argument error, options.body.');
-			done();	
+			expect(e.message).to.equal('getaddrinfo ENOTFOUND 42 42:443');
+			done();
 		});
 		*/
 	});

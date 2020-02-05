@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"docgen": "node docgen/index.js",
-		"test": "mocha --reporter spec",
+		"test": "mocha --reporter spec --timeout 30000",
 		"cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/test.js --timeout 30000"
 	},
 	"dependencies": {
