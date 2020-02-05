@@ -6,7 +6,7 @@
 	"scripts": {
 		"docgen": "node docgen/index.js",
 		"test": "mocha --reporter spec",
-		"cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/test.js --timeout 10000"
+		"cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/test.js --timeout 30000"
 	},
 	"dependencies": {
 		"fast-html-parser": "^1.0.1",

@@ -10,6 +10,9 @@ let poliParam = new Poliparser({
 	only: 'matches'
 });
 
+let fullList = Object.keys(mainParser.parse_modules);
+let doneList = [];
+
 const core_order = [ 'dom', 'regex', 'log', 'custom', 'break' ];
 
 const lib_order = [
@@ -30,8 +33,15 @@ const blockParse = (name, m) => {
 			out += '| ' + p.name + ' | ' + p.type + ' | ' + p.desc + ' | ' + (p.required ? p.required : 'optional (default:' + p.default + ')') + ' |\n';
 		}
 	}
+	doneList.push(name);
 	return out;
 };
+
+const spacer = (l) => {
+	let out = '';
+	for (let i = 0; i < l; i++) out += ' ';
+	return out;
+}
 
 mainParser.setParser([{
 	m: 'regex',
@@ -133,5 +143,8 @@ for (let i = 0, l = lib_order.length; i < l; i++) {
 		md_out += blockParse(m.lib + '_' + m.name, m);
 	}
 }
+
+for (let i = 0, l = fullList.length; i < l; i++)
+	console.log(fullList[i] + ':' + spacer(20 - fullList[i].length) + ( doneList.includes(fullList[i]) ? 'DONE!' : 'NOT FOUND!') );
 
 fs.writeFileSync(__dirname + '/../Examples/README.md', md_out);

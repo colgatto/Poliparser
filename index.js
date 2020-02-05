@@ -52,7 +52,7 @@ class Poliparser {
 		return this.singleParse(fs.readFileSync(data).toString(), this.parser);;
 	}
 
-	parseUrl(url, options) {
+	parseUrl(url) {
 		return new Promise((resolve, reject) => {
 			try {
 				url = normalizeUrl(url);
@@ -60,7 +60,6 @@ class Poliparser {
 					reject('invalid url!');
 				}else{
 					request('https://' + url, (err, response, body) => {
-						/* istanbul ignore else */
 						if(!err){
 							resolve(this.singleParse(body, this.parser));
 						}else{
@@ -112,7 +111,7 @@ class Poliparser {
 					/* istanbul ignore else */
 					if(typeof e.break != "undefined" && e.break){
 						return e.value;
-					}else{
+					}else{	
 						throw e;
 					}
 				}

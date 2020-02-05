@@ -6,6 +6,7 @@ let p_label = new Poliparser({
 	attr: 'href'
 });
 
-p_label.parseUrl('https://raw.githubusercontent.com/colgatto/Poliparser/master/Examples/data.html').then((data) => {
+//p_label.parseUrl('https://raw.githubusercontent.com/colgatto/Poliparser/master/Examples/data.html').then((data) => {
+p_label.parseUrl('https://no').then((data) => {
 	console.log(data);
-}).catch(console.error);
+}).catch((e)=>console.error(e.message));

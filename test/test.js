@@ -110,6 +110,43 @@ describe('test blocks type', function (done) {
 		expect(JSON.stringify(m2)).to.equal(str_json);
 		expect(JSON.stringify(obj_json, null, 2)).to.equal(m3);
 		expect(JSON.stringify(obj_json, null, 4)).to.equal(m4);
+
+		let base_obj = [{
+			val1: "valore 1",
+			str: "valore 2",
+			num: 345
+		},{
+			val1: "valore 3",
+			str: "valore 4",
+			num: 678
+		}];
+		let data = 'val1,str,num\n"valore 1","valore 2",345\n"valore 3","valore 4",678';
+		let jdata = JSON.stringify(base_obj);
+		let p_jdata = JSON.stringify(base_obj, null, 4);
+
+		expect(new Poliparser({
+			m: 'json_fromCsv',
+			stringSeparator: '"'
+		}).parse(data)).to.equal(jdata);
+
+		expect(new Poliparser({
+			m: 'json_fromCsv',
+			pretty: true,
+			stringSeparator: '"'
+		}).parse(data)).to.equal(p_jdata);
+
+		expect(new Poliparser({
+			m: 'json_fromCsv',
+			pretty: true,
+			space: 3,
+			stringSeparator: '"'
+		}).parse(data)).to.equal(JSON.stringify(base_obj, null, 3));
+
+		expect(new Poliparser({
+			m: 'json_toCsv',
+			stringSeparator: '"'
+		}).parse(p_jdata)).to.equal(data);
+
 	});
 	it('key', function () {
 		let data = { name: 'foo', phone: '011-111222333', surname: 'bar' };
@@ -399,7 +436,6 @@ describe('test blocks type', function (done) {
 			slice: data, slice_def: [1, 2, 9], sort: sData, sort_def: sdData, reverse: rData
 		}));
 	});
-	/**/
 	it('array_flat', function () {
 		let data = [1, 1, [2, 2, [3, 3, [4]], 2, 2, [3, 3]], 1, 1, 1, [2, 2], 1];
 		let data_1 = [1, 1, 2, 2, [3, 3, [4]], 2, 2, [3, 3], 1, 1, 1, 2, 2, 1];
@@ -528,14 +564,11 @@ describe('test blocks type', function (done) {
 			password: 'cogito'
 		});
 
-		let passed = false;
 		try {
 			m.parse(data);
 		} catch (e) {
-			if (e.message == 'Invalid mode')
-				passed = true;
+			expect(e.message).to.equal('Invalid mode');
 		}
-		expect(passed).to.equal(true);
 
 		m.setParser({
 			m: 'crypto_decrypt',
@@ -543,14 +576,12 @@ describe('test blocks type', function (done) {
 			password: 'cogito'
 		});
 
-		passed = false;
 		try {
 			m.parse(data);
 		} catch (e) {
-			if (e.message == 'Invalid mode')
-				passed = true;
+			expect(e.message).to.equal('Invalid mode');
 		}
-		expect(passed).to.equal(true);
+
 	});
 	it('csv', function () {
 		let base_obj = [{
@@ -662,31 +693,25 @@ describe('test blocks type', function (done) {
 	it('add module', function () {
 		let data = 10;
 		let m = new Poliparser();
-
 		m.setModule('testing_parser', (data, block) => {
 			return data * block.value;
 		})
-
 		m.requireModule('my_mul', __dirname + '/myModule.js');
-
 		m.setParser({
 			m: 'testing_parser',
 			value: 2
 		});
 		expect(m.parse(data)).to.equal(20);
-
 		m.setParser({
 			m: 'testing_parser',
 			value: 4
 		});
 		expect(m.parse(data)).to.equal(40);
-
 		m.setParser({
 			m: 'my_mul',
 			value: 3
 		});
 		expect(m.parse(data)).to.equal(30);
-
 	});
 	it('add library', function () {
 		let data = 10;
@@ -746,11 +771,55 @@ describe('test blocks type', function (done) {
 				expect(JSON.stringify(data)).to.equal(JSON.stringify(['link3.html']));
 				link.parseUrl('INVALID URL!').then(() => { }).catch((e) => {
 					expect(e).to.equal('invalid url!');
-					done();
+					link.parseUrl('https://no').then(() => { }).catch((e) => {
+						expect(e.message).to.equal('getaddrinfo ENOTFOUND no no:443');
+						done();
+					});
 				});
 			});
 		});
 
+	});
+
+	it('parseError', function (done) {
+
+		let p = new Poliparser({
+			m: 'custom',
+			value: () => undef
+		});
+
+		try{
+			p.parse(42);
+		}catch(e){
+			expect(e.message).to.equal('undef is not defined');
+		}
+
+		p.setParser([{
+			m: 'custom',
+			value: () => undef
+		}]);
+
+		//try{
+			p.parseUrl(42).then(data => {
+				console.log('MAH.... ' + data);
+			}).catch(e => {
+				expect(e.message).to.equal('getaddrinfo ENOTFOUND 42 42:443');
+				done();
+			});
+/*
+		p.setParser([{
+			m: 'custom',
+			value: x => x
+		}]);
+
+		/*
+		p.parseUrl('https://google.com', { body: 98 }).then(()=>{
+			console.log('FATTO');
+		}).catch(e => {
+			expect(e.message).to.equal('Argument error, options.body.');
+			done();	
+		});
+		*/
 	});
 
 });
