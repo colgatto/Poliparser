@@ -62,3 +62,12 @@ typings/
 
 #coveralls
 .coveralls.yml
+
+#debug
+debug.js
+
+#benchmark
+bench.js
+
+#vscode
+.vscode
