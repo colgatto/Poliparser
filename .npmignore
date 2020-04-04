@@ -69,6 +69,9 @@ Examples
 #debug
 debug.js
 
+#doc generator
+docgen
+
 #benchmark
 bench.js
 

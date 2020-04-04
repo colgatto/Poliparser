@@ -2,24 +2,22 @@ let Poliparser = require('..');
 
 let data = '    ciao   ';
 
-let p = new Poliparser({
-	base: {
-		f: 'trim'
-	},
-	start: {
-		f: 'trim',
+let p = {
+	base: new Poliparser({
+		m: 'str_trim'
+	}).parse(data),
+	start: new Poliparser({
+		m: 'str_trim',
 		end: false
-	},
-	end: {
-		f: 'trim',
+	}).parse(data),
+	end: new Poliparser({
+		m: 'str_trim',
 		start: false
-	},
-	custom: {
-		f: 'trim',
+	}).parse(data),
+	custom: new Poliparser({
+		m: 'str_trim',
 		value: [' ', '\t', 'c', 'o']
-	}
-});
+	}).parse(data)
+};
 
-let output = p.run(data);
-
-console.log(output);
+console.log(p);

@@ -45,11 +45,19 @@ const rec_regEx = (value, data, opt) => {
 	}
 	return exp;
 };
-
-module.exports = (p, data) => {
+/** @docgen
+@name regex
+@desc Exec regex passed by value parameter and return matches and index.
+@input `String`
+@output `[Object]`
+@param value [`Regex`] {R} Regex to execute.
+@param only [`String`] <`false`> If set return only selected element instead of Object, Accept: `'full'`, `'matches'`, `'indexes'`.
+@param group [`Integer`] <`false`> Get only selected group.
+**/
+module.exports = (data, block) => {
 	var opt = {
-		only: typeof p.only == "undefined" ? false : p.only,
-		group: typeof p.group == "undefined" ? false : p.group
+		only: typeof block.only == "undefined" ? false : block.only,
+		group: typeof block.group == "undefined" ? false : block.group
 	};
-	return rec_regEx(p.value, data, opt);
+	return rec_regEx(block.value, data, opt);
 };

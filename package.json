@@ -4,11 +4,13 @@
 	"description": "The only parser you need",
 	"main": "index.js",
 	"scripts": {
-		"test": "mocha --reporter spec",
-		"cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
+		"docgen": "node docgen/index.js",
+		"test": "mocha --reporter spec --timeout 30000",
+		"cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/test.js --timeout 30000"
 	},
 	"dependencies": {
-		"jsdom": "^15.1.1"
+		"fast-html-parser": "^1.0.1",
+		"request": "^2.88.0"
 	},
 	"repository": {
 		"type": "git",
@@ -20,14 +22,16 @@
 		"regex",
 		"dom-parser",
 		"text-parser",
-		"json"
+		"json",
+		"csv",
+		"crypto"
 	],
 	"author": "Colgatto",
 	"license": "RWTFPL",
 	"devDependencies": {
 		"chai": "^4.2.0",
-		"coveralls": "^3.0.6",
+		"coveralls": "^3.0.9",
 		"istanbul": "^0.4.5",
-		"mocha": "^6.2.1"
+		"mocha": "^7.0.1"
 	}
 }
