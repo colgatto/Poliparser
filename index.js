@@ -60,6 +60,7 @@ class Poliparser {
 					reject('invalid url!');
 				}else{
 					request('https://' + url, (err, response, body) => {
+						/* istanbul ignore else */
 						if(!err){
 							resolve(this.singleParse(body, this.parser));
 						}else{

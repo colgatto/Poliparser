@@ -2,7 +2,7 @@ module.exports = {
 	/** @docgen
 	@name keys
 	@lib obj
-	@desc returns an array of a given object's own enumerable property names, in the same order as we get with a normal loop.
+	@desc Returns an array of a given object's own enumerable property names, in the same order as we get with a normal loop.
 	@input `Object`
 	@output `Array`
 	**/
@@ -12,10 +12,10 @@ module.exports = {
 	/** @docgen
 	@name getKey
 	@lib obj
-	@desc return a single key from an Object, or a subObject if specify more then one key.
+	@desc Returns a single key from an Object, or a subObject if specify more then one key.
 	@input `Object`
 	@output `Any`
-	@param value [`String`/`Array`] {R} name of the key you want return, use `Array` if you want more keys.
+	@param value [`String`/`Array`] {R} Name of the key you want return, use `Array` if you want more keys.
 	**/
 	getKey: (data, block) => {
 		if(block.value.constructor == Array){
@@ -31,7 +31,7 @@ module.exports = {
 	/** @docgen
 	@name values
 	@lib obj
-	@desc  returns an array of a given object's own enumerable property values, in the same order as that provided by a `for...in` loop.
+	@desc Returns an array of a given object's own enumerable property values, in the same order as that provided by a `for...in` loop.
 	@input `Object`
 	@output `Array`
 	**/
@@ -41,7 +41,7 @@ module.exports = {
 	/** @docgen
 	@name entries
 	@lib obj
-	@desc returns an array of a given object's own enumerable string-keyed property [key, value] pairs, in the same order as that provided by a `for...in` loop.
+	@desc Returns an array of a given object's own enumerable string-keyed property [key, value] pairs, in the same order as that provided by a `for...in` loop.
 	@input `Object`
 	@output `Array`
 	**/
@@ -51,7 +51,7 @@ module.exports = {
 	/** @docgen
 	@name fromEntries
 	@lib obj
-	@desc transforms a list of key-value pairs into an object.
+	@desc Turn a list of key-value pairs into an object.
 	@input `Array`
 	@output `Object`
 	**/

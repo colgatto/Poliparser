@@ -6,9 +6,18 @@
 ![size](https://badgen.net/packagephobia/publish/poliparser)
 [![npm](https://badgen.net/badge/icon/npm?icon=npm&label)](https://www.npmjs.com/package/poliparser)
 
-Poliparse allows you to extract end parse data from strings, files, urls and many other object in a simple and fast way.
+Poliparse is used to extract and parse data from strings, files, urls and many other objects in a simple and fast way.
 
-You can use the default modules or easily add your custom one ( see all modules on the [Examples](https://github.com/colgatto/Poliparser/tree/master/Examples) page ).
+The Default modules allows you to parse:
+- String
+- Array
+- Object
+- DOM Elements
+- JSON
+- CSV
+- Hash & Chipertext
+
+You can use the default modules or easily add your custom one ( see all the modules on the [Examples](https://github.com/colgatto/Poliparser/tree/master/Examples) page ).
 
 ## **Install**
 
@@ -63,7 +72,7 @@ let p = new Poliparser({
 	to: '</title>'
 });
 ```
-## **Documentation**
+## **[Documentation](https://github.com/colgatto/Poliparser/tree/master/Examples)**
 
 **See [Here](https://github.com/colgatto/Poliparser/tree/master/Examples) for complete modules documentation**
 

@@ -63,7 +63,7 @@ module.exports = {
 	/** @docgen
 	@name min
 	@lib array
-	@desc return the lowest value of the array
+	@desc Returns the lowest value of the array.
 	@input `Array`
 	@output `Number`
 	**/
@@ -82,7 +82,7 @@ module.exports = {
 	/** @docgen
 	@name max
 	@lib array
-	@desc return the highest value of the array
+	@desc Returns the highest value of the array.
 	@input `Array`
 	@output `Number`
 	**/
@@ -101,7 +101,7 @@ module.exports = {
 	/** @docgen
 	@name indexMin
 	@lib array
-	@desc return the index of lowest value of the array
+	@desc Returns the index of lowest value of the array.
 	@input `Array`
 	@output `Integer`
 	**/
@@ -120,7 +120,7 @@ module.exports = {
 	/** @docgen
 	@name indexMax
 	@lib array
-	@desc return the index of highest value of the array
+	@desc Returns the index of highest value of the array.
 	@input `Array`
 	@output `Integer`
 	**/
@@ -139,7 +139,7 @@ module.exports = {
 	/** @docgen
 	@name count
 	@lib array
-	@desc return the number of values of the array
+	@desc Returns the number of values of the array.
 	@input `Array`
 	@output `Number`
 	**/
@@ -150,7 +150,7 @@ module.exports = {
 	/** @docgen
 	@name sum
 	@lib array
-	@desc returns the sum of values of the array
+	@desc Returns the sum of values of the array.
 	@input `Array`
 	@output `Number`
 	**/
@@ -165,7 +165,7 @@ module.exports = {
 	/** @docgen
 	@name uniq
 	@lib array
-	@desc returns a new array without duplicate values
+	@desc Returns a new array without duplicate values.
 	@input `Array`
 	@output `Array`
 	**/
@@ -176,7 +176,7 @@ module.exports = {
 	/** @docgen
 	@name flat
 	@lib array
-	@desc returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+	@desc Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.
 	@input `Array`
 	@output `Array`
 	@param deep [`Integer`] <`Infinity`> The depth level specifying how deep a nested array structure should be flattened. If negative start from the deepest array.
@@ -194,10 +194,10 @@ module.exports = {
 	/** @docgen
 	@name map
 	@lib array
-	@desc returns a new array with the results of calling a provided function on every element in the calling array.
+	@desc Returns a new array with the results of calling a provided function on every element in the calling array.
 	@input `Array`
 	@output `Array`
-	@param value [`Function`] {R} Function that produces an element of the new Array. Taking three arguments: `( currentValue, <index>, <array> )`
+	@param value [`Function`] {R} Function that produces an element of the new Array. Taking three arguments: `( currentValue, <index>, <array> )`.
 	**/
 	map: (data, block) => {
 		let out = [];
@@ -210,10 +210,10 @@ module.exports = {
 	/** @docgen
 	@name filter
 	@lib array
-	@desc returns a new array with all elements that pass the test implemented by the provided function.
+	@desc Returns a new array with all elements that pass the test implemented by the provided function.
 	@input `Array`
 	@output `Array`
-	@param value [`Function`] {R} Function is a predicate, to test each element of the array. Return true to keep the element, false otherwise.  Taking three arguments: `( currentValue, <index>, <array> )`
+	@param value [`Function`] {R} Function is a predicate, to test each element of the array. Return true to keep the element, false otherwise.  Taking three arguments: `( currentValue, <index>, <array> )`.
 	**/
 	filter: (data, block) => {
 		let out = [];
@@ -227,11 +227,11 @@ module.exports = {
 	/** @docgen
 	@name reduce
 	@lib array
-	@desc executes a reducer function (that you provide) on each element of the array, resulting in a single output value.
+	@desc Executes a reducer function (that you provide) on each element of the array, resulting in a single output value.
 	@input `Array`
 	@output `Any`
-	@param value [`Function`] {R} A function to execute on each element in the array (except for the first, if no start is supplied), taking four arguments: `( accumulator, currentValue, <index>, <array> )`
-	@param start [`Any`] <first value of array> first value of accumulator
+	@param value [`Function`] {R} A function to execute on each element in the array (except for the first, if no start is supplied), taking four arguments: `( accumulator, currentValue, <index>, <array> )`.
+	@param start [`Any`] <first value of array> First value of accumulator.
 	**/
 	reduce: (data, block) => {
 		let initialIndex = 0;
@@ -254,7 +254,7 @@ module.exports = {
 	/** @docgen
 	@name join
 	@lib array
-	@desc returns a new string by concatenating all of the elements in an array, separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.
+	@desc Returns a new string by concatenating all of the elements in an array, separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.
 	@input `Array`
 	@output `String`
 	@param value [`String`] <`','`> Specifies a string to separate each pair of adjacent elements of the array. 
@@ -267,7 +267,7 @@ module.exports = {
 	/** @docgen
 	@name indexOf
 	@lib array
-	@desc returns the first index at which a given element can be found in the array, or -1 if it is not present.
+	@desc Returns the first index at which a given element can be found in the array, or -1 if it is not present.
 	@input `Array`
 	@output `Integer`
 	@param value [`Any`] {R} Element to locate in the array.
@@ -280,7 +280,7 @@ module.exports = {
 	/** @docgen
 	@name lastIndexOf
 	@lib array
-	@desc returns the last index at which a given element can be found in the array, or -1 if it is not present. The array is searched backwards, starting at position value.
+	@desc Returns the last index at which a given element can be found in the array, or -1 if it is not present. The array is searched backwards, starting at position value.
 	@input `Array`
 	@output `Integer`
 	@param value [`Any`] {R} Element to locate in the array.
@@ -293,7 +293,7 @@ module.exports = {
 	/** @docgen
 	@name slice
 	@lib array
-	@desc returns a shallow copy of a portion of an array into a new array object selected from start to end (end not included) where start and end represent the index of items in that array. 
+	@desc Returns a shallow copy of a portion of an array into a new array object selected from start to end (end not included) where start and end represent the index of items in that array. 
 	@input `Array`
 	@output `Array`
 	@param start [`Integer`] <0> Zero-based index at which to begin extraction. If negative, indicating an offset from the end of the sequence. 
@@ -310,7 +310,7 @@ module.exports = {
 	/** @docgen
 	@name pop
 	@lib array
-	@desc returns a new array without last element
+	@desc Returns a new array without last element.
 	@input `Array`
 	@output `Array`
 	**/
@@ -323,7 +323,7 @@ module.exports = {
 	/** @docgen
 	@name shift
 	@lib array
-	@desc returns a new array without first element
+	@desc Returns a new array without first element.
 	@input `Array`
 	@output `Array`
 	**/
@@ -336,10 +336,10 @@ module.exports = {
 	/** @docgen
 	@name sort
 	@lib array
-	@desc  sorts the elements of an array in place and returns the sorted array. The default sort order is built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values.
+	@desc Sorts the elements of an array in place and returns the sorted array. The default sort order is built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values.
 	@input `Array`
 	@output `Array`
-	@param value [`Function`] <javascript sort> a function that defines the sort order.
+	@param value [`Function`] <javascript sort> A function that defines the sort order.
 	**/
 	sort: (data, block) => {
 		let cData = Array.from(data);
@@ -353,7 +353,7 @@ module.exports = {
 	/** @docgen
 	@name reverse
 	@lib array
-	@desc return a new array where value are reversed. The first array element becomes the last, and the last array element becomes the first.
+	@desc Returns a new array where value are reversed. The first array element becomes the last, and the last array element becomes the first.
 	@input `Array`
 	@output `Array`
 	**/

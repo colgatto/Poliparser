@@ -1,6 +1,6 @@
 /** @docgen
 @name log
-@desc `console.log` the value and return it without changing it
+@desc Pass the value to `console.log` and return it without changes.
 @input `Any`
 @output `Any`
 **/

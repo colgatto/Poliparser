@@ -93,11 +93,11 @@ module.exports = {
 	/** @docgen
 	@name md5
 	@lib crypto
-	@desc create MD5 hash of given value.
+	@desc Create MD5 hash of given value.
 	@input `String`
 	@output `String`
-	@param digest [`String`] <`'hex'`> hash digest
-	@param secret [`String`] <`false`> hash secret
+	@param digest [`String`] <`'hex'`> Hash digest.
+	@param secret [`String`] <`false`> Hash secret.
 	**/
 	md5: (data, block) => {
 		return getHash('md5', data, block);
@@ -105,11 +105,11 @@ module.exports = {
 	/** @docgen
 	@name sha1
 	@lib crypto
-	@desc create SHA1 hash of given value.
+	@desc Create SHA1 hash of given value.
 	@input `String`
 	@output `String`
-	@param digest [`String`] <`'hex'`> hash digest
-	@param secret [`String`] <`false`> hash secret
+	@param digest [`String`] <`'hex'`> Hash digest.
+	@param secret [`String`] <`false`> Hash secret.
 	**/
 	sha1: (data, block) => {
 		return getHash('sha1', data, block);
@@ -117,11 +117,11 @@ module.exports = {
 	/** @docgen
 	@name sha256
 	@lib crypto
-	@desc create SHA256 hash of given value.
+	@desc Create SHA256 hash of given value.
 	@input `String`
 	@output `String`
-	@param digest [`String`] <`'hex'`> hash digest
-	@param secret [`String`] <`false`> hash secret
+	@param digest [`String`] <`'hex'`> Hash digest.
+	@param secret [`String`] <`false`> Hash secret.
 	**/
 	sha256: (data, block) => {
 		return getHash('sha256', data, block);
@@ -129,16 +129,27 @@ module.exports = {
 	/** @docgen
 	@name sha512
 	@lib crypto
-	@desc create SHA512 hash of given value.
+	@desc Create SHA512 hash of given value.
 	@input `String`
 	@output `String`
-	@param digest [`String`] <`'hex'`> hash digest
-	@param secret [`String`] <`false`> hash secret
+	@param digest [`String`] <`'hex'`> Hash digest.
+	@param secret [`String`] <`false`> Hash secret.
 	**/
 	sha512: (data, block) => {
 		return getHash('sha512', data, block);
 	},
-	crypt: (data, block) => {
+	/** @docgen
+	@name encrypt
+	@lib crypto
+	@desc Generate an encrypted string using the algorithm you have chosen with salt and password, return a string composed of salt, iv and ciphertext separated by the separator.
+	@input `String`
+	@output `String`
+	@param password [`String`] {R} The password used to encrypt text.
+	@param salt [`String`] <`random Buffer`> The salt for the password.
+	@param separator [`String`] <`'$'`> The separator of the output string.
+	@param mode [`String`] <`'aes-256-cbc'`> The algorithm used for encryption, see [Here](https://github.com/colgatto/Poliparser/blob/master/parse_modules/library/crypto.js#L11) for a complete list.
+	**/
+	encrypt: (data, block) => {
 		const separator = typeof block.separator == 'undefined' ? '$' : block.separator;
 		const algorithm = typeof block.mode == 'undefined' ? 'aes-256-cbc' : block.mode;
 		if(typeof valid_chiper_list[algorithm] == 'undefined')
@@ -149,6 +160,16 @@ module.exports = {
 		const cipher = crypto.createCipheriv(algorithm, key, iv);
 		return salt + separator + iv.toString('hex') + separator + cipher.update(data, 'utf8', 'hex') + cipher.final('hex');
 	},
+	/** @docgen
+	@name decrypt
+	@lib crypto
+	@desc Decode an encrypted string generated with crypto_encrypt module, the string must contains salt, iv and ciphertext separated by the separator.
+	@input `String`
+	@output `String`
+	@param password [`String`] {R} The password used to encrypt the original text.
+	@param separator [`String`] <`'$'`> The separator of the input string.
+	@param mode [`String`] <`'aes-256-cbc'`> The algorithm to use for decryption.
+	**/
 	decrypt: (data, block) => {
 		const separator = typeof block.separator == 'undefined' ? '$' : block.separator;
 		const algorithm = typeof block.mode == 'undefined' ? 'aes-256-cbc' : block.mode;

@@ -68,3 +68,6 @@ debug.js
 
 #benchmark
 bench.js
+
+#vscode
+.vscode

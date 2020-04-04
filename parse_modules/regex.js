@@ -47,12 +47,12 @@ const rec_regEx = (value, data, opt) => {
 };
 /** @docgen
 @name regex
-@desc exec regex passed by value parameter and return matches and index
+@desc Exec regex passed by value parameter and return matches and index.
 @input `String`
 @output `[Object]`
-@param value [`Regex`] {R} regex to execute
-@param only [`String`] <`false`> if set return only selected element instead of Object, Accept: `'full'`, `'matches'`, `'indexes'`.
-@param group [`Integer`] <`false`> get only selected group
+@param value [`Regex`] {R} Regex to execute.
+@param only [`String`] <`false`> If set return only selected element instead of Object, Accept: `'full'`, `'matches'`, `'indexes'`.
+@param group [`Integer`] <`false`> Get only selected group.
 **/
 module.exports = (data, block) => {
 	var opt = {

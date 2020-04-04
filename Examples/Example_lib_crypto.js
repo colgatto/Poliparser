@@ -18,7 +18,7 @@ let p = {
 	}).parse(data),
 	
 	aes: new Poliparser({
-		m: 'crypto_crypt',
+		m: 'crypto_encrypt',
 		mode: 'aes128',
 		password: 'str0ngP4$$worD'
 	}).parse(data)

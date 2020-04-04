@@ -4,11 +4,11 @@ module.exports = {
 	/** @docgen
 	@name parse
 	@lib csv
-	@desc create a new Array of Object from CSV String.
+	@desc Create a new Array of Object from CSV String.
 	@input `String`
 	@output `Array`
-	@param separator [`String`] <`','`> CSV value separator
-	@param stringSeparator [`String`] <`false`> CSV string separator, if false don't use string separator
+	@param separator [`String`] <`','`> CSV value separator.
+	@param stringSeparator [`String`] <`false`> CSV string separator, if false don't use string separator.
 	**/
 	parse: (data, block) => {
 		return lib._csv_parse(data, block);
@@ -16,11 +16,11 @@ module.exports = {
 	/** @docgen
 	@name stringify
 	@lib csv
-	@desc create a CSV from an array of object.
+	@desc Create a CSV from an array of object.
 	@input `Object`
 	@output `String`
-	@param separator [`String`] <`','`> CSV value separator
-	@param stringSeparator [`String`] <`false`> CSV string separator, if false don't use string separator
+	@param separator [`String`] <`','`> CSV value separator.
+	@param stringSeparator [`String`] <`false`> CSV string separator, if false don't use string separator.
 	**/
 	stringify: (data, block) => {
 		return lib._csv_stringify(data, block);
@@ -28,13 +28,13 @@ module.exports = {
 	/** @docgen
 	@name toJson
 	@lib csv
-	@desc create a JSON from a CSV.
+	@desc Create a JSON from a CSV.
 	@input `String`
 	@output `String`
 	@param separator [`String`] <`','`> CSV value separator
-	@param stringSeparator [`String`] <`false`> CSV string separator, if false don't use string separator
-	@param pretty [`Boolean`] <`false`> set `true` for pretty JSON
-	@param space [`Integer`] <`4`> JSON space length, used if pretty = `true`
+	@param stringSeparator [`String`] <`false`> CSV string separator, if false don't use string separator.
+	@param pretty [`Boolean`] <`false`> Set `true` for pretty JSON.
+	@param space [`Integer`] <`4`> JSON space length, used if pretty = `true`.
 	**/
 	toJson: (data, block) => {
 		if(typeof block.pretty != "undefined" && block.pretty){
@@ -47,11 +47,11 @@ module.exports = {
 	/** @docgen
 	@name fromJson
 	@lib csv
-	@desc create a CSV from a JSON.
+	@desc Create a CSV from a JSON.
 	@input `String`
 	@output `String`
-	@param separator [`String`] <`','`> CSV value separator
-	@param stringSeparator [`String`] <`false`> CSV string separator, if false don't use string separator
+	@param separator [`String`] <`','`> CSV value separator.
+	@param stringSeparator [`String`] <`false`> CSV string separator, if false don't use string separator.
 	**/
 	fromJson: (data, block) => {
 		return lib._csv_stringify(JSON.parse(data), block);

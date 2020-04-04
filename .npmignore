@@ -74,3 +74,6 @@ docgen
 
 #benchmark
 bench.js
+
+#vscode
+.vscode

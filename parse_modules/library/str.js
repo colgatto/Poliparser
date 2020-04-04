@@ -38,7 +38,7 @@ module.exports = {
 	/** @docgen
 	@lib str
 	@name base64
-	@desc encode or decode base64 string
+	@desc Encode or decode base64 string
 	@input `String`
 	@output `String`
 	@param value [`String`] {R} `'encode'` or `'decode'`
@@ -54,7 +54,7 @@ module.exports = {
 	/** @docgen
 	@name split
 	@lib str
-	@desc split a String object into an array of strings by separating the string into substrings, using a specified separator string to determine where to make each split.
+	@desc Split a String object into an array of strings by separating the string into substrings, using a specified separator string to determine where to make each split.
 	@input `String`
 	@output `Array`
 	@param value [ (`String`/`RegExp`) ] {R} Specifies the string which denotes the points at which each split should occur.
@@ -66,7 +66,7 @@ module.exports = {
 	/** @docgen
 	@name charAt
 	@lib str
-	@desc  returns a new string consisting of the single UTF-16 code unit located at the specified offset into the string.
+	@desc Returns a new string consisting of the single UTF-16 code unit located at the specified offset into the string.
 	@input `String`
 	@output `String`
 	@param value [`Integer`] <`0`> The offset of char you want. An integer between 0 and 1-less-than the length of the string.
@@ -78,10 +78,10 @@ module.exports = {
 	/** @docgen
 	@name replace
 	@lib str
-	@desc returns a new string with some or all matches of a pattern replaced by a replacement. The replacement can be a string or a function to be called for each match. If pattern is a string, only the first occurrence will be replaced.
+	@desc Returns a new string with some or all matches of a pattern replaced by a replacement. The replacement can be a string or a function to be called for each match. If pattern is a string, only the first occurrence will be replaced.
 	@input `String`
 	@output `String`
-	@param value [ (`String`/`RegExp`) ] {R} A value that is to be replaced by newSubStr.
+	@param value [ (`String`/`RegExp`) ] {R} A value that is to be replaced by newValue.
 	@param newValue [ (`String`/`Function`) ] {R} The String that replaces the substring/regex specified by the value parameter.
 	**/
 	replace: (data, block) => {
@@ -90,12 +90,12 @@ module.exports = {
 	/** @docgen
 	@name trim
 	@lib str
-	@desc return a new String with whitespace (or custom values) removed from start, end or both of a string.
+	@desc Returns a new String with whitespace (or custom values) removed from start, end or both of a string.
 	@input `String`
 	@output `String`
-	@param value [`Array`] <`[' ', '\t', '\r', '\n']`> array of values you want to trim.
-	@param start [`Boolean`] <`true`> if set `false` don't trim start of string.
-	@param end [`Boolean`] <`true`> if set `false` don't trim start of string.
+	@param value [`Array`] <`[' ', '\t', '\r', '\n']`> Array of values you want to trim.
+	@param start [`Boolean`] <`true`> If set `false` don't trim start of string.
+	@param end [`Boolean`] <`true`> If set `false` don't trim start of string.
 	**/
 	trim: (data, block) => {
 		var opt = {
@@ -107,11 +107,11 @@ module.exports = {
 	/** @docgen
 	@name between
 	@lib str
-	@desc return the part of the string between `from` parameter and `to` parameter
+	@desc Returns the part of the string between `from` parameter and `to` parameter.
 	@input `String`
 	@output `String`
-	@param from [`String`] {R} the start of substring (excluded)
-	@param to [`String`] {R} the end of substring (excluded)
+	@param from [`String`] {R} The start of substring (excluded).
+	@param to [`String`] {R} The end of substring (excluded).
 	**/
 	between: (data, block) => {
 		data = data.toString();
@@ -124,7 +124,7 @@ module.exports = {
 	/** @docgen
 	@name reverse
 	@lib str
-	@desc return a new string where char are reversed. The first char becomes the last, and the last char becomes the first.
+	@desc Returns a new string where char are reversed. The first char becomes the last, and the last char becomes the first.
 	@input `String`
 	@output `String`
 	**/
