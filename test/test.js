@@ -761,14 +761,14 @@ describe('test blocks type', function (done) {
 
 		let link = new Poliparser({
 			m: 'dom',
-			value: '.prendi a',
+			value: 'a.hiper',
 			attr: 'href'
 		});
 
 		link.parseUrl('google.com').then(data => {
 			expect(JSON.stringify(data)).to.equal('[]');
 			link.parseUrl('https://raw.githubusercontent.com/colgatto/Poliparser/master/Examples/data.html').then(data => {
-				expect(JSON.stringify(data)).to.equal(JSON.stringify(['link3.html']));
+				expect(JSON.stringify(data)).to.equal(JSON.stringify(['link1.html','link2.html']));
 				link.parseUrl('INVALID URL!').then(() => { }).catch((e) => {
 					expect(e).to.equal('invalid url!');
 					done();
