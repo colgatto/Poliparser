@@ -43,8 +43,7 @@ let p = new Poliparser([{
 	}
 }]);
 
-//p.parseUrl('https://web.archive.org/web/20200531234703/https://archive.org').then((data) => {
-p.parseUrl('http://127.0.0.1:81/archive/index.html').then((data) => {
+p.parseUrl('https://web.archive.org/web/20200531234703/https://archive.org').then((data) => {
 	console.log(data);
 
 }).catch((e)=>console.error(e.message));
