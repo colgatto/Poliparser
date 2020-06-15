@@ -53,8 +53,27 @@ describe('test blocks type', function (done) {
 			<a href="link2.html" class="hiper" data-label="byebye">bye</a> world<br>
 			<a href="link3.html" class="not-hiper" data-label="adios">ciao3</a> world<br>
 		</body></html>`;
-		let arr_data = ['<a>dato1</a>', '<a>dato<br>2</a>', '<a>dato3</a>'];
+		let arr_data = ['<a>dato1</a>', '<a>dato&nbsp;2</a>', '<a>dato3</a>'];
 		let m = {
+			double: new Poliparser([{
+				m: 'dom',
+				value: 'head'
+			},{
+				m: 'dom',
+				value: 'title',
+				text: true,
+				firstOnly: true
+			}]).parse(data),
+			double_2: new Poliparser([{
+				m: 'dom',
+				value: 'body'
+			},{
+				m: 'dom',
+				value: 'a',
+				text: true,
+				attr: 'href',
+				firstOnly: true
+			}]).parse(data),
 			link: new Poliparser({
 				m: 'dom',
 				value: 'a.hiper',
@@ -64,24 +83,39 @@ describe('test blocks type', function (done) {
 				m: 'dom',
 				value: 'a',
 				attr: ['href', 'data-label']
-			}).parse(data)
+			}).parse(data),
+			arr_t: new Poliparser({
+				m: 'dom',
+				value: 'a',
+				text: true,
+				firstOnly: true
+			}).parse(arr_data),
+			arr_h: new Poliparser({
+				m: 'dom',
+				value: 'a',
+				html: true,
+				firstOnly: true,
+				normalizeWhitespace: true,
+				decodeEntities: true
+			}).parse(arr_data),
+			arr_ih: new Poliparser({
+				m: 'dom',
+				value: 'a',
+				innerHTML: true,
+				firstOnly: true
+			}).parse(arr_data),
 		};
-		let m_arr = new Poliparser([{
-			m: 'dom',
-			value: 'a'
-		}, {
-			m: 'custom',
-			value: (data) => data.map(x => x[0].text)
-		}]).parse(arr_data);
-
+		expect(JSON.stringify(m.double)).to.equal(JSON.stringify(['prova']));
+		expect(JSON.stringify(m.double_2)).to.equal(JSON.stringify([{ attr: 'link1.html', text: 'hello' }]));
 		expect(JSON.stringify(m.link)).to.equal(JSON.stringify(['link1.html', 'link2.html']));
 		expect(JSON.stringify(m.link_and_label)).to.equal(JSON.stringify([
 			{ href: 'link1.html' },
 			{ href: 'link2.html', 'data-label': 'byebye' },
 			{ href: 'link3.html', 'data-label': 'adios' }
 		]));
-
-		expect(JSON.stringify(m_arr)).to.equal(JSON.stringify(['dato1', 'dato2', 'dato3']));
+		expect(JSON.stringify(m.arr_t)).to.equal(JSON.stringify(['dato1', "dato\u00A02", 'dato3']));
+		expect(JSON.stringify(m.arr_h)).to.equal('["<a>dato1</a>","<a>dato&#xA0;2</a>","<a>dato3</a>"]');
+		expect(JSON.stringify(m.arr_ih)).to.equal(JSON.stringify(['dato1', "dato\u00A02", 'dato3']));
 	});
 	it('json', function () {
 		let str_json = '{"a":34,"b":"ciao","we":{"we2":"23"}}';
@@ -684,6 +718,31 @@ describe('test blocks type', function (done) {
 		}).parse(p_jdata)).to.equal(data);
 
 	});
+	it('parallel', function () {
+
+		let data = [1, 2, 3, 4];
+		
+		let p = new Poliparser({
+			m: 'parallel',
+			value: {
+				sum: {
+					m: 'array_sum'
+				},
+				min: {
+					m: 'array_min'
+				},
+				max: {
+					m: 'array_max'
+				}
+			}
+		});
+
+		let res = p.parse(data);
+		
+		expect(res.sum).to.equal(10);
+		expect(res.min).to.equal(1);
+		expect(res.max).to.equal(4);
+	});
 	it('undefined block', function () {
 		let data = 'hi';
 		let m = new Poliparser(42);
@@ -747,7 +806,6 @@ describe('test blocks type', function (done) {
 	});
 	it('parseFile', function () {
 
-
 		let link = new Poliparser({
 			m: 'dom',
 			value: 'a.hiper',
@@ -765,25 +823,35 @@ describe('test blocks type', function (done) {
 			attr: 'href'
 		});
 
-		link.parseUrl('google.com').then(data => {
+		link.parseUrl('http://google.com').then(data => {
 			expect(JSON.stringify(data)).to.equal('[]');
-			link.parseUrl('https://raw.githubusercontent.com/colgatto/Poliparser/master/Examples/data.html').then(data => {
-				expect(JSON.stringify(data)).to.equal(JSON.stringify(['link1.html','link2.html']));
-				link.parseUrl('INVALID URL!').then(() => { }).catch((e) => {
-					expect(e).to.equal('invalid url!');
+			link.parseUrl('google.com',{forceHttps: true}).then(data => {
+				expect(JSON.stringify(data)).to.equal('[]');
+				link.parseUrl('raw.githubusercontent.com/colgatto/Poliparser/master/test/data.html',{forceHttps: true}).then(data => {
+					expect(JSON.stringify(data)).to.equal(JSON.stringify(['link1.html','link2.html']));
 					done();
-					/*
-					link.parseUrl('https://no').then(() => { }).catch((e) => {
-						expect(e.message.match(/getaddrinfo ENOTFOUND/gmi).length > 0).to.equal(true);
-						done();
-					});
-					*/
 				});
 			});
 		});
 
 	});
+	it('errorParseUrl', function (done) {
 
+		let link = new Poliparser({
+			m: 'dom',
+			value: 'a.hiper',
+			attr: 'href'
+		});
+
+		link.parseUrl('INVALID URL!').then(() => { }).catch((e) => {
+			expect(e.message).to.equal('Invalid URI "INVALID%20URL!"');
+			link.parseUrl('INVALID URL!',{forceHttps: true}).then(() => { }).catch((e) => {
+				expect(e).to.equal('invalid url!');
+				done();
+			});
+		});
+
+	});
 	it('parseError', function () {
 
 		let p = new Poliparser({
@@ -797,14 +865,5 @@ describe('test blocks type', function (done) {
 			expect(e.message).to.equal('undef is not defined');
 		}
 
-		/*
-		p.parseUrl(42).then(data => {
-			console.log('MAH.... ' + data);
-		}).catch(e => {
-			expect(e.message).to.equal('getaddrinfo ENOTFOUND 42 42:443');
-			done();
-		});
-		*/
 	});
-
 });

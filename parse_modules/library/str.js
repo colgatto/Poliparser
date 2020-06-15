@@ -1,38 +1,4 @@
-const rec_trim = (value, data, opt) => {
-	if(data.constructor == Array){
-		let trimp = [];
-		for (let i = 0, l = data.length; i < l; i++)
-			trimp[i] = rec_trim(value, data[i], opt);
-		return trimp;
-	}else{
-		if(value){
-			let l = data.length;
-			let si = 0;
-			let ei = l - 1;
-			if(opt.start){
-				for (let i = 0; i < l; i++) {
-					if(value.includes(data.charAt(i))) si++;
-					else break;
-				}
-			}
-			if(opt.end){
-				for (let i = l - 1; i >= 0; i--) {
-					if(value.includes(data.charAt(i))) ei--;
-					else break;
-				}
-			}
-			return data.slice(si, ei + 1);
-		}else{
-			if(opt.start && !opt.end){
-				return data.trimStart();
-			}else if(!opt.start && opt.end){
-				return data.trimEnd();
-			}else{
-				return data.trim();
-			}
-		}
-	}
-}
+const lib = require('../../lib');
 
 module.exports = {
 	/** @docgen
@@ -44,12 +10,14 @@ module.exports = {
 	@param value [`String`] {R} `'encode'` or `'decode'`
 	**/
 	base64: (data, block) => {
-		switch(block.value){
-			case 'encode':
-				return Buffer.from(data).toString('base64');
-			case 'decode':
-				return Buffer.from(data, 'base64').toString('ascii');
-		}
+		return lib._rec_func(data, block, (data, block)=>{
+			switch(block.value){
+				case 'encode':
+					return Buffer.from(data).toString('base64');
+				case 'decode':
+					return Buffer.from(data, 'base64').toString('ascii');
+			}
+		});
 	},
 	/** @docgen
 	@name split
@@ -60,9 +28,10 @@ module.exports = {
 	@param value [ (`String`/`RegExp`) ] {R} Specifies the string which denotes the points at which each split should occur.
 	**/
 	split: (data, block) => {
-		return data.split(block.value);
+		return lib._rec_func(data, block, (data, block)=>{
+			return data.split(block.value);
+		});
 	},
-
 	/** @docgen
 	@name charAt
 	@lib str
@@ -72,8 +41,10 @@ module.exports = {
 	@param value [`Integer`] <`0`> The offset of char you want. An integer between 0 and 1-less-than the length of the string.
 	**/
 	charAt: (data, block) => {
-		if(typeof block.value == "undefined") block.value = 0;
-		return data.charAt(block.value);
+		return lib._rec_func(data, block, (data, block)=>{
+			if(typeof block.value == "undefined") block.value = 0;
+			return data.charAt(block.value);
+		});
 	},
 	/** @docgen
 	@name replace
@@ -85,7 +56,9 @@ module.exports = {
 	@param newValue [ (`String`/`Function`) ] {R} The String that replaces the substring/regex specified by the value parameter.
 	**/
 	replace: (data, block) => {
-		return data.replace(block.value, block.newValue);
+		return lib._rec_func(data, block, (data, block)=>{
+			return data.replace(block.value, block.newValue);
+		});
 	},
 	/** @docgen
 	@name trim
@@ -98,11 +71,39 @@ module.exports = {
 	@param end [`Boolean`] <`true`> If set `false` don't trim start of string.
 	**/
 	trim: (data, block) => {
-		var opt = {
-			start: typeof block.start == "undefined" ? true : block.start,
-			end: typeof block.end == "undefined" ? true : block.end
-		};
-		return rec_trim(typeof block.value == "undefined" ? false : block.value, data, opt);
+		return lib._rec_func(data, block, (data, block)=>{
+			let value = block.value;
+			let opt = {
+				start: typeof block.start == "undefined" ? true : block.start,
+				end: typeof block.end == "undefined" ? true : block.end
+			};
+			if(value){
+				let l = data.length;
+				let si = 0;
+				let ei = l - 1;
+				if(opt.start){
+					for (let i = 0; i < l; i++) {
+						if(value.includes(data.charAt(i))) si++;
+						else break;
+					}
+				}
+				if(opt.end){
+					for (let i = l - 1; i >= 0; i--) {
+						if(value.includes(data.charAt(i))) ei--;
+						else break;
+					}
+				}
+				return data.slice(si, ei + 1);
+			}else{
+				if(opt.start && !opt.end){
+					return data.trimStart();
+				}else if(!opt.start && opt.end){
+					return data.trimEnd();
+				}else{
+					return data.trim();
+				}
+			}
+		});
 	},
 	/** @docgen
 	@name between
@@ -114,12 +115,14 @@ module.exports = {
 	@param to [`String`] {R} The end of substring (excluded).
 	**/
 	between: (data, block) => {
-		data = data.toString();
-		let froml = block.from.length;
-		let thisl = data.length;
-		let fromi = data.indexOf(block.from);
-		let toi = data.indexOf(block.to, fromi + froml);
-		return data.substr(fromi + froml,  thisl - fromi - block.from.length - (thisl - toi));
+		return lib._rec_func(data, block, (data, block)=>{
+			data = data.toString();
+			let froml = block.from.length;
+			let thisl = data.length;
+			let fromi = data.indexOf(block.from);
+			let toi = data.indexOf(block.to, fromi + froml);
+			return data.substr(fromi + froml,  thisl - fromi - block.from.length - (thisl - toi));
+		});
 	},
 	/** @docgen
 	@name reverse
@@ -129,11 +132,13 @@ module.exports = {
 	@output `String`
 	**/
 	reverse: (data, block) => {
-		data = data + '';
-		let out = '';
-		for (let i = data.length - 1; i >= 0; i--) {
-			out += data[i];
-		}
-		return out;
+		return lib._rec_func(data, block, (data, block)=>{
+			data = data + '';
+			let out = '';
+			for (let i = data.length - 1; i >= 0; i--) {
+				out += data[i];
+			}
+			return out;
+		});
 	}
 };

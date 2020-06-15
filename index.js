@@ -7,7 +7,7 @@ const normalizeUrl = url => {
 	let m = regex.exec(url);
 	return m == null ? false : ( m[1] + ( typeof m[2] == 'undefined' ? '' : '/' + m[2]) );
 }
-
+/**/
 const default_parse_library = {
 	obj: require(__dirname + "/parse_modules/library/obj.js"),
 	str: require(__dirname + "/parse_modules/library/str.js"),
@@ -16,21 +16,38 @@ const default_parse_library = {
 	crypto: require(__dirname + "/parse_modules/library/crypto.js"),
 	csv: require(__dirname + "/parse_modules/library/csv.js"),
 };
-
 const default_parse_modules = {
 	log: require(__dirname + "/parse_modules/log.js"),
 	custom: require(__dirname + "/parse_modules/custom.js"),
 	dom: require(__dirname + "/parse_modules/dom.js"),
 	regex: require(__dirname + "/parse_modules/regex.js"),
 	break: require(__dirname + "/parse_modules/break.js"),
+	parallel: require(__dirname + "/parse_modules/parallel.js"),
 };
-
+/**
+const default_parse_library = [
+	'obj',
+	'str',
+	'json',
+	'array',
+	'crypto',
+	'csv'
+];
+const default_parse_modules = [
+	'log',
+	'custom',
+	'dom',
+	'regex',
+	'break',
+	'parallel'
+];
+/**/
 class Poliparser {
 
 	constructor(parser = {}) {
 
 		this.parser = parser;
-
+		
 		let base_module_obj = Object.assign({}, default_parse_modules);
 
 		let libs = Object.keys(default_parse_library);
@@ -42,6 +59,7 @@ class Poliparser {
 		});
 
 		this.parse_modules = base_module_obj;
+		
 	}
 
 	parse(data) {
@@ -52,22 +70,26 @@ class Poliparser {
 		return this.singleParse(fs.readFileSync(data).toString(), this.parser);;
 	}
 
-	parseUrl(url) {
+	parseUrl(url, options = {}) {
+		let opt = Object.assign({
+			forceHttps: false
+		}, options);
 		return new Promise((resolve, reject) => {
 			try {
-				url = normalizeUrl(url);
-				if(!url){
-					reject('invalid url!');
-				}else{
-					request('https://' + url, (err, response, body) => {
-						/* istanbul ignore else */
-						if(!err){
-							resolve(this.singleParse(body, this.parser));
-						}else{
-							reject(err);
-						}
-					});
+				if(opt.forceHttps){
+					url = normalizeUrl(url);
+					if(!url)
+						reject('invalid url!');
+					url = 'https://' + url;
 				}
+				request(url, (err, response, body) => {
+					/* istanbul ignore else */
+					if(!err){
+						resolve(this.singleParse(body, this.parser));
+					}else{
+						reject(err);
+					}
+				});
 			} catch (e) {
 				/* istanbul ignore next */
 				reject(e);
@@ -121,7 +143,7 @@ class Poliparser {
 		}
 		for (const k in this.parse_modules) {
 			if (block.m == k) {
-				return this.parse_modules[k](data, block);
+				return this.parse_modules[k](data, block, Poliparser);
 			}
 		}
 		return data;

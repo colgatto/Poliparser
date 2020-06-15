@@ -21,7 +21,7 @@ module.exports = {
 	@param space [`Integer`] <`4`> Space length for pretty stringify.
 	**/
 	stringify: (data, block) => {
-		var opt = {
+		let opt = {
 			pretty: typeof block.pretty == "undefined" ? false : block.pretty,
 			space: typeof block.space == "undefined" ? 4 : block.space
 		};

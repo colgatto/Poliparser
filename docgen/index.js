@@ -147,4 +147,4 @@ for (let i = 0, l = lib_order.length; i < l; i++) {
 for (let i = 0, l = fullList.length; i < l; i++)
 	console.log(fullList[i] + ':' + spacer(20 - fullList[i].length) + ( doneList.includes(fullList[i]) ? 'DONE!' : 'NOT FOUND!') );
 
-fs.writeFileSync(__dirname + '/../Examples/README.md', md_out);
+fs.writeFileSync(__dirname + '/README.md', md_out);

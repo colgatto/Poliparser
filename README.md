@@ -72,9 +72,9 @@ let p = new Poliparser({
 	to: '</title>'
 });
 ```
-## **[Documentation](https://github.com/colgatto/Poliparser/tree/master/Examples)**
+## **[Documentation](https://github.com/colgatto/Poliparser/tree/master/docgen#documentation)**
 
-**See [Here](https://github.com/colgatto/Poliparser/tree/master/Examples) for complete modules documentation**
+**See [Here](https://github.com/colgatto/Poliparser/tree/master/docgen#documentation) for complete modules documentation and [Here](https://github.com/colgatto/Poliparser/tree/master/Examples#real-world-examples) for real world examples.**
 
 ### Add Module
 

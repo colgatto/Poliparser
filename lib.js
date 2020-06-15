@@ -1,3 +1,14 @@
+const _rec_func = (data, block, func) => {
+	if(data.constructor == Array){
+		let res = [];
+		for (let i = 0, l = data.length; i < l; i++)
+			res[i] = _rec_func(data[i], block, func);
+		return res;
+	}else{
+		return func(data, block);
+	}
+};
+
 module.exports = {
 	_csv_parse: (data, block) => {
 		let separator = typeof block.separator == 'undefined' ? ',' : block.separator;
@@ -91,5 +102,6 @@ module.exports = {
 		}
 	
 		return lines.join('\n');
-	}
-}
+	},
+	_rec_func: _rec_func
+};

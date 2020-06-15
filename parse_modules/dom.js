@@ -1,30 +1,35 @@
-const HTMLParser = require('fast-html-parser');
+const cheerio = require('cheerio');
+const lib = require('../lib');
 
-const rec_DOM = (value, data, opt) => {
-	if(data.constructor == Array){
-		let domp = [];
-		for (let i = 0, l = data.length; i < l; i++)
-			domp[i] = rec_DOM(value, data[i], opt);
-		return domp;
-	}else{
-		var domp = HTMLParser.parse(data);
-		let first_out = Array.from(domp.querySelectorAll(value));
-		if(opt.attr){
-			if(opt.attr.constructor == Array){;
-				first_out = first_out.map(o => {
-					let block_out = {};
-					for (let i = 0, l = opt.attr.length; i < l; i++){
-						block_out[opt.attr[i]] = o.attributes[opt.attr[i]];
-					}
-					return block_out;
-				});
-			}else{
-				return first_out.map(o => o.attributes[opt.attr]);
+const parseElem = (elem, opt) => {
+	let result = {};
+	if(opt.attr){
+		if(opt.attr.constructor == Array){
+			let block_out = {};
+			for (let i = 0, l = opt.attr.length; i < l; i++){
+				block_out[opt.attr[i]] = elem.attr(opt.attr[i]);
 			}
+			result.attr = block_out;
+		}else{
+			result.attr = elem.attr(opt.attr);
 		}
-		return first_out;
 	}
-}
+	if(opt.html){
+		result.html = cheerio.html(elem);
+	}
+	if(opt.innerHTML){
+		result.innerHTML = elem.html();
+	}
+	if(opt.text){
+		result.text = elem.text();
+	}
+	let k = Object.keys(result);
+	if(k.length == 0)
+		return elem;
+	if(k.length == 1)
+		return result[k[0]];
+	return result;
+};
 
 /** @docgen
 @name dom
@@ -32,11 +37,48 @@ const rec_DOM = (value, data, opt) => {
 @input `String`
 @output `[DomObject]`
 @param value [`String`] {R} CSS/jquery selector string.
-@param attr [`String`/`Array`] <`false`> Get attribute value.
+@param firstOnly [`Boolean`] <`false`> TODO
+@param normalizeWhitespace [`Boolean`] <`false`> TODO
+@param decodeEntities [`Boolean`] <`false`> TODO
+@param html [`Boolean`] <`false`> TODO
+@param innerHTML [`Boolean`] <`false`> TODO
+@param text [`Boolean`] <`false`> TODO
+@param attr [`String`/`Array`] <`undefined`> Get attribute value.
 **/
 module.exports = (data, block) => {
-	let opt = {
-		attr: typeof block.attr == "undefined" ? false : block.attr
-	}
-	return rec_DOM(block.value, data, opt);
+	return lib._rec_func(data, block, (data, block)=>{
+		let value = block.value;
+		let opt = {
+			firstOnly: typeof block.firstOnly == "undefined" ? false : block.firstOnly,
+			normalizeWhitespace: typeof block.normalizeWhitespace == "undefined" ? false : block.normalizeWhitespace,
+			decodeEntities: typeof block.decodeEntities == "undefined" ? false : block.decodeEntities,
+			html: typeof block.html == "undefined" ? false : block.html,
+			innerHTML: typeof block.innerHTML == "undefined" ? false : block.innerHTML,
+			text: typeof block.text == "undefined" ? false : block.text,
+			attr: typeof block.attr == "undefined" ? false : block.attr,
+		}
+		let result;
+		
+		if(data.constructor.toString() == cheerio.load('')().constructor.toString())
+			data = cheerio.html(data);
+
+		let $ = cheerio.load(data, {
+			normalizeWhitespace: opt.normalizeWhitespace,
+			decodeEntities: opt.decodeEntities
+		});
+		if(opt.firstOnly){
+			let el = $(value);
+			/* istanbul ignore else */
+			if(el.length > 0){
+				result = parseElem($(el[0]), opt);
+			}
+		}else{
+			result = [];
+			let elems = $(value).toArray();
+			for (let i = 0; i < elems.length; i++) {
+				result.push(parseElem($(elems[i]), opt));
+			}
+		}
+		return result;
+	});
 };

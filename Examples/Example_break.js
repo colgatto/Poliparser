@@ -1,4 +1,4 @@
-var Poliparser = require('..');
+let Poliparser = require('..');
 
 let p = new Poliparser();
 

@@ -1,16 +1,16 @@
 {
 	"name": "poliparser",
-	"version": "1.0.1",
+	"version": "2.0.0",
 	"description": "The only parser you need",
 	"main": "index.js",
 	"scripts": {
 		"docgen": "node docgen/index.js",
-		"test": "mocha --reporter spec --timeout 30000",
+		"test": "mocha --reporter spec --timeout 10000",
 		"cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/test.js --timeout 30000"
 	},
 	"dependencies": {
-		"fast-html-parser": "^1.0.1",
-		"request": "^2.88.0"
+		"cheerio": "^1.0.0-rc.3",
+		"request": "^2.88.2"
 	},
 	"repository": {
 		"type": "git",
@@ -30,8 +30,8 @@
 	"license": "RWTFPL",
 	"devDependencies": {
 		"chai": "^4.2.0",
-		"coveralls": "^3.0.9",
+		"coveralls": "^3.1.0",
 		"istanbul": "^0.4.5",
-		"mocha": "^7.0.1"
+		"mocha": "^7.2.0"
 	}
 }
