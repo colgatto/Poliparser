@@ -1,4 +1,5 @@
-# **Poliparser**
+![logo](https://i.imgur.com/8mRQA7i.jpg)
+
 [![Build Status](https://travis-ci.org/colgatto/Poliparser.svg?branch=master)](https://travis-ci.org/colgatto/Poliparser)
 [![Coverage Status](https://coveralls.io/repos/github/colgatto/Poliparser/badge.svg?branch=master)](https://coveralls.io/github/colgatto/Poliparser?branch=master)
 ![npm](https://badgen.net/npm/dt/poliparser)
